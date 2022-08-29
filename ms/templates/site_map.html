@@ -1,0 +1,7 @@
+<h1>sitemap</h1>
+
+<ul>
+{% for link, name in links %}
+<li>{{ name }}  --<a href="{{ link }}">{{ link }}</a></li>
+{% endfor %}
+</ul>
