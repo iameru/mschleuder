@@ -2,7 +2,7 @@ import os
 
 from flask import Flask
 
-from src.config import Config
+from ms.config import Config
 
 
 def create_app(test_config=None):
