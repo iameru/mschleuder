@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+      Möhrenschleuder
+    </title>
+    </head>
+
+  <body>
+    <div class="container">
+
+     <div class="is-primary is-fullheight">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-danger">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+    {% endwith %}
+    </div>
+
+
+    {% block content %}{% endblock %}
+
+    {% block scripts %}{% endblock %}
+
+
+    <div class="row">
+      <div class="col text-end">
+        <footer>
+          lovely möhrenschleuder &#9829;
+          <br>
+          <p>
+           <small>
+             mady by <a href="https://i3o.eu" target="blank">eru</a>
+           </small>
+          </p>
+        </footer>
+      </div>
+    </div>
+
+    </div>
+  </body>
+
+<html>

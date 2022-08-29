@@ -23,7 +23,7 @@ historische daten zbsp:
 [testmark]:# (stations-historical)
 ```json
 [
- { "2022-08-08":
+ { "date":"2022-08-08", "stations":
    [
     { "id":1, "members_full":32, "members_half":15 },
     { "id":3, "members_full":12, "members_half":5 },
@@ -33,7 +33,7 @@ historische daten zbsp:
     { "id":8, "members_full":10, "members_half":6 }
    ]
  },
- { "2022-08-05":
+ { "date":"2022-08-05", "stations":
    [
     { "id":1, "members_full":33, "members_half":14 },
     { "id":3, "members_full":12, "members_half":5 },
@@ -43,7 +43,7 @@ historische daten zbsp:
     { "id":8, "members_full":10, "members_half":6 }
    ]
  },
- { "2022-08-03":
+ { "date":"2022-08-03", "stations":
    [
     { "id":1, "members_full":35, "members_half":15 },
     { "id":3, "members_full":11, "members_half":6 },

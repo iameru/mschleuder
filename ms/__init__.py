@@ -19,15 +19,16 @@ def create_app(test_config=None):
     except FileExistsError:
         pass
 
-    _tmplt = {"template_folder": "templates"}
-    from .stations.views import stations
-
-    app.register_blueprint(stations, url_prefix="/stations", options=_tmplt)
-
     if app.env == "development":
 
         from .dev import add_development_help
 
         add_development_help(app)
+
+    _tmplt = {"template_folder": "templates"}
+
+    from .stations.views import stations
+
+    app.register_blueprint(stations, url_prefix="/stations", options=_tmplt)
 
     return app
