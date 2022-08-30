@@ -3,23 +3,29 @@
 
 {% block content %}
 
-Stations:
+<div class="columns">
+<div class="column">
+ <h3 class="title">Stations:</h3>
 <ul>
   <li>name - voll - halb - total</li>
   {% for station in stations.current %}
   <li>{{ station.name }} - {{ station.members_full }} - {{ station.members_half }} - {{ station.members_full + station.members_half }} </li>
   {% endfor %}
 </ul>
+</div>
 
+<div class="column">
 Past:
 <li>id - voll - halb - total
-
 {% for event in stations.historical %}
-  <h3>{{event.date}}</h3>
+  <h4 class="title is-4">{{event.date}}</h4>
   <ul>
     {% for station in event.stations %}
     <li>{{station.id}} - {{station.members_full}} - {{ station.members_half }} - {{ station.members_full + station.members_half }}</li>
     {% endfor %}
   </ul>
 {% endfor %}
+</div>
+
+</div>
 {% endblock %}

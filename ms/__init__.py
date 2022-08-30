@@ -25,6 +25,8 @@ def create_app(test_config=None):
 
         add_development_help(app)
 
+        app.config["SECRET_KEY"] = "DEVELOPMENT"
+
     _tmplt = {"template_folder": "templates"}
 
     from .stations.views import stations

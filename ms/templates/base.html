@@ -3,46 +3,62 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+{# STYLING #}
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"
+          type="text/css"
+          href="{{ url_for('static', filename='bulma.css') }}"
+          >
     <title>
       Möhrenschleuder
     </title>
-    </head>
+ </head>
 
-  <body>
-    <div class="container">
+<body>
 
-     <div class="is-primary is-fullheight">
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <div class="notification is-danger">
-                {{ messages[0] }}
-            </div>
-        {% endif %}
-    {% endwith %}
-    </div>
+<div class="container">
+ <div class="columns">
+  <div class="column is-10 mt-4">
 
+{% with title = "Stationis" %}
+  <h2 class="title is-2">{{ title }}</h3>
+{% endwith %}
 
-    {% block content %}{% endblock %}
-
-    {% block scripts %}{% endblock %}
-
-
-    <div class="row">
-      <div class="col text-end">
-        <footer>
-          lovely möhrenschleuder &#9829;
-          <br>
-          <p>
-           <small>
-             mady by <a href="https://i3o.eu" target="blank">eru</a>
-           </small>
-          </p>
-        </footer>
+   {% with messages = get_flashed_messages() %}{% if messages %}
+      <div class="notification is-danger is-light">
+        {{ messages[0] }}
+        <button class="delete"></button>
       </div>
-    </div>
+     {% endif %}{% endwith %}
 
-    </div>
+{% block content %}{% endblock %}
+   </div>
+
+  <div class="column is-2 has-background-info-light">
+{% include 'menu.html' %}
+  </div>
+
+ </div>
+
+{% include 'footer.html' %}
+</div>
+
+{% block scripts %}{% endblock %}
+{# BULMA CSS close notifications #}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+    const $notification = $delete.parentNode;
+
+    $delete.addEventListener('click', () => {
+      $notification.parentNode.removeChild($notification);
+    });
+  });
+});
+</script>
+
+
+
   </body>
 
 <html>

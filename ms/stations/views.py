@@ -1,6 +1,6 @@
 import json
 
-from flask import Blueprint, render_template
+from flask import Blueprint, flash, render_template
 from testmark import parse
 
 stations = Blueprint("stations", __name__)
@@ -14,4 +14,5 @@ def stations_view():
         "current": json.loads(dev_data["stations-current"]),
         "historical": json.loads(dev_data["stations-historical"]),
     }
+    flash("asd Dies ist ein fehler omg. hast du vllt etwas vergessen? Sicher?")
     return render_template("stations/stations.html", stations=stations)
