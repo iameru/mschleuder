@@ -14,5 +14,4 @@ def stations_view():
         "current": json.loads(dev_data["stations-current"]),
         "historical": json.loads(dev_data["stations-historical"]),
     }
-    flash("asd Dies ist ein fehler omg. hast du vllt etwas vergessen? Sicher?")
     return render_template("stations/stations.html", stations=stations)
