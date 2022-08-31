@@ -10,12 +10,12 @@ Stations is a overview page of stations to deliver to. It includes some historic
 [testmark]:# (stations-current)
 ```json
 [
- { "id":1, "name":"Ost", "members_full":32, "members_half":15 },
- { "id":3, "name":"West", "members_full":12, "members_half":5 },
- { "id":4, "name":"Süd", "members_full":26, "members_half":19 },
- { "id":5, "name":"Ost II", "members_full":2, "members_half":2 },
- { "id":6, "name":"West II", "members_full":20, "members_half":8 },
- { "id":8, "name":"Nord", "members_full":10, "members_half":6 }
+ { "id":1, "order":2, "info":"Kackstraße 15, marianne", "name":"Ost", "members_full":32, "members_half":15 },
+ { "id":3, "order":1, "info":"Weit draussn beim platz", "name":"West", "members_full":12, "members_half":5 },
+ { "id":4, "order":5, "info":"Steven, kontakt 027 // 1238 27 199", "name":"Süd", "members_full":26, "members_half":19 },
+ { "id":5, "order":3, "info":"erna anklingeln vorher", "name":"Ost II", "members_full":2, "members_half":2 },
+ { "id":6, "order":4, "info":"mariannenplatz 123, anrufen: 0182 / 23723 211 1", "name":"West II", "members_full":20, "members_half":8 },
+ { "id":8, "order":6, "info":"bratwursthund 123, 04315 Leipzig", "name":"Nord", "members_full":10, "members_half":6 }
 ]
 ```
 

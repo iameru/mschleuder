@@ -3,19 +3,51 @@
 
 {% block content %}
 
-<div class="columns">
-<div class="column">
- <h3 class="title">Stations:</h3>
-<ul>
-  <li>name - voll - halb - total</li>
-  {% for station in stations.current %}
-  <li>{{ station.name }} - {{ station.members_full }} - {{ station.members_half }} - {{ station.members_full + station.members_half }} </li>
+<div class="rows">
+<div class="row">
+
+ <h3 class="title">Aktuell:</h3>
+
+
+<div class="columns is-multiline">
+{% for station in stations.current %}
+ <div class="column is-4" id="{{station.order}}">
+  <div class="box">
+
+     <p class="title">
+       {{ station.name }}
+     </p>
+     <p class="subtitle">
+       👥{{ station.members_full + station.members_half }}
+       <small>
+       ● {{ station.members_full }}
+       ◑ {{station.members_half }}
+       </small>
+       <small><a class="" onClick="expand('expandstation{{station.id}}')">edit</a></small>
+    </p>
+
+    <p>
+      <small>🛈 {{ station.info }} </small>
+    </p>
+
+    {# Hidden ELement for Editing #}
+    <div class="expand" id="expandstation{{station.id}}">
+    ● {{ station.members_full }}
+    ◑ {{station.members_half }}
+      {{station.info}}
+    </div>
+
+   </div>
+  </div>
   {% endfor %}
-</ul>
 </div>
 
-<div class="column">
-Past:
+</div>
+
+
+
+<div class="row">
+        <h3 class="title">Bisher:</h3>
 <li>id - voll - halb - total
 {% for event in stations.historical %}
   <h4 class="title is-4">{{event.date}}</h4>

@@ -9,6 +9,10 @@
           type="text/css"
           href="{{ url_for('static', filename='style.css') }}"
           >
+    <link rel="stylesheet"
+          type="text/css"
+          href="{{ url_for('static', filename='customisation.css') }}"
+          >
     <title>
       Möhrenschleuder
     </title>
@@ -44,8 +48,8 @@
 </div>
 
 {% block scripts %}{% endblock %}
-{# BULMA CSS close notifications #}
 <script>
+{# BULMA CSS close notifications #}
 document.addEventListener('DOMContentLoaded', () => {
   (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
     const $notification = $delete.parentNode;
@@ -55,6 +59,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+{# simple toggle for display:none #}
+function expand(e) {
+        document.getElementById(e).classList.toggle('expand');
+}
 </script>
 
 
