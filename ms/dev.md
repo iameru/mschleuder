@@ -28,7 +28,6 @@ historische daten zbsp:
     { "id":1, "members_full":32, "members_half":15 },
     { "id":3, "members_full":12, "members_half":5 },
     { "id":4, "members_full":26, "members_half":19 },
-    { "id":5, "members_full":2, "members_half":2 },
     { "id":6, "members_full":20, "members_half":8 },
     { "id":8, "members_full":10, "members_half":6 }
    ]
@@ -36,6 +35,7 @@ historische daten zbsp:
  { "date":"2022-08-05", "stations":
    [
     { "id":1, "members_full":33, "members_half":14 },
+    { "id":2, "members_full":20, "members_half":3 },
     { "id":3, "members_full":12, "members_half":5 },
     { "id":4, "members_full":23, "members_half":19 },
     { "id":5, "members_full":1, "members_half":4 },
@@ -46,14 +46,54 @@ historische daten zbsp:
  { "date":"2022-08-03", "stations":
    [
     { "id":1, "members_full":35, "members_half":15 },
+    { "id":2, "members_full":8, "members_half":1 },
     { "id":3, "members_full":11, "members_half":6 },
     { "id":4, "members_full":22, "members_half":12 },
     { "id":5, "members_full":2, "members_half":5 },
     { "id":6, "members_full":21, "members_half":5 },
     { "id":8, "members_full":10, "members_half":5 }
    ]
+ },
+ { "date":"2022-07-23", "stations":
+   [
+    { "id":1, "members_full":36, "members_half":15 },
+    { "id":3, "members_full":10, "members_half":4 },
+    { "id":4, "members_full":20, "members_half":2 },
+    { "id":5, "members_full":1, "members_half":4 },
+    { "id":6, "members_full":20, "members_half":2 },
+    { "id":8, "members_full":5, "members_half":3 }
+   ]
  }
 ]
+```
+
+
+Es soll einen chart geben der die stationen und ihren mitgliederverlauf darstellt
+
+
+[testmark]:# (stations-chart)
+```json
+[
+ { "date":"2022-08-05", "stations":
+   [
+    { "id":1, "members_full":4, "members_half":4 },
+    { "id":5, "members_full":8, "members_half":8 }
+   ]
+ },
+ { "date":"2022-08-03", "stations":
+   [
+    { "id":1, "members_full":2, "members_half":2 },
+    { "id":5, "members_full":4, "members_half":4 }
+   ]
+ },
+ { "date":"2022-07-23", "stations":
+   [
+    { "id":1, "members_full":1, "members_half":1 },
+    { "id":5, "members_full":2, "members_half":2 }
+   ]
+ }
+]
+
 ```
 
 

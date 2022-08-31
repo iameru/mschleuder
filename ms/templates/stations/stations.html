@@ -98,16 +98,8 @@
 </div>
 
 <div class="row">
-        <h3 class="title">Bisher:</h3>
-<li>id - voll - halb - total
-{% for event in stations.historical %}
-  <h4 class="title is-4">{{event.date}}</h4>
-  <ul>
-    {% for station in event.stations %}
-    <li>{{station.id}} - {{station.members_full}} - {{ station.members_half }} - {{ station.members_full + station.members_half }}</li>
-    {% endfor %}
-  </ul>
-{% endfor %}
+ <h3 class="title">Bisher:</h3>
+ {% include 'stations/chart.html' %}
 </div>
 
 </div>
