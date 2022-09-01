@@ -1,51 +1,34 @@
 from pytest import mark
 
 
-@mark.skip(reason="tba")
-def test_history_url(test_client):
-
-    response = test_client.get("/history/")
+def url(test_client, url: str, title):
+    response = test_client.get(url + "/")
     assert response.status_code == 200
-    response = test_client.get("/history")
+    response = test_client.get(url)
     assert response.status_code == 308
 
-
-@mark.skip(reason="tba")
-def test_history_using_template(test_client):
-
-    response = test_client.get("/history/")
+    response = test_client.get(url + "/")
     assert b"<title>404 Not Found</title>" not in response.data
     assert b"<!doctype html>" in response.data
-    assert b">History</h3>" in response.data
+    title_element = f">{title}</h3>"
+    assert title_element.encode() in response.data
 
 
-def test_products_url(test_client):
+def test_template_and_url_for_settings(test_client):
 
-    response = test_client.get("/products/")
-    assert response.status_code == 200
-    response = test_client.get("/products")
-    assert response.status_code == 308
+    url(test_client, "/settings", "Einstellungen")
 
 
-def test_products_using_template(test_client):
+def test_template_and_url_for_stations(test_client):
 
-    response = test_client.get("/products/")
-    assert b"<title>404 Not Found</title>" not in response.data
-    assert b"<!doctype html>" in response.data
-    assert b">Erzeugnisse</h3>" in response.data
+    url(test_client, "/stations", "Stationen")
 
 
-def test_stations_url(test_client):
+def test_template_and_url_for_products(test_client):
 
-    response = test_client.get("/stations/")
-    assert response.status_code == 200
-    response = test_client.get("/stations")
-    assert response.status_code == 308
+    url(test_client, "/products", "Erzeugnisse")
 
 
-def test_stations_using_template(test_client):
+def test_template_and_url_for_history(test_client):
 
-    response = test_client.get("/stations/")
-    assert b"<title>404 Not Found</title>" not in response.data
-    assert b"<!doctype html>" in response.data
-    assert b">Stationen</h3>" in response.data
+    url(test_client, "/history", "History")
