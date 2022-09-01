@@ -1,2 +1,2 @@
-def test_test_app(test_app):
-    assert test_app
+def test_test_client(test_client):
+    assert test_client
