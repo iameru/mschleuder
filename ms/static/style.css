@@ -1,11 +1,23 @@
-.expand {display:none;}
+.expand {
+    display:none;
+    }
 .edit-hr {
     overflow: visible;
     text-align: center;
-}
+    }
 .edit-hr:after {
     content: 'edit';
     padding: 0 4px;
     position: relative;
     top: -13px;
-}
+    }
+.ms-box:hover {
+    background-color: #D9DCD7;
+    }
+.ms-product-edit > a{
+    border: 0.5em solid transparent;
+    border-radius: 10px;
+    }
+.ms-product-edit > a:hover {
+    background-color: #edd1c6;
+    }

@@ -1,1 +1,38 @@
 {% extends 'base.html' %}
+{% block content %}
+
+<div class="level">
+<div class="level-left"></div>
+ <div class="level-right">
+  <div class="button is-link">neues produkt</div>
+</div>
+</div>
+
+<div class="columns is-multiline is-centered">
+
+
+{% for product in products %}
+<div class="column is-3" id="{{product.order}}">
+ <div class="box ms-box">
+
+ <div class="columns">
+   <div class="column has-text-weight-medium has-text-dark">
+       {{ product.name }}
+   </div>
+   <div class="column is-2 ms-product-edit"><a class="" onClick="expand('expandproduct{{product.id}}')">🖉</a>
+   </div>
+ </div>
+
+ {# Hidden ELement for Editing #}
+ <div class="expand" id="expandproduct{{product.id}}">
+ <hr class="edit-hr">
+  * {{ product.unit }}
+  * {{ product }}
+ </div>
+
+
+</div>
+</div>
+{% endfor %}
+</div>
+{% endblock %}

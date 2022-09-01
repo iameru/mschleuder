@@ -105,32 +105,27 @@ Products is a overview page of products/vegetables to distribute. It includes so
 [testmark]:# (products)
 ```json
 [
- { "id":1, "name":"kartoffeln", "unit":"kg", "info":"" },
- { "id":3, "name":"möhren", "unit":"kg", "info":"" },
- { "id":4, "name":"zwiebeln", "unit":"kg", "info":"schmecken super" },
- { "id":5, "name":"kohlrabi", "unit":"pc", "info":"" },
- { "id":6, "name":"melonen", "unit":"pc", "info":"die gelben" },
- { "id":8, "name":"petersilie", "unit":"bnd", "info":"" }
-]
-```
-
-mit historische daten zbsp:
-[testmark]:# (products-historical)
-```json
-[
- { "id":1, "name":"kartoffeln", "unit":"kg", "info":"", "distributed":
+ { "id":1, "name":"kartoffeln", "unit":"kg", "order": 2, "info":"", "distributed":
    {
      "2022-08-03":55,
      "2022-08-05":94,
      "2022-08-08":45
    }
  },
- { "id":5, "name":"kohlrabi", "unit":"pc", "info":"", "distributed":
+ { "id":5, "name":"kohlrabi", "unit":"pc", "order": 1, "info":"", "distributed":
    {
      "2022-08-05":90
    }
  },
- { "id":8, "name":"petersilie", "unit":"bnd", "info":"" }
+ { "id":8, "name":"petersilie", "unit":"bnd", "order": 3, "info":"" },
+ { "id":9, "name":"tomaten", "unit":"bnd", "order": 3, "info":"" },
+ { "id":19, "name":"mangold", "unit":"bnd", "order": 3, "info":"" },
+ { "id":2, "name":"knoblauch", "unit":"bnd", "order": 3, "info":"" },
+ { "id":3, "name":"kürbis", "unit":"bnd", "order": 3, "info":"" },
+ { "id":4, "name":"paprika", "unit":"bnd", "order": 3, "info":"" },
+ { "id":6, "name":"roter rettich (gelb)", "unit":"bnd", "order": 3, "info":"" },
+ { "id":5, "name":"knollensellerie", "unit":"bnd", "order": 3, "info":"" },
+ { "id":18, "name":"zwiebeln", "unit":"bnd", "order": 3, "info":"" }
 ]
 ```
 

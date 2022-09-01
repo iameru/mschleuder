@@ -10,4 +10,8 @@ products = Blueprint("products", __name__)
 def products_view():
 
     site = {"title": "Erzeugnisse"}
-    return render_template("products/products.html", site=site)
+
+    dev_data = parse("ms/dev.md")  # DEV DATA
+    products = json.loads(dev_data["products"])
+
+    return render_template("products/products.html", site=site, products=products)
