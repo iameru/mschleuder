@@ -15,13 +15,13 @@
                  {% endif %}
                  >Gemüse</a>
     </li>
-    <li><a href ="/stations/"
+    <li><a href ="{{ url_for('history.history_view') }}"
            {% if site.title == 'History' %}
                  class="is-active"
                  {% endif %}
                  >History</a>
     </li>
-    <li><a href ="/stations"
+    <li><a href ="{{ url_for('settings.settings_view') }}"
            {% if site.title == 'Einstellungen' %}
                  class="is-active"
                  {% endif %}
