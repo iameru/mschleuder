@@ -29,8 +29,10 @@ def create_app(test_config=None):
 
     _tmplt = {"template_folder": "templates"}
 
+    from .products.views import products
     from .stations.views import stations
 
     app.register_blueprint(stations, url_prefix="/stations", options=_tmplt)
+    app.register_blueprint(products, url_prefix="/products", options=_tmplt)
 
     return app
