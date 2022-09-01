@@ -16,6 +16,7 @@ def test_history_using_template(test_client):
     response = test_client.get("/history/")
     assert b"<title>404 Not Found</title>" not in response.data
     assert b"<!doctype html>" in response.data
+    assert b">History</h3>" in response.data
 
 
 def test_products_url(test_client):
@@ -31,6 +32,7 @@ def test_products_using_template(test_client):
     response = test_client.get("/products/")
     assert b"<title>404 Not Found</title>" not in response.data
     assert b"<!doctype html>" in response.data
+    assert b">Erzeugnisse</h3>" in response.data
 
 
 def test_stations_url(test_client):
@@ -46,3 +48,4 @@ def test_stations_using_template(test_client):
     response = test_client.get("/stations/")
     assert b"<title>404 Not Found</title>" not in response.data
     assert b"<!doctype html>" in response.data
+    assert b">Stationen</h3>" in response.data

@@ -1,12 +1,32 @@
 <aside class="menu">
   <p class="menu-label">
-    Menu
+  Menu
   </p>
   <ul class="menu-list">
-    <li><a class="is-active">Stationen</a></li>
-    <li><a>Gemüse</a></li>
-    <li><a>History</a></li>
-    <li><a>Einstellungen</a></li>
+    <li><a href ="{{ url_for('stations.stations_view') }}"
+           {% if site.title == 'Stationen' %}
+                 class="is-active"
+                 {% endif %}
+                 >Stationen</a>
+    </li>
+    <li><a href ="{{ url_for('products.products_view') }}"
+           {% if site.title == 'Erzeugnisse' %}
+                 class="is-active"
+                 {% endif %}
+                 >Gemüse</a>
+    </li>
+    <li><a href ="/stations/"
+           {% if site.title == 'History' %}
+                 class="is-active"
+                 {% endif %}
+                 >History</a>
+    </li>
+    <li><a href ="/stations"
+           {% if site.title == 'Einstellungen' %}
+                 class="is-active"
+                 {% endif %}
+                 >Einstellungen</a>
+    </li>
   </ul>
   <p class="menu-label">
   <a>Verteilung</a>

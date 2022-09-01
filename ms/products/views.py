@@ -9,4 +9,5 @@ products = Blueprint("products", __name__)
 @products.route("/")
 def products_view():
 
-    return render_template("products/products.html")
+    site = {"title": "Erzeugnisse"}
+    return render_template("products/products.html", site=site)

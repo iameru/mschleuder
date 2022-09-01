@@ -9,6 +9,7 @@ stations = Blueprint("stations", __name__)
 @stations.route("/")
 def stations_view():
 
+    site = {"title": "Stationen"}
     dev_data = parse("ms/dev.md")  # DEV DATA
     stations = {
         "current": json.loads(dev_data["stations-current"]),
@@ -35,5 +36,5 @@ def stations_view():
     chart_data = {"labels": labels, "data": data}
 
     return render_template(
-        "stations/stations.html", stations=stations, chart_data=chart_data
+        "stations/stations.html", stations=stations, chart_data=chart_data, site=site
     )
