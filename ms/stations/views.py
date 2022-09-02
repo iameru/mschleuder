@@ -10,7 +10,7 @@ stations = Blueprint("stations", __name__)
 def stations_view():
 
     site = {"title": "Stationen"}
-    dev_data = parse("ms/dev.md")  # DEV DATA
+    dev_data = parse("dev.md")  # DEV DATA
     stations = {
         "current": json.loads(dev_data["stations-current"]),
         "historical": json.loads(dev_data["stations-historical"]),

@@ -11,7 +11,7 @@ def products_view():
 
     site = {"title": "Erzeugnisse"}
 
-    dev_data = parse("ms/dev.md")  # DEV DATA
+    dev_data = parse("dev.md")  # DEV DATA
     products = json.loads(dev_data["products"])
 
     return render_template("products/products.html", site=site, products=products)
