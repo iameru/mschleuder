@@ -8,8 +8,35 @@
 </div>
 </div>
 
+ {# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - RECENTLY USED PRODUCTS #}
+<div class="columns is-multiline is-centered recent-distribution" id="recent-distribution">
+  <div class="column is-12">recently used products</div>
+    {% for product in recent_products %}
+    <div class="column" id="{{product.order}}">
+     <div class="box ms-box">
+
+     <div class="columns">
+       <div class="column has-text-weight-medium has-text-dark">
+           {{ product.name }}
+       </div>
+       <div class="column is-2 ms-product-edit"><a class="" onClick="expand('expandproduct{{product.id}}')">🖉</a>
+       </div>
+     </div>
+     {# Hidden ELement for Editing #}
+     <div class="expand" id="expandproduct{{product.id}}">
+     <hr class="edit-hr">
+      * {{ product.unit }}
+      * {{ product }}
+     </div>
+    </div>
+    </div>
+{% endfor %}
+</div>
+
+ {# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ALL PRODUCTS #}
 <div class="columns is-multiline is-centered">
 
+  <div class="column is-12">all products</div>
 
 {% for product in products %}
 <div class="column is-3" id="{{product.order}}">
