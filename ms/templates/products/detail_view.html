@@ -1,6 +1,9 @@
+{% extends 'modal.html' %}
+{% block modal_content %}
 <h4 class="title is-4"> Edit </h4>
 <p class="subtitle"> this will be an editing screen modal </p>
 {{ product.name }}
 {{ product.unit }}
 {{ product.recent_distribution }}
 {{ product.info }}
+{% endblock %}
