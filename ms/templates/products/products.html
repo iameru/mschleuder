@@ -9,11 +9,11 @@
 <div class="level">
 <div class="level-left"></div>
  <div class="level-right">
-         <div class="button is-link"
+         <button class="button is-link"
             hx-get="{{ url_for('products.new_product') }}"
             hx-target="body"
             hx-swap="beforeend"
-                 >neues produkt</div>
+                 >neues produkt</button>
 </div>
 </div>
 
@@ -73,23 +73,20 @@
 
 <td class="clickable has-text-weight-medium pl-3"
     onclick="javascript:location.href='{{ url_for("products.distribute_by_id", productid=product.id) }}'">
- {{ product.name }} </td>
+ {{ product.name }}</td>
 <td class="clickable has-text-centered"
     onclick="javascript:location.href='{{ url_for("products.distribute_by_id", productid=product.id) }}'">
- {{ product.unit }} </td>
+ {{ product.unit }}</td>
 <td class="clickable has-text-centered"
     onclick="javascript:location.href='{{ url_for("products.distribute_by_id", productid=product.id) }}'">
- {{ product.recent_distribution }} </td>
+ {{ product.recent_distribution }}</td>
 <td class="clickable"
     onclick="javascript:location.href='{{ url_for("products.distribute_by_id", productid=product.id) }}'">
- {{ product.info }} </td>
+ {{ product.info }}</td>
    <td class="hover-alt clickable has-text-centered"
        {{ product_modal("products.detail_view", product.id) }}
-       {#     hx-get="{{ url_for('products.detail_view', productid=product.id) }}"
-     hx-target="body"
-     hx-swap="beforeend"
-     #}
-     class="hover-alt">🖉</a>
+       id="product-detail-view-{{product.id}}"
+     >🖉
    </td>
 
   </tr>

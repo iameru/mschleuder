@@ -49,14 +49,25 @@ def test_htmx_detail_product(test_client):
 
     product = choice(products)
     response = test_client.get("/products/")
-
     html = bs(response.data, "html.parser")
-    product_html = html.find("tr", {"id": f"tr-product-{product['id']}"})
+
+    product_html = html.find("td", {"id": f"product-detail-view-{product['id']}"})
 
     url = product_html["hx-get"]
-
     assert str(product["id"]) == url.split("/")[-1]
 
-    url_res = test_client.get(url)
+    modal = test_client.get(url)
+    assert product["name"] in modal.text
 
-    assert product["name"] in url_res.text
+
+def test_new_product_modal_shown(test_client):
+
+    response = test_client.get("/products/")
+
+    html = bs(response.data, "html.parser")
+    link = html.find("button", {"hx-get": "/products/new"})
+    assert link
+
+    modal = test_client.get(link["hx-get"])
+    assert modal.status_code == 200
+    assert "Neues Produkt" in modal.text

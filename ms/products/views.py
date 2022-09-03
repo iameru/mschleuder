@@ -50,4 +50,4 @@ def distribute_by_id(productid):
 
 @products.route("/new")
 def new_product():
-    return ""
+    return render_template("products/new.html")
