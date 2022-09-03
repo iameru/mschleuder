@@ -46,3 +46,8 @@ def distribute_by_id(productid):
 
     product = next((item for item in products if item["id"] == productid), None)
     return ""
+
+
+@products.route("/new")
+def new_product():
+    return ""

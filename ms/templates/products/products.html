@@ -1,3 +1,4 @@
+{% from 'macros.html' import product_modal with context %}
 {% extends 'base.html' %}
 {% block styles %}
 <link rel="stylesheet" type="text/css"
@@ -8,7 +9,11 @@
 <div class="level">
 <div class="level-left"></div>
  <div class="level-right">
-  <div class="button is-link">neues produkt</div>
+         <div class="button is-link"
+            hx-get="{{ url_for('products.new_product') }}"
+            hx-target="body"
+            hx-swap="beforeend"
+                 >neues produkt</div>
 </div>
 </div>
 
@@ -26,14 +31,10 @@
            {{ product.name }}
        </div>
        <div class="column is-2 ms-product-edit">
-               <a class="" onClick="expand('expand-recent-product{{product.id}}')">🖉</a>
+         <a
+           {{ product_modal("products.detail_view", product.id) }}
+         >🖉</a>
        </div>
-     </div>
-     {# Hidden ELement for Editing #}
-     <div class="expand" id="expand-recent-product{{product.id}}">
-     <hr class="edit-hr">
-      * {{ product.unit }}
-      * {{ product }}
      </div>
     </div>
     </div>
@@ -83,11 +84,12 @@
     onclick="javascript:location.href='{{ url_for("products.distribute_by_id", productid=product.id) }}'">
  {{ product.info }} </td>
    <td class="hover-alt clickable has-text-centered"
-     hx-get="{{ url_for('products.detail_view', productid=product.id) }}"
+       {{ product_modal("products.detail_view", product.id) }}
+       {#     hx-get="{{ url_for('products.detail_view', productid=product.id) }}"
      hx-target="body"
      hx-swap="beforeend"
-     class="hover-alt"
-     id="tr-product-{{ product.id }}">🖉</a>
+     #}
+     class="hover-alt">🖉</a>
    </td>
 
   </tr>

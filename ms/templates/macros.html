@@ -1,0 +1,5 @@
+{% macro product_modal(route, id=None) %}
+hx-get="{{ url_for(route, productid=id) }}"
+hx-target="body"
+hx-swap="beforeend"
+{% endmacro %}
