@@ -1,8 +1,13 @@
+{% block styles %}
 <link rel="stylesheet"
-          type="text/css"
-          href="{{ url_for('static', filename='chartist/chartist.css') }}"
-          >
+  type="text/css"
+  href="{{ url_for('static', filename='chartist/chartist.css') }}"
+  >
+{% endblock %}
+{% block scripts %}
 <script src="{{ url_for('static', filename='chartist/chartist.min.js') }}"></script>
+{% endblock %}
+
 <div class="ct-chart ct-major-twelfth" id="stations-chart"></div>
 <script>
         var data = {

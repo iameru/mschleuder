@@ -115,7 +115,7 @@
   vertical-align: top;
   width: 20px; }
   .delete::before, .modal-close::before, .delete::after, .modal-close::after {
-    background-color: white;
+    background-color: #faf2ef;
     content: "";
     display: block;
     left: 50%;
@@ -405,7 +405,7 @@ a.box:active {
   box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2), 0 0 0 1px #728F5A; }
 
 .button {
-  background-color: white;
+  background-color: #faf2ef;
   border-color: #dbdbdb;
   border-width: 2px;
   color: #363636;
@@ -1224,7 +1224,7 @@ a.box:active {
     font-size: 1.5rem; }
   .button[disabled],
   fieldset[disabled] .button {
-    background-color: white;
+    background-color: #faf2ef;
     border-color: #dbdbdb;
     box-shadow: none;
     opacity: 0.5; }
@@ -1624,7 +1624,7 @@ div.icon-text {
     color: currentColor; }
   .notification code,
   .notification pre {
-    background: white; }
+    background: #faf2ef; }
   .notification pre code {
     background: transparent; }
   .notification > .delete {
@@ -1813,7 +1813,7 @@ div.icon-text {
     background-position: -200% 0; } }
 
 .table {
-  background-color: white;
+  background-color: #faf2ef;
   color: #363636; }
   .table td,
   .table th {
@@ -2182,7 +2182,7 @@ a.tag:hover {
 
 /* Bulma Form */
 .input, .textarea, .select select {
-  background-color: white;
+  background-color: #faf2ef;
   border-color: #D0D1CD;
   border-radius: 4px;
   color: #363636; }
@@ -3045,7 +3045,7 @@ a.tag:hover {
     content: "\0227B"; }
 
 .card {
-  background-color: white;
+  background-color: #faf2ef;
   border-radius: 0.25rem;
   box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
   color: #757763;
@@ -3152,7 +3152,7 @@ a.tag:hover {
   z-index: 20; }
 
 .dropdown-content {
-  background-color: white;
+  background-color: #faf2ef;
   border-radius: 4px;
   box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
   padding-bottom: 0.5rem;
@@ -3463,7 +3463,7 @@ button.dropdown-item {
   padding: 1.25em 1.5em; }
   .message-body code,
   .message-body pre {
-    background-color: white; }
+    background-color: #faf2ef; }
   .message-body pre code {
     background-color: transparent; }
 
@@ -3541,14 +3541,14 @@ button.dropdown-item {
 
 .modal-card-body {
   -webkit-overflow-scrolling: touch;
-  background-color: white;
+  background-color: #faf2ef;
   flex-grow: 1;
   flex-shrink: 1;
   overflow: auto;
   padding: 20px; }
 
 .navbar {
-  background-color: white;
+  background-color: #faf2ef;
   min-height: 3.25rem;
   position: relative;
   z-index: 30; }
@@ -4171,7 +4171,7 @@ a.navbar-item,
   .navbar-link::after {
     display: none; }
   .navbar-menu {
-    background-color: white;
+    background-color: #faf2ef;
     box-shadow: 0 8px 16px rgba(10, 10, 10, 0.1);
     padding: 0.5rem 0; }
     .navbar-menu.is-active {
@@ -4261,7 +4261,7 @@ a.navbar-item,
     justify-content: flex-end;
     margin-left: auto; }
   .navbar-dropdown {
-    background-color: white;
+    background-color: #faf2ef;
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
     border-top: 2px solid #dbdbdb;
@@ -4686,7 +4686,7 @@ label.panel-block {
       background-color: whitesmoke;
       border-bottom-color: #dbdbdb; }
   .tabs.is-boxed li.is-active a {
-    background-color: white;
+    background-color: #faf2ef;
     border-color: #dbdbdb;
     border-bottom-color: transparent !important; }
   .tabs.is-fullwidth li {

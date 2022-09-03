@@ -13,6 +13,7 @@
           type="text/css"
           href="{{ url_for('static', filename='customisation.css') }}"
           >
+    {% block styles %}{% endblock %}
     <title>
       Möhrenschleuder
     </title>
@@ -45,7 +46,6 @@
 </div>
 
 {% block scripts %}{% endblock %}
-
 <script>
 {# BULMA CSS close notifications #}
 document.addEventListener('DOMContentLoaded', () => {

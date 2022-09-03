@@ -1,4 +1,7 @@
 {% extends 'base.html' %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+{% endblock %}
 {% block content %}
 
 <div class="level">
@@ -35,32 +38,55 @@
 </div>
 
  {# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ALL PRODUCTS #}
-<div class="columns is-multiline is-centered">
+<table class="table is-striped is-hoverable is-fullwidth"
+       id="all-products-table">
+ <thead>
+  <tr>
+   <th>Name</th>
+   <th>Einheit</th>
+   <th>Zuletzt verteilt</th>
+   <th>Info</th>
+  </tr>
+ </thead>
+ <tfoot>
+  <tr>
+   <th>Name</th>
+   <th>Einheit</th>
+   <th>Zuletzt verteilt</th>
+   <th>Info</th>
+  </tr>
+ </tfoot>
 
-  <div class="column is-12">all products</div>
-
+ <tbody id=item-table-body>
 {% for product in products %}
-<div class="column is-3" id="{{product.order}}">
- <div class="box ms-box">
 
- <div class="columns">
-   <div class="column has-text-weight-medium has-text-dark">
-       {{ product.name }}
-   </div>
-   <div class="column is-2 ms-product-edit"><a class="" onClick="expand('expandproduct{{product.id}}')">🖉</a>
-   </div>
- </div>
+  <tr>
+   <td> {{ product.name }} </td>
+   <td> {{ product.unit }} </td>
+   <td> {{ product.recent_distribution }} </td>
+   <td> {{ product.info }} </td>
+  </tr>
 
- {# Hidden ELement for Editing #}
- <div class="expand" id="expandproduct{{product.id}}">
- <hr class="edit-hr">
-  * {{ product.unit }}
-  * {{ product }}
- </div>
-
-
-</div>
-</div>
 {% endfor %}
-</div>
+ </tbody>
+</table>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+<script>
+ $(document).ready(function() {
+    $('#all-products-table').DataTable({
+        paging: false,
+        responsive: true,
+        columns: [
+        null,
+        null,
+        null,
+        null,
+        ]
+    });
+  });
+</script>
 {% endblock %}
