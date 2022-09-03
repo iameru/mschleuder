@@ -13,14 +13,15 @@ def products_view():
 
     dev_data = parse("dev.md")  # DEV DATA
     products = json.loads(dev_data["products"])
-    products = sorted(products.copy(), key=lambda item: item["name"])
-    recent_products = sorted(products, key=lambda item: item["recent_distribution"])[
-        :10
-    ]
+    all_products = sorted(products.copy(), key=lambda item: item["name"])
+
+    recent_products = sorted(products, key=lambda item: item["recent_distribution"])
+    recent_products.reverse()
+    recent_products = recent_products[:10]
 
     return render_template(
         "products/products.html",
         site=site,
-        products=products,
+        products=all_products,
         recent_products=recent_products,
     )

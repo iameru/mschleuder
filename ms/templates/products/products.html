@@ -16,14 +16,15 @@
      <div class="box ms-box">
 
      <div class="columns">
-       <div class="column has-text-weight-medium has-text-dark">
+             <div class="column has-text-weight-medium has-text-dark"
+                  id="product{{product.id}}">
            {{ product.name }}
        </div>
-       <div class="column is-2 ms-product-edit"><a class="" onClick="expand('expandproduct{{product.id}}')">🖉</a>
+       <div class="column is-2 ms-product-edit"><a class="" onClick="expand('expand-recent-product{{product.id}}')">🖉</a>
        </div>
      </div>
      {# Hidden ELement for Editing #}
-     <div class="expand" id="expandproduct{{product.id}}">
+     <div class="expand" id="expand-recent-product{{product.id}}">
      <hr class="edit-hr">
       * {{ product.unit }}
       * {{ product }}

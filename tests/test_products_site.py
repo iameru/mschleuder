@@ -27,8 +27,9 @@ def test_recently_used_products(test_client):
 
     response = test_client.get("/products/")
 
-    sorted_products = sorted(products, key=lambda item: item["recent_distribution"])
-    top_ten = sorted_products[:10]
+    recent_products = sorted(products, key=lambda item: item["recent_distribution"])
+    recent_products.reverse()
+    top_ten = recent_products[:10]
 
     html = bs(response.data, "html.parser")
 
@@ -37,4 +38,8 @@ def test_recently_used_products(test_client):
 
     for product in top_ten:
 
-        assert product["name"] in recent_distribution.string
+        html_product = recent_distribution.find(
+            "div", {"id": f"product{product['id']}"}
+        )
+
+        assert product["name"] in html_product.string
