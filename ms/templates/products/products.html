@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block styles %}
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css"
+      href="{{ url_for('static', filename='assets/jquery.dataTables.css') }}">
 {% endblock %}
 {% block content %}
 
@@ -73,8 +74,10 @@
 {% endblock %}
 
 {% block scripts %}
-<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8"
+        src="{{ url_for('static', filename='assets/jquery-3.6.0.min.js') }}"></script>
+<script type="text/javascript" charset="utf8"
+        src="{{ url_for('static', filename='assets/jquery.dataTables.js') }}"></script>
 <script>
  $(document).ready(function() {
     $('#all-products-table').DataTable({
