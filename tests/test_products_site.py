@@ -43,3 +43,20 @@ def test_recently_used_products(test_client):
         )
 
         assert product["name"] in html_product.string
+
+
+def test_htmx_detail_product(test_client):
+
+    product = choice(products)
+    response = test_client.get("/products/")
+
+    html = bs(response.data, "html.parser")
+    product_html = html.find("tr", {"id": f"tr-product-{product['id']}"})
+
+    url = product_html["hx-get"]
+
+    assert str(product["id"]) == url.split("/")[-1]
+
+    url_res = test_client.get(url)
+
+    assert product["name"] in url_res.text

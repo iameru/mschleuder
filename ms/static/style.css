@@ -27,3 +27,12 @@
 .hover:hover {
     background-color: #D9DCD7;
     }
+.hover-alt:hover {
+    background-color: #FFFFFF;
+    }
+.clickable {
+    cursor: pointer;
+    }
+.nohover:hover {
+    background-color: transparent;
+    }

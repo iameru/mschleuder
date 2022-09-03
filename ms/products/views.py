@@ -25,3 +25,24 @@ def products_view():
         products=all_products,
         recent_products=recent_products,
     )
+
+
+@products.route("/productdetail/<int:productid>")
+def detail_view(productid):
+
+    dev_data = parse("dev.md")  # DEV DATA
+    products = json.loads(dev_data["products"])
+
+    product = next((item for item in products if item["id"] == productid), None)
+
+    return render_template("products/detail_view.html", product=product)
+
+
+@products.route("/distribute/<int:productid>")
+def distribute_by_id(productid):
+
+    dev_data = parse("dev.md")  # DEV DATA
+    products = json.loads(dev_data["products"])
+
+    product = next((item for item in products if item["id"] == productid), None)
+    return ""

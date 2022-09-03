@@ -14,17 +14,19 @@
 
  {# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - RECENTLY USED PRODUCTS #}
 <div class="columns is-multiline is-centered recent-distribution" id="recent-distribution">
-  <div class="column is-12">recently used products</div>
     {% for product in recent_products %}
     <div class="column" id="{{product.order}}">
      <div class="box ms-box">
 
+
      <div class="columns">
              <div class="column has-text-weight-medium has-text-dark"
-                  id="product{{product.id}}">
+                  id="product{{product.id}}"
+                  onclick="javascript:location.href='{{ url_for("products.distribute_by_id", productid=product.id) }}'">
            {{ product.name }}
        </div>
-       <div class="column is-2 ms-product-edit"><a class="" onClick="expand('expand-recent-product{{product.id}}')">🖉</a>
+       <div class="column is-2 ms-product-edit">
+               <a class="" onClick="expand('expand-recent-product{{product.id}}')">🖉</a>
        </div>
      </div>
      {# Hidden ELement for Editing #}
@@ -39,39 +41,65 @@
 </div>
 
  {# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ALL PRODUCTS #}
-<table class="table is-hoverable is-fullwidth"
+<div class="columns is-centered">
+<div class="column is-10 mt-2">
+ <table class="table is-hoverable is-fullwidth"
        id="all-products-table">
  <thead>
   <tr>
-   <th class="hover">Name</th>
-   <th class="hover">Einheit</th>
-   <th class="hover">Zuletzt verteilt</th>
-   <th class="hover">Info</th>
+   <th class="hover has-text-centered">Name</th>
+   <th class="hover has-text-centered">Einheit</th>
+   <th class="hover has-text-centered">Zuletzt verteilt</th>
+   <th class="hover has-text-centered">Info</th>
+   <th class="hover has-text-centered">🖉</th>
   </tr>
  </thead>
  <tfoot>
   <tr>
-   <th class="hover">Name</th>
-   <th class="hover">Einheit</th>
-   <th class="hover">Zuletzt verteilt</th>
-   <th class="hover">Info</th>
+   <th class="hover has-text-centered">Name</th>
+   <th class="hover has-text-centered">Einheit</th>
+   <th class="hover has-text-centered">Zuletzt verteilt</th>
+   <th class="hover has-text-centered">Info</th>
+   <th class="hover has-text-centered">🖉</th>
   </tr>
  </tfoot>
 
  <tbody id=item-table-body>
+
 {% for product in products %}
 
   <tr>
-   <td> {{ product.name }} </td>
-   <td> {{ product.unit }} </td>
-   <td> {{ product.recent_distribution }} </td>
-   <td> {{ product.info }} </td>
+
+<td class="clickable has-text-weight-medium pl-3"
+    onclick="javascript:location.href='{{ url_for("products.distribute_by_id", productid=product.id) }}'">
+ {{ product.name }} </td>
+<td class="clickable has-text-centered"
+    onclick="javascript:location.href='{{ url_for("products.distribute_by_id", productid=product.id) }}'">
+ {{ product.unit }} </td>
+<td class="clickable has-text-centered"
+    onclick="javascript:location.href='{{ url_for("products.distribute_by_id", productid=product.id) }}'">
+ {{ product.recent_distribution }} </td>
+<td class="clickable"
+    onclick="javascript:location.href='{{ url_for("products.distribute_by_id", productid=product.id) }}'">
+ {{ product.info }} </td>
+   <td class="hover-alt clickable has-text-centered"
+     hx-get="{{ url_for('products.detail_view', productid=product.id) }}"
+     hx-target="body"
+     hx-swap="beforeend"
+     class="hover-alt"
+     id="tr-product-{{ product.id }}">🖉</a>
+   </td>
+
   </tr>
 
 {% endfor %}
  </tbody>
-</table>
+ </table>
+ </div>
+</div>
+
 {% endblock %}
+
 
 {% block scripts %}
 <script type="text/javascript" charset="utf8"
@@ -88,6 +116,7 @@
         null,
         null,
         null,
+        {orderable: false, searchable: false},
         ]
     });
   });

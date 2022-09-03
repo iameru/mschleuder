@@ -424,6 +424,7 @@ table.dataTable td {
 .dataTables_wrapper .dataTables_filter {
   float: right;
   text-align: right;
+  margin-bottom: 0.8em;
 }
 .dataTables_wrapper .dataTables_filter input {
   border: 1px solid #aaa;
