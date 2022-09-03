@@ -115,7 +115,7 @@
   vertical-align: top;
   width: 20px; }
   .delete::before, .modal-close::before, .delete::after, .modal-close::after {
-    background-color: #faf2ef;
+    background-color: #EDD1C6;
     content: "";
     display: block;
     left: 50%;
@@ -405,7 +405,7 @@ a.box:active {
   box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2), 0 0 0 1px #728F5A; }
 
 .button {
-  background-color: #faf2ef;
+  background-color: #EDD1C6;
   border-color: #dbdbdb;
   border-width: 2px;
   color: #363636;
@@ -1224,7 +1224,7 @@ a.box:active {
     font-size: 1.5rem; }
   .button[disabled],
   fieldset[disabled] .button {
-    background-color: #faf2ef;
+    background-color: #EDD1C6;
     border-color: #dbdbdb;
     box-shadow: none;
     opacity: 0.5; }
@@ -1624,7 +1624,7 @@ div.icon-text {
     color: currentColor; }
   .notification code,
   .notification pre {
-    background: #faf2ef; }
+    background: #EDD1C6; }
   .notification pre code {
     background: transparent; }
   .notification > .delete {
@@ -1813,13 +1813,13 @@ div.icon-text {
     background-position: -200% 0; } }
 
 .table {
-  background-color: #faf2ef;
+  background-color: #EDD1C6;
   color: #363636; }
   .table td,
   .table th {
     border: 1px solid #dbdbdb;
     border-width: 0 0 1px;
-    padding: 0.5em 0.75em;
+    padding: 1.5em 0.1em;
     vertical-align: top; }
     .table td.is-white,
     .table th.is-white {
@@ -1914,7 +1914,7 @@ div.icon-text {
       border-width: 2px 0 0;
       color: #363636; }
   .table tbody {
-    background-color: transparent; }
+    background-color: #EFF0EB; }
     .table tbody tr:last-child td,
     .table tbody tr:last-child th {
       border-bottom-width: 0; }
@@ -1927,11 +1927,11 @@ div.icon-text {
   .table.is-fullwidth {
     width: 100%; }
   .table.is-hoverable tbody tr:not(.is-selected):hover {
-    background-color: #fafafa; }
+    background-color: #D9DCD7; }
   .table.is-hoverable.is-striped tbody tr:not(.is-selected):hover {
-    background-color: #fafafa; }
+    background-color: #D9DCD7; }
     .table.is-hoverable.is-striped tbody tr:not(.is-selected):hover:nth-child(even) {
-      background-color: whitesmoke; }
+      background-color: #D9DCD7; }
   .table.is-narrow td,
   .table.is-narrow th {
     padding: 0.25em 0.5em; }
@@ -2182,7 +2182,7 @@ a.tag:hover {
 
 /* Bulma Form */
 .input, .textarea, .select select {
-  background-color: #faf2ef;
+  background-color: #EDD1C6;
   border-color: #D0D1CD;
   border-radius: 4px;
   color: #363636; }
@@ -3045,7 +3045,7 @@ a.tag:hover {
     content: "\0227B"; }
 
 .card {
-  background-color: #faf2ef;
+  background-color: #EDD1C6;
   border-radius: 0.25rem;
   box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
   color: #757763;
@@ -3152,7 +3152,7 @@ a.tag:hover {
   z-index: 20; }
 
 .dropdown-content {
-  background-color: #faf2ef;
+  background-color: #EDD1C6;
   border-radius: 4px;
   box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
   padding-bottom: 0.5rem;
@@ -3463,7 +3463,7 @@ button.dropdown-item {
   padding: 1.25em 1.5em; }
   .message-body code,
   .message-body pre {
-    background-color: #faf2ef; }
+    background-color: #EDD1C6; }
   .message-body pre code {
     background-color: transparent; }
 
@@ -3541,14 +3541,14 @@ button.dropdown-item {
 
 .modal-card-body {
   -webkit-overflow-scrolling: touch;
-  background-color: #faf2ef;
+  background-color: #EDD1C6;
   flex-grow: 1;
   flex-shrink: 1;
   overflow: auto;
   padding: 20px; }
 
 .navbar {
-  background-color: #faf2ef;
+  background-color: #EDD1C6;
   min-height: 3.25rem;
   position: relative;
   z-index: 30; }
@@ -4171,7 +4171,7 @@ a.navbar-item,
   .navbar-link::after {
     display: none; }
   .navbar-menu {
-    background-color: #faf2ef;
+    background-color: #EDD1C6;
     box-shadow: 0 8px 16px rgba(10, 10, 10, 0.1);
     padding: 0.5rem 0; }
     .navbar-menu.is-active {
@@ -4261,7 +4261,7 @@ a.navbar-item,
     justify-content: flex-end;
     margin-left: auto; }
   .navbar-dropdown {
-    background-color: #faf2ef;
+    background-color: #EDD1C6;
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
     border-top: 2px solid #dbdbdb;
@@ -4686,7 +4686,7 @@ label.panel-block {
       background-color: whitesmoke;
       border-bottom-color: #dbdbdb; }
   .tabs.is-boxed li.is-active a {
-    background-color: #faf2ef;
+    background-color: #EDD1C6;
     border-color: #dbdbdb;
     border-bottom-color: transparent !important; }
   .tabs.is-fullwidth li {

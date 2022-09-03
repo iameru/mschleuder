@@ -21,3 +21,9 @@
 .ms-product-edit > a:hover {
     background-color: #edd1c6;
     }
+#all-products-table {
+    border-radius: 6px;
+    }
+.hover:hover {
+    background-color: #D9DCD7;
+    }
