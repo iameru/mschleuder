@@ -1,6 +1,7 @@
 import json
 from random import choice
 
+from bs4 import BeautifulSoup as bs
 from testmark import parse
 
 stations = json.loads(parse("dev.md")["stations-current"])
@@ -20,9 +21,6 @@ def test_all_stations_on_site(test_client):
 
     for station in stations:
         assert station["name"].encode() in response.data
-
-
-from bs4 import BeautifulSoup as bs
 
 
 def test_htmx_edit_station(test_client):

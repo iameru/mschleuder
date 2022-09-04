@@ -45,7 +45,7 @@ def distribute_by_id(productid):
     products = json.loads(dev_data["products"])
 
     product = next((item for item in products if item["id"] == productid), None)
-    return ""
+    return f"{product}"
 
 
 @products.route("/new")

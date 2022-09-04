@@ -69,7 +69,7 @@
 
 {% for product in products %}
 
-  <tr>
+<tr id="distribute-product-{{ product.id }}">
 
 <td class="clickable has-text-weight-medium pl-3"
     onclick="javascript:location.href='{{ url_for("products.distribute_by_id", productid=product.id) }}'">
