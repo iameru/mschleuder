@@ -19,12 +19,11 @@ def create_app(test_config=None):
     except FileExistsError:
         pass
 
-    if app.env == "development":
+    if app.debug:
 
         from .dev import add_development_help
 
         add_development_help(app)
-
         app.config["SECRET_KEY"] = "DEVELOPMENT"
 
     _tmplt = {"template_folder": "templates"}
