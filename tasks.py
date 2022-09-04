@@ -44,6 +44,11 @@ def start(c):
     c.run("FLASK_ENV=development flask run", pty=True)
 
 
+@task
+def deploy_staging(c):
+    c.run("poetry export --without-hashes --format=requirements.txt > requirements.txt")
+
+
 #####################################################################
 ## Helper functions
 
