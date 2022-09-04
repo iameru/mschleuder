@@ -38,3 +38,19 @@ def stations_view():
     return render_template(
         "stations/stations.html", stations=stations, chart_data=chart_data, site=site
     )
+
+
+@stations.route("/stationsdetail/<int:stationid>")
+def detail_view(stationid):
+
+    dev_data = parse("dev.md")  # DEV DATA
+    stations = json.loads(dev_data["stations-current"])
+
+    station = next((item for item in stations if item["id"] == stationid), None)
+
+    return render_template("stations/detail_view.html", station=station)
+
+
+@stations.route("/new")
+def new_station():
+    return render_template("stations/new.html")

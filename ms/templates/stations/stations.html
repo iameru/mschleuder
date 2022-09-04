@@ -9,7 +9,10 @@
  <h3 class="title">Aktuell:</h3>
  </div>
  <div class="level-right">
-         <div class="button is-link">neue station</div>
+         <button class="button is-link"
+                 hx-get="{{ url_for('stations.new_station') }}"
+                 hx-target="body"
+                 hx-swap="beforeend">neue station</button>
 </div>
 </div>
 
@@ -22,7 +25,11 @@
     <h2 class="level-left is-size-2 has-text-weight-medium is-primary has-text-dark">
        {{ station.name }}
     </h2>
-    <small="level-right"><a class="" onClick="expand('expandstation{{station.id}}')">🖉</a></small>
+    <small="level-right"><a id="station-edit-view-{{station.id}}"
+                            hx-get="{{ url_for('stations.detail_view', stationid=station.id) }}"
+                            hx-target="body"
+                            hx-swap="beforeend">🖉</a>
+    </small>
     </div>
      <p class="">
        👥{{ station.members_full + station.members_half }}
@@ -36,59 +43,6 @@
       <small>🛈 {{ station.info }} </small>
     </p>
 
-    {# Hidden ELement for Editing #}
-    <div class="expand" id="expandstation{{station.id}}">
-    <hr class="edit-hr">
-
-    <form>
-
-    <div class="columns is-centered">
-     <div class="column is-4 has-text-centered border">
-                 ●<input class="input"
-                 id="membfull{{station.id}}"
-    			 type="number"
-    			 value="{{ station.members_full }}">
-    </div>
-     <div class="column is-4 has-text-centered">
-                 ◑<input class="input"
-                 id="membhalf{{station.id}}"
-    			 type="number"
-    			 value="{{ station.members_half }}">
-     </div>
-    </div>
-
-    <div class="rows">
-      <div class="row">
-         <div class="field is-horizontal">
-    		<label class="label">🛈</label>
-    	    <div class="control">
-    	     <input class="input"
-    			type="text"
-    			placeholder="infotext"
-    			id="info{{station.id}}"
-    			value="{{station.info}}">
-    		</div>
-    	</div>
-       </div>
-      <div class="row">
-         <div class="field is-horizontal">
-    		<label class="label">order</label>
-    	    <div class="control">
-    	     <input class="input"
-    			type="number"
-    			placeholder="infotext"
-    			id="order{{station.id}}"
-    			value="{{station.order}}">
-    		</div>
-    	</div>
-       </div>
-    <div class="row">
-        <div class="button is-link">💾 save</div>
-    </div>
-    </div>
-
-
-    </div>
 
    </div>
   </div>
