@@ -32,7 +32,6 @@ def detail_view(productid):
 
     dev_data = parse("dev.md")  # DEV DATA
     products = json.loads(dev_data["products"])
-
     product = next((item for item in products if item["id"] == productid), None)
 
     return render_template("products/detail_view.html", product=product)
@@ -43,9 +42,13 @@ def distribute_by_id(productid):
 
     dev_data = parse("dev.md")  # DEV DATA
     products = json.loads(dev_data["products"])
-
     product = next((item for item in products if item["id"] == productid), None)
-    return f"{product}"
+
+    site = {"title": f"{product['name']} verteilen"}
+
+    return render_template(
+        "products/distribute/distribute.html", product=product, site=site
+    )
 
 
 @products.route("/new")
