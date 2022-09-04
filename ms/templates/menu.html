@@ -4,25 +4,25 @@
   </p>
   <ul class="menu-list">
     <li><a href ="{{ url_for('stations.stations_view') }}"
-           {% if site.title == 'Stationen' %}
+           {% if title == 'Stationen' %}
                  class="is-active"
                  {% endif %}
                  >Stationen</a>
     </li>
     <li><a href ="{{ url_for('products.products_view') }}"
-           {% if site.title == 'Erzeugnisse' %}
+           {% if title == 'Erzeugnisse' %}
                  class="is-active"
                  {% endif %}
                  >Gemüse</a>
     </li>
     <li><a href ="{{ url_for('history.history_view') }}"
-           {% if site.title == 'History' %}
+           {% if title == 'History' %}
                  class="is-active"
                  {% endif %}
                  >History</a>
     </li>
     <li><a href ="{{ url_for('settings.settings_view') }}"
-           {% if site.title == 'Einstellungen' %}
+           {% if title == 'Einstellungen' %}
                  class="is-active"
                  {% endif %}
                  >Einstellungen</a>

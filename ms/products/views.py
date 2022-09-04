@@ -9,8 +9,6 @@ products = Blueprint("products", __name__)
 @products.route("/")
 def products_view():
 
-    site = {"title": "Erzeugnisse"}
-
     dev_data = parse("dev.md")  # DEV DATA
     products = json.loads(dev_data["products"])
     all_products = sorted(products.copy(), key=lambda item: item["name"])
@@ -21,7 +19,6 @@ def products_view():
 
     return render_template(
         "products/products.html",
-        site=site,
         products=all_products,
         recent_products=recent_products,
     )
@@ -44,11 +41,7 @@ def distribute_by_id(productid):
     products = json.loads(dev_data["products"])
     product = next((item for item in products if item["id"] == productid), None)
 
-    site = {"title": f"{product['name']} verteilen"}
-
-    return render_template(
-        "products/distribute/distribute.html", product=product, site=site
-    )
+    return render_template("products/distribute/distribute.html", product=product)
 
 
 @products.route("/new")
