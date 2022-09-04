@@ -191,3 +191,16 @@ History will be an overview with detailed insights on different distributions ma
 
 In the distribution site for a product ..
 there should also be a "specials-tab" for example for options to not enter the amount harvested but to  let the tool say how much should be harvested
+
+
+there should be a small menu of products already in the distribution
+
+[testmark]:# (in-distribution)
+```json
+[
+ { "id":31, "unit":"st.", "name":"Kohlrabi", "amount":41},
+ { "id":32, "unit":"g", "name":"Bohnenkraut", "amount": 4200 },
+ { "id":33, "unit":"g", "name":"Liebstöckel", "amount": 1100 },
+ { "id":34, "unit":"kg", "name":"Frühlingszwiebel", "amount": 84}
+]
+```

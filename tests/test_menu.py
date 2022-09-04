@@ -1,6 +1,8 @@
 from bs4 import BeautifulSoup as bs
 from flask import app
 
+from ms.dev import dev_data
+
 
 def parse_menu(test_client, url: str, link_name: str, recursive=True):
 
@@ -54,3 +56,16 @@ def test_menu_links(test_client):
     parse_menu(test_client, "/stations/", "Stationen")
     parse_menu(test_client, "/products/", "Gemüse")
     parse_menu(test_client, "/history/", "History")
+
+
+def test_menu_products_in_distribution(test_client):
+
+    html = test_client.get("/settings/")
+    menu = bs(html.data, "html.parser").find("aside", {"class": "menu"})
+    in_distribution = dev_data("in-distribution")
+
+    product_list = menu.find("ul", {"id": "products-in-distribution"})
+    assert product_list
+
+    for item in in_distribution:
+        assert item["name"] in product_list.text

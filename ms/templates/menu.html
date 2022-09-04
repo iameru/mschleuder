@@ -13,8 +13,8 @@
   <p class="menu-label">
   <a>Verteilung</a>
   </p>
-  <ul class="menu-list">
-    <li><a>Möhren 20 Kg.</a></li>
-    <li><a>Hibiscus 15 St.</a></li>
-    <li><a>Salat 13 Bnd.</a></li>
+  <ul class="menu-list" id="products-in-distribution">
+  {% for product in in_distribution %}
+    <li><a>{{ product.name }} {{ product.amount }} {{ product.unit }}</a></li>
+  {% endfor %}
   </ul>

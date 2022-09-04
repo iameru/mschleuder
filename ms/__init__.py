@@ -38,4 +38,8 @@ def create_app(test_config=None):
     app.register_blueprint(history, url_prefix="/history", options=_tmplt)
     app.register_blueprint(settings, url_prefix="/settings", options=_tmplt)
 
+    from ms import context_processor
+
+    app.context_processor(context_processor.inject)
+
     return app
