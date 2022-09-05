@@ -1,10 +1,6 @@
 from .dev import dev_data
 
 
-def inject_now():
-    return {"now": datetime.utcnow()}
-
-
 def inject():
     context = {}
 
