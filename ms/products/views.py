@@ -37,7 +37,14 @@ def detail_view(productid):
 def distribute_by_id(productid):
 
     products = dev_data("products")
+    in_distribution = dev_data("in-distribution")
+
     product = next((item for item in products if item["id"] == productid), None)
+    d_product = next(
+        (item for item in in_distribution if item["id"] == productid), None
+    )
+    if d_product:
+        product.update(d_product)
 
     return render_template("products/distribute/distribute.html", product=product)
 

@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 {% set title = product.name + ' verteilen' %}
 {% block content %}
-{{product}}
+<h2 class="title is-5">{{ product.name }}</h2>
+<ul>
+  <li>Letzte Verteilung: {{ product.recent_distribution }}</li>
+  <li>Aktuell verteilt: {{ product.amount }} {{ product.unit }}</li>
+  <li>ID: {{ product.id }}</li>
+  <li>unit: {{ product.unit }}</li>
+  <li>info: {{ product.info }}</li>
+</ul>
 {% endblock %}
