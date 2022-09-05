@@ -29,7 +29,9 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install flake8 pytest
         if [ -f dev-requirements.txt ]; then pip install -r requirements.txt; fi
-        export VIRTUAL_ENV="$VENV"
+    - name: Install dev-dependencies
+      run: |
+        if [ -f dev-requirements.txt ]; then pip install -r requirements.txt; fi
         echo "export FLASK_APP=ms" >> .env
     - name: Lint with flake8
       run: |
