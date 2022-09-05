@@ -18,12 +18,12 @@ def test_settings_set_on_page(test_client):
     assert settings
 
     response = test_client.get("/settings/")
-    html = bs(response.data, "html.parser")
+    body = bs(response.data, "html.parser").find("body")
 
-    body = html.find("body")
-    assert settings["csa_name"] in body.text
+    name_field = body.find("input", {"id": "input-csa-name"})
+    assert settings["csa_name"] == name_field["value"]
 
-    units_element = html.find("div", {"id": "settings-unit"})
+    units_element = body.find("div", {"id": "settings-unit"})
     assert units_element
 
     for unit in settings["units"]:
@@ -31,13 +31,13 @@ def test_settings_set_on_page(test_client):
         assert str(unit["id"]) in units_element.text
         assert str(unit["unit_id"]) in units_element.text
 
-    for base_unit in settings["base-units"]:
-        assert base_unit["description"] in html.text
+    for base_unit in settings["base_units"]:
+        assert base_unit["description"] in body.text
 
-    logo = html.find("image", {"src": settings["logo"]})
-    assert logo
+    logo = body.find("img", {"alt": "CSA logo"})
+    assert settings["logo"] == logo["src"]
 
-    assert settings["packinglist_footer"] in response.text
+    assert settings["packinglist_footer"] in body.text
 
 
 def test_settings_being_applied_to_other_sites(test_client):
