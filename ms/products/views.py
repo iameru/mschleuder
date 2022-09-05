@@ -33,6 +33,15 @@ def detail_view(productid):
     return render_template("products/detail_view.html", product=product)
 
 
+@products.route("/distribute")
+def distribute_view():
+
+    products = dev_data("products")
+    in_distribution = dev_data("in-distribution")
+
+    return render_template("products/distribute/overview.html")
+
+
 @products.route("/distribute/<int:productid>")
 def distribute_by_id(productid):
 

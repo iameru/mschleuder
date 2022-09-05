@@ -1,17 +1,24 @@
+from bs4 import BeautifulSoup as bs
 from pytest import mark
 
 
-def url(test_client, url: str, title):
-    response = test_client.get(url + "/")
-    assert response.status_code == 200
-    response = test_client.get(url)
-    assert response.status_code == 308
+def url(test_client, url, string, longmode=True):
 
-    response = test_client.get(url + "/")
-    assert b"<title>404 Not Found</title>" not in response.data
-    assert b"<!doctype html>" in response.data
-    title_element = f">{title}</h2>"
-    assert title_element.encode() in response.data
+    if longmode:
+        response = test_client.get(url)
+        assert response.status_code == 308
+
+        response = test_client.get(url + "/")
+        assert response.status_code == 200
+    else:
+        response = test_client.get(url)
+        assert response.status_code == 200
+
+    assert "<title>404 Not Found</title>" not in response.text
+
+    html = bs(response.data, "html.parser")
+    title = html.find("h2", {"class": "title is-2", "id": "site-title"})
+    assert string in title.text
 
 
 def test_template_and_url_for_settings(test_client):
@@ -28,3 +35,7 @@ def test_template_and_url_for_products(test_client):
 
 def test_template_and_url_for_history(test_client):
     url(test_client, "/history", "History")
+
+
+def test_template_and_url_for_distribute_overview(test_client):
+    url(test_client, "/products/distribute", "Verteilung", longmode=False)

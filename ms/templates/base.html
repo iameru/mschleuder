@@ -23,7 +23,8 @@
  <div class="columns">
   <div class="column is-10 mt-4">
 
-  <h2 class="title is-2">{{ title }}</h2>
+   <h2 class="title is-2"
+        id="site-title">{{ title }}</h2>
 
    {% with messages = get_flashed_messages() %}{% if messages %}
       <div class="notification is-danger is-light">
