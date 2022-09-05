@@ -31,5 +31,10 @@ repos:
       - id: poetry-check
       - id: poetry-lock
       - id: poetry-export
+        name: requirements.txt
         files: ''
         args: ["--without-hashes", "-f","requirements.txt", "-o", "requirements.txt"]
+      - id: poetry-export
+        name: dev-requirements.txt
+        files: ''
+        args: ["--dev","--without-hashes", "-f","requirements.txt", "-o", "dev-requirements.txt"]
