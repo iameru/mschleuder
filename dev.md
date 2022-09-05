@@ -113,12 +113,7 @@ it should show some recently used products on top, underneath a somewhat searcha
  { "recent_distribution": "2022-08-28", "id":24, "unit":"kg", "order":20, "name":"Spinat", "info":"" },
  { "recent_distribution": "2022-08-25", "id":25, "unit":"g", "order":21, "name":"Postelein", "info":"Die gelben" },
  { "recent_distribution": "2022-08-28", "id":26, "unit":"kg", "order":22, "name":"Mangold", "info":"" },
- { "recent_distribution": "2022-08-25", "id":27, "unit":"st.", "order":23, "name":"Kopfsalat", "info":"", "distributed": {
-     "2022-08-03":55,
-     "2022-08-05":94,
-     "2022-08-08":45
-   }
- },
+ { "recent_distribution": "2022-08-25", "id":27, "unit":"st.", "order":23, "name":"Kopfsalat", "info":""},
  { "recent_distribution": "2022-08-20", "id":28, "unit":"g", "order":24, "name":"Petersilie", "info":"" },
  { "recent_distribution": "2022-08-20", "id":29, "unit":"g", "order":25, "name":"Schnittlauch", "info":"" },
  { "recent_distribution": "2022-08-20", "id":30, "unit":"kg", "order":26, "name":"Tatsoi", "info":"" },
