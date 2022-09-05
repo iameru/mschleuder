@@ -14,9 +14,8 @@
           href="{{ url_for('static', filename='customisation.css') }}"
           >
     {% block styles %}{% endblock %}
-    <title>
-      Möhrenschleuder
-    </title>
+    {% if csa.csa_name %}<title>ms | {{ csa.csa_name }}</title>
+    {% else %}<title>möhrenschleuder</title>{% endif %}
  </head>
 <body>
 

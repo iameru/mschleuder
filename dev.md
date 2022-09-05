@@ -204,3 +204,24 @@ there should be a small menu of products already in the distribution
  { "id":34, "unit":"kg", "name":"Frühlingszwiebel", "amount": 84}
 ]
 ```
+
+
+## settings
+
+The settings page is, in its base rather minimal. There we can change, add or delete values. Some Values are for example
+
+units: they affect the frontend, how the two different units (by piece, by weight) are shown (pp. / kg.). They also affect the generation of the pdf after its generation
+
+[testmark]:# (test-settings)
+```json
+
+{"units": [
+        {"id": 5, "unit_id":1, "name":"kg"},
+        {"id": 7, "unit_id":0, "name":"st."},
+        {"id": 3, "unit_id":1, "name":"g"}],
+ "base_units" : [{"id":0, "description": "für Erzeugnisse -in stück-"},
+           {"id":1, "description": "für -in Kilo-"}],
+ "logo": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+ "csa_name": "RunkelRübeCSA",
+ "packinglist_footer": "Bestes Futter seit 1923 - 🥦"}
+```
