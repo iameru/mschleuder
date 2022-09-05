@@ -30,7 +30,6 @@ jobs:
         python -m pip install flake8 pytest poetry
         poetry run true
         export VIRTUAL_ENV="$VENV"
-        PATH_add "$VIRTUAL_ENV/bin"
         echo "export FLASK_APP=ms" >> .env
         poetry install
         poetry shell
