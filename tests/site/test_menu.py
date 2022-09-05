@@ -58,7 +58,7 @@ def test_menu_links(test_client):
     parse_menu(test_client, "/history/", "History")
 
 
-def test_menu_products_in_distribution(test_client):
+def test_products_in_distribution(test_client):
 
     html = test_client.get("/settings/")
     menu = bs(html.data, "html.parser").find("aside", {"class": "menu"})
@@ -68,4 +68,13 @@ def test_menu_products_in_distribution(test_client):
     assert product_list
 
     for item in in_distribution:
-        assert item["name"] in product_list.text
+
+        menu_entry = product_list.find("a", {"id": f"distributed-product-{item['id']}"})
+
+        assert item["name"] in menu_entry.text
+        assert str(item["amount"]) in menu_entry.text
+        assert item["unit"] in menu_entry.text
+
+        url = menu_entry["href"]
+
+        assert str(item["id"]) in url

@@ -15,6 +15,8 @@
   </p>
   <ul class="menu-list" id="products-in-distribution">
   {% for product in in_distribution %}
-    <li><a>{{ product.name }} {{ product.amount }} {{ product.unit }}</a></li>
+   <li><a href="{{url_for('products.distribute_by_id', productid=product.id) }}"
+          id="distributed-product-{{ product.id }}"
+          >{{ product.name }} {{ product.amount }} {{ product.unit }}</a></li>
   {% endfor %}
   </ul>
