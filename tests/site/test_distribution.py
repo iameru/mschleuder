@@ -47,3 +47,26 @@ def test_existing_distribution_data_shown(test_client):
     amount_string = f"{product['amount']} {product['unit']}"
 
     assert amount_string in body.text
+
+
+def test_stations_in_dist(test_client):
+
+    in_distribution = dev_data("in-distribution")
+    product = choice(in_distribution)
+    response = test_client.get(f"/products/distribute/{product['id']}")
+    body = bs(response.data, "html.parser").find("body")
+
+    stations = dev_data("stations-current")
+
+    stations_element = body.find("div", {"id": "dist-stations-area"})
+
+    assert stations_element
+
+    for station in stations:
+
+        station_element = stations_element.find(
+            "div", {"id": f"dist-station-{station['id']}"}
+        )
+        assert station["name"] in station_element.text
+        assert str(station["members_full"]) in station_element.text
+        assert str(station["members_half"]) in station_element.text

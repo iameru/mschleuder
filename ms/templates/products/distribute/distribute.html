@@ -9,4 +9,32 @@
   <li>unit: {{ product.unit }}</li>
   <li>info: {{ product.info }}</li>
 </ul>
+
+<div class="columns is-multiline" id="dist-stations-area">
+
+{% for station in stations %}
+
+<div class="column is-4"
+     id="dist-station-{{station.id}}">
+<div class="box">
+
+<div class="level">
+
+  <div class="level-left">
+    <div class="level-item">{{ station.name }}</div>
+  </div>
+
+  <div class="level-right" id="small-info">
+    <div class="level-item">👥{{ station.members_full + station.members_half }}
+    ● {{ station.members_full }}
+    ◑ {{station.members_half }}</div>
+  </div>
+
+</div>
+
+</div>{# box #}
+</div>{# column #}
+{% endfor %}
+
+</div>
 {% endblock %}

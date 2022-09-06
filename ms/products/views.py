@@ -49,13 +49,18 @@ def distribute_by_id(productid):
     in_distribution = dev_data("in-distribution")
 
     product = next((item for item in products if item["id"] == productid), None)
+    # already distributed product:
     d_product = next(
         (item for item in in_distribution if item["id"] == productid), None
     )
     if d_product:
         product.update(d_product)
 
-    return render_template("products/distribute/distribute.html", product=product)
+    stations = dev_data("stations-current")
+
+    return render_template(
+        "products/distribute/distribute.html", product=product, stations=stations
+    )
 
 
 @products.route("/new")
