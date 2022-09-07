@@ -1,13 +1,12 @@
 <script>
-function distribute () {
+function distribute (option) {
     input_field = document.getElementById("dist-input-field")
-    input = parseInt(input_field.value)
+    unit = {{ product.unit_type }}
+    input = parseFloat(input_field.value)
 
-    stations_length = {{ stations|length }}
     members_total = {{ station_sums.total }}
     members_full = {{ station_sums.full }}
     members_half = {{ station_sums.half }}
-
 
     stations = {}
     {% for station in stations %}
@@ -22,21 +21,29 @@ function distribute () {
           "members_full"  : {{ station.members_full }},
           "members_half"  : {{ station.members_half }}
           }
-    dist_all_the_same(input, members_total)
     {% endfor %}
+    if (option == "even") {divisor = 1}
+    if (option == "half") {divisor = 0.5}
+    if (option == "none") {divisor = 0}
 
+    dist(input, members_full, members_half, divisor)
 }
 
-function dist_all_the_same (input, member_total) {
-    value = input / members_total
+function dist (input, m_full, m_half, divisor) {
+
+    single_value = input / ( m_full + (m_half * divisor) )
 
     Object.values(stations).forEach(station => {
-      station.single_full_field.textContent = value
-      station.single_half_field.textContent = value
+      station.single_full_field.textContent = single_value
+      station.single_half_field.textContent = single_value * divisor
 
-      station.total_field.value = value * station.members_total
-      station.full_field.value =  value * station.members_full
-      station.half_field.value =  value * station.members_half
+      station_full = single_value * station.members_full
+      station.full_field.value = station_full
+
+      station_half = single_value * station.members_half * divisor
+      station.half_field.value =  station_half
+
+      station.total_field.value = station_full + station_half
     })
 }
 

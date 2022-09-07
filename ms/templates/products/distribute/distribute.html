@@ -21,11 +21,27 @@
 <div class="column is-12">
 <div class="columns">
 
-        <div class="column is-4">{{ number_input(product.amount, label="Input", id="dist-input-field") }}</div>
-        <div class="column is-4">
-                        <button class="button"
-                                onclick="distribute()">Push me to distribute via Javascript</button></div>
-        <div class="column is-4">Rest: <p id="dist-rest-field"></p></div>
+  <div class="column is-4">{{ number_input(product.amount, label="Input", id="dist-input-field") }}</div>
+  <div class="column is-4">
+    <div class="rows">
+      <div class="row">
+        <button class="button"
+                onclick="distribute('even')"
+                >gleich</button>
+      </div>
+      <div class="row">
+        <button class="button"
+                onclick="distribute('half')"
+                >halbe halb</button>
+      </div>
+      <div class="row">
+        <button class="button"
+                onclick="distribute('none')"
+                >halbe nix</button>
+      </div>
+    </div>
+  </div>
+  <div class="column is-4">Rest: <p id="dist-rest-field"></p></div>
 
 </div>
 </div>
