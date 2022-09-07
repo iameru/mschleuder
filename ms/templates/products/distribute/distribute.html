@@ -48,16 +48,33 @@
   </div>
 </div>
 
+{# share for all station members #}
 <div class="columns">
+ <div class="column">
+  {{ number_input("", label="👥", id="dist-station-total-" ~ station.id ) }}
+ </div>
  <div class="column">
   {{ number_input("", label="●", id="dist-station-full-" ~ station.id ) }}
  </div>
  <div class="column">
   {{ number_input("", label="◑", id="dist-station-half-" ~ station.id ) }}
  </div>
- <div class="column">
-  {{ number_input("", label="👥", id="dist-station-total-" ~ station.id ) }}
- </div>
+</div>
+
+{# share of a single member #}
+<div class="columns">
+  <div class="column">
+    <div class="level">
+       <div class="level-left">
+         <div class="level-item">●</div>
+         <div class="level-item"><p id="dist-station-single-full-{{ station.id }}"></p></div>
+       </div>
+       <div class="level-right">
+         <div class="level-item"><p id="dist-station-single-half-{{ station.id }}"></p></div>
+         <div class="level-item">◑</div>
+       </div>
+    </div>
+  </div>
 </div>
 
 

@@ -16,17 +16,28 @@ function distribute () {
           "total_field" : document.getElementById("dist-station-total-{{ station.id }}"),
           "full_field"  : document.getElementById("dist-station-full-{{ station.id }}"),
           "half_field"  : document.getElementById("dist-station-half-{{ station.id }}"),
+          "single_full_field" : document.getElementById("dist-station-single-full-{{ station.id }}"),
+          "single_half_field" : document.getElementById("dist-station-single-half-{{ station.id }}"),
           "members_total" : {{ station.members_full + station.members_half }},
           "members_full"  : {{ station.members_full }},
           "members_half"  : {{ station.members_half }}
           }
+    dist_all_the_same(input, members_total)
     {% endfor %}
 
-    all_get_the_same = input / members_total
+}
+
+function dist_all_the_same (input, member_total) {
+    value = input / members_total
 
     Object.values(stations).forEach(station => {
-      station.full_field.value = all_get_the_same
-      station.half_field.value = all_get_the_same
+      station.single_full_field.textContent = value
+      station.single_half_field.textContent = value
+
+      station.total_field.value = value * station.members_total
+      station.full_field.value =  value * station.members_full
+      station.half_field.value =  value * station.members_half
     })
 }
+
 </script>
