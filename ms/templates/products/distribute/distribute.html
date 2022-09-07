@@ -16,11 +16,31 @@
         <div class="column is-12">
         {# INPUT field #}
                 {{ number_input(product.amount, label="Input", id="dist-input-field") }}
+                <button class="button"
+                        onclick="distribute()">Push me to distribute via Javascript</button>
 
         {# fields to be manipulated #}
                 {{ number_input("", label="Kompletto", id="dist-field-1") }}
                 {{ number_input("", label="Halbo", id="dist-field-2") }}
         </div>
+
+<script>
+
+function distribute () {
+	  input_field = document.getElementById("dist-input-field")
+	  input_field_value = parseInt(input_field.value)
+
+	  output_field_one = document.getElementById("dist-field-1")
+	  output_field_two = document.getElementById("dist-field-2")
+
+	  output_field_one.value = input_field_value / 3
+
+	  rest = input_field_value - output_field_one.value
+
+	  output_field_two.value = rest
+	}
+</script>
+
 
 
 
