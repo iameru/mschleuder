@@ -1,5 +1,4 @@
 from bs4 import BeautifulSoup as bs
-from pytest import mark
 
 
 def url(test_client, url, string, longmode=True):

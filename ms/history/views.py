@@ -1,7 +1,4 @@
-import json
-
-from flask import Blueprint, flash, render_template
-from testmark import parse
+from flask import Blueprint, render_template
 
 history = Blueprint("history", __name__)
 

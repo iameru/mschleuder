@@ -16,4 +16,3 @@ htmlcov/
 dist/
 build/
 *.egg-info/
-flake8.report

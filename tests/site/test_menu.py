@@ -1,5 +1,4 @@
 from bs4 import BeautifulSoup as bs
-from flask import app
 
 from ms.dev import dev_data
 

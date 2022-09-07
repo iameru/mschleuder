@@ -1,6 +1,4 @@
-import json
-
-from flask import Blueprint, flash, render_template
+from flask import Blueprint, render_template
 
 from ms.dev import dev_data
 

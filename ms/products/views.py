@@ -1,6 +1,4 @@
-import json
-
-from flask import Blueprint, flash, render_template
+from flask import Blueprint, render_template
 
 from ms.dev import dev_data
 
@@ -27,7 +25,6 @@ def products_view():
 def detail_view(productid):
 
     products = dev_data("products")
-    all_products = sorted(products.copy(), key=lambda item: item["name"])
     product = next((item for item in products if item["id"] == productid), None)
 
     return render_template("products/detail_view.html", product=product)
@@ -35,9 +32,6 @@ def detail_view(productid):
 
 @products.route("/distribute")
 def distribute_view():
-
-    products = dev_data("products")
-    in_distribution = dev_data("in-distribution")
 
     return render_template("products/distribute/overview.html")
 
