@@ -12,6 +12,18 @@
 
 <div class="columns is-multiline" id="dist-stations-area">
 
+{% from 'macros.html' import number_input %}
+        <div class="column is-12">
+        {# INPUT field #}
+                {{ number_input(product.amount, label="Input", id="dist-input-field") }}
+
+        {# fields to be manipulated #}
+                {{ number_input("", label="Kompletto", id="dist-field-1") }}
+                {{ number_input("", label="Halbo", id="dist-field-2") }}
+        </div>
+
+
+
 {% for station in stations %}
 
 <div class="column is-4"
