@@ -1,0 +1,32 @@
+<script>
+function distribute () {
+    input_field = document.getElementById("dist-input-field")
+    input = parseInt(input_field.value)
+
+    stations_length = {{ stations|length }}
+    members_total = {{ station_sums.total }}
+    members_full = {{ station_sums.full }}
+    members_half = {{ station_sums.half }}
+
+
+    stations = {}
+    {% for station in stations %}
+
+    stations["{{ station.id }}"] = { "name": "{{station.name}}"}
+    station_total_field_{{ station.id }} = document.getElementById("dist-station-total-{{ station.id }}")
+    station_full_field_{{ station.id }} = document.getElementById("dist-station-full-{{ station.id }}")
+    station_half_field_{{ station.id }} = document.getElementById("dist-station-half-{{ station.id }}")
+
+    station_members_total_{{ station.id }} = {{ station.members_full + station.members_half }}
+    station_members_full_{{ station.id }} = {{ station.members_full }}
+    station_members_half_{{ station.id }} = {{ station.members_half }}
+
+    {% endfor %}
+
+    all_get_the_same = input / members_total
+
+
+
+    }
+distribute()
+</script>

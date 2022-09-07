@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% from 'macros.html' import number_input %}
 {% set title = product.name + ' verteilen' %}
+
+{% block scripts %}
+{% include 'products/distribute/dist.js.html' %}
+{% endblock %}
+
 {% block content %}
 <h2 class="title is-5">{{ product.name }}</h2>
 <ul>
@@ -22,38 +27,8 @@
                                 onclick="distribute()">Push me to distribute via Javascript</button></div>
         <div class="column is-4">Rest: <p id="dist-rest-field"></p></div>
 
-
 </div>
 </div>
-
-<script>
-function distribute () {
-    input_field = document.getElementById("dist-input-field")
-    input = parseInt(input_field.value)
-
-    stations_length = {{ stations|length }}
-
-    {% for station in stations %}
-    station_total_{{station.id}} = document.getElementById("dist-station-total-{{station.id}}")
-    station_full_{{station.id}} = document.getElementById("dist-station-full-{{station.id}}")
-    station_half_{{station.id}} = document.getElementById("dist-station-half-{{station.id}}")
-
-    station_members_full = {{ station.members_full }}
-    station_members_half = {{ station.members_half }}
-    station_members_total = {{ station.members_total }}
-    {% endfor %}
-
-
-    output_field_one.value = input_field_value / 3
-
-    rest = input_field_value - output_field_one.value
-
-    output_field_two.value = rest
-}
-</script>
-
-
-
 
 {% for station in stations %}
 
@@ -62,7 +37,6 @@ function distribute () {
 <div class="box">
 
 <div class="level">
-
   <div class="level-left">
     <div class="level-item">{{ station.name }}</div>
   </div>
@@ -72,7 +46,6 @@ function distribute () {
     ● {{ station.members_full }}
     ◑ {{station.members_half }}</div>
   </div>
-
 </div>
 
 <div class="columns">
@@ -93,4 +66,5 @@ function distribute () {
 {% endfor %}
 
 </div>
+
 {% endblock %}

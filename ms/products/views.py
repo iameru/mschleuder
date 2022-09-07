@@ -52,8 +52,17 @@ def distribute_by_id(productid):
 
     stations = dev_data("stations-current")
 
+    station_sums = {
+        "full": sum(station["members_full"] for station in stations),
+        "half": sum(station["members_half"] for station in stations),
+    }
+    station_sums["total"] = station_sums["full"] + station_sums["half"]
+
     return render_template(
-        "products/distribute/distribute.html", product=product, stations=stations
+        "products/distribute/distribute.html",
+        product=product,
+        stations=stations,
+        station_sums=station_sums,
     )
 
 
