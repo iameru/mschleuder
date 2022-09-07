@@ -7,44 +7,67 @@
 {% endblock %}
 
 {% block content %}
-<h2 class="title is-5">{{ product.name }}</h2>
-<ul>
-  <li>Letzte Verteilung: {{ product.recent_distribution }}</li>
-  <li>Aktuell verteilt: {{ product.amount }} {{ product.unit }}</li>
-  <li>ID: {{ product.id }}</li>
-  <li>unit: {{ product.unit }}</li>
-  <li>info: {{ product.info }}</li>
-</ul>
+
+
 
 <div class="columns is-multiline" id="dist-stations-area">
 
-<div class="column is-12">
-<div class="columns">
+  <div class="column is-12">
+    <div class="level">
+      {% if product.recent_distribution %}
+      <div class="level-left">
+        <div class="level-item">zuletzt</div>
+        <div class="level-item">📅 {{ product.recent_distribution }}</div>
+      </div>
+      {% endif %}
+      {% if product.info %}
+      <div class="level-right">
 
-  <div class="column is-4">{{ number_input(product.amount, label="Input", id="dist-input-field") }}</div>
-  <div class="column is-4">
-    <div class="rows">
-      <div class="row">
-        <button class="button"
-                onclick="distribute('even')"
-                >gleich</button>
+        <div class="level-item">🛈 {{ product.info }}</div>
+
       </div>
-      <div class="row">
-        <button class="button"
-                onclick="distribute('half')"
-                >halbe halb</button>
+      {% endif %}
+    </div>
+  </div>
+
+
+
+  <div class="column is-12">
+  <div class="columns">
+
+    <div class="column is-4">{{ number_input(product.amount, label="Input", id="dist-input-field") }}</div>
+      <div class="column is-4">
+        <div class="field is-grouped is-grouped-centered">
+          <div class="control">
+            <button class="button is-primary"
+                    onclick="distribute('even')"
+                    >gleich</button>
+          </div>
+          <div class="control">
+            <button class="button is-primary"
+                    onclick="distribute('half')"
+                    >halbe halb</button>
+          </div>
+          <div class="control">
+            <button class="button is-primary"
+                    onclick="distribute('none')"
+                    >halbe nix</button>
+          </div>
+        </div>
       </div>
-      <div class="row">
-        <button class="button"
-                onclick="distribute('none')"
-                >halbe nix</button>
+      <div class="column is-4">
+      {% if product.by_piece %}
+        <div class="columns is-centered">
+          <div class="column is-4 has-text-centered bordered">
+            <div class="row is-size-4">Rest</div>
+            <div class="row"><p class="is-size-3" id="dist-rest-field">𐄂</p></div>
+
+          </div>
+        </div>
+      {% endif %}
       </div>
     </div>
   </div>
-  <div class="column is-4">Rest: <p id="dist-rest-field"></p></div>
-
-</div>
-</div>
 
 {% for station in stations %}
 
