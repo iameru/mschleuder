@@ -29,8 +29,10 @@ def test_distribute_product_details_shown(test_client):
     distribute_page = test_client.get(url)
     assert distribute_page.status_code == 200
 
-    for item in product.values():
-        assert str(item) in distribute_page.text
+    assert product["recent_distribution"] in distribute_page.text
+    assert product["unit"] in distribute_page.text
+    assert product["name"] in distribute_page.text
+    assert product["info"] in distribute_page.text
 
 
 def test_existing_distribution_data_shown(test_client):

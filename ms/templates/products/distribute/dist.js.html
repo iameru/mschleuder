@@ -1,12 +1,15 @@
 <script>
 function distribute (option) {
     input_field = document.getElementById("dist-input-field")
-    unit = {{ product.unit_type }}
     input = parseFloat(input_field.value)
+
+    by_piece = {% if product.by_piece %}true{% else %}false{% endif %}
 
     members_total = {{ station_sums.total }}
     members_full = {{ station_sums.full }}
     members_half = {{ station_sums.half }}
+
+    rest_field = document.getElementById("dist-rest-field")
 
     stations = {}
     {% for station in stations %}
@@ -26,23 +29,54 @@ function distribute (option) {
     if (option == "half") {divisor = 0.5}
     if (option == "none") {divisor = 0}
 
-    dist(input, members_full, members_half, divisor)
+    if (by_piece) {
+      dist_by_piece(input, members_full, members_half, divisor)
+    } else {
+      dist_by_weight(input, members_full, members_half, divisor)
+    }
     return true
 }
 
-function dist (input, m_full, m_half, divisor) {
+function dist_by_piece (input, m_full, m_half, divisor) {
+
+    single_value = input / ( m_full + (m_half * divisor) )
+    single_value = Math.floor(single_value)
+    half_value   = Math.floor(single_value*divisor)
+
+    rest = input - ( (single_value * m_full) + (half_value * m_half) )
+
+    Object.values(stations).forEach(station => {
+
+      station_full = single_value * station.members_full
+      station_half = half_value * station.members_half
+
+      station.single_full_field.textContent = single_value
+      station.single_half_field.textContent = half_value
+
+      station.full_field.value = station_full
+      station.half_field.value = station_half
+
+      station.total_field.textContent = station_full + station_half
+      rest_field.textContent = rest
+    })
+}
+
+function dist_by_weight (input, m_full, m_half, divisor ) {
 
     single_value = input / ( m_full + (m_half * divisor) )
     single_value = round(single_value, 5)
+    half_value = round(single_value*divisor, 5)
+
 
     Object.values(stations).forEach(station => {
+
+      station_full = round(single_value * station.members_full, 5)
+      station_half = round(single_value * station.members_half * divisor, 5)
+
       station.single_full_field.textContent = +single_value.toFixed(3)
       station.single_half_field.textContent = +(single_value*divisor).toFixed(3)
 
-      station_full = round(single_value * station.members_full, 5)
       station.full_field.value = +station_full.toFixed(3)
-
-      station_half = round(single_value * station.members_half * divisor, 5)
       station.half_field.value = +station_half.toFixed(3)
 
       station.total_field.textContent = +(station_full + station_half).toFixed(3)
