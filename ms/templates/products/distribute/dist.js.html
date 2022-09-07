@@ -27,24 +27,29 @@ function distribute (option) {
     if (option == "none") {divisor = 0}
 
     dist(input, members_full, members_half, divisor)
+    return true
 }
 
 function dist (input, m_full, m_half, divisor) {
 
     single_value = input / ( m_full + (m_half * divisor) )
+    single_value = round(single_value, 5)
 
     Object.values(stations).forEach(station => {
-      station.single_full_field.textContent = single_value
-      station.single_half_field.textContent = single_value * divisor
+      station.single_full_field.textContent = +single_value.toFixed(3)
+      station.single_half_field.textContent = +(single_value*divisor).toFixed(3)
 
-      station_full = single_value * station.members_full
-      station.full_field.value = station_full
+      station_full = round(single_value * station.members_full, 5)
+      station.full_field.value = +station_full.toFixed(3)
 
-      station_half = single_value * station.members_half * divisor
-      station.half_field.value =  station_half
+      station_half = round(single_value * station.members_half * divisor, 5)
+      station.half_field.value = +station_half.toFixed(3)
 
-      station.total_field.value = station_full + station_half
+      station.total_field.textContent = +(station_full + station_half).toFixed(3)
     })
 }
 
+function round(value, decimals) {
+  return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+}
 </script>

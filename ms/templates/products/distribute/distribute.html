@@ -66,13 +66,14 @@
 
 {# share for all station members #}
 <div class="columns">
- <div class="column">
-  {{ number_input("", label="👥", id="dist-station-total-" ~ station.id ) }}
+ <div class="column is-4">
+   <p id="dist-station-total-{{ station.id }}">/</p>
+   <p>👥</p>
  </div>
- <div class="column">
+ <div class="column is-4">
   {{ number_input("", label="●", id="dist-station-full-" ~ station.id ) }}
  </div>
- <div class="column">
+ <div class="column is-4">
   {{ number_input("", label="◑", id="dist-station-half-" ~ station.id ) }}
  </div>
 </div>
