@@ -11,6 +11,35 @@ function toggle_buttons (option) {
 }
 
 
+function change_station(station_id, type, x) {
+    // type = "full"/"half"
+
+    id_name = ["dist","station","single",type,station_id].join("-")
+    station = stations[station_id]
+    field = document.getElementById(id_name)
+
+    // change field content
+    current_single_value = parseInt(field.textContent)
+    if (x == "add") { bohren_und_der_club_of_gore = 1 }
+    if (x == "remove") { bohren_und_der_club_of_gore = -1 }
+
+      // change display for single share
+      new_single_value = current_single_value + bohren_und_der_club_of_gore
+      field.textContent = new_single_value
+
+      // change display for all shares of station
+      members_field = station[type+'_field']
+      members = parseInt(station['members_'+type])
+
+      members_f = parseInt(members_field.value)
+      members_field.value = members_f + members * bohren_und_der_club_of_gore
+
+      station.total_field.textContent = parseInt(station.full_field.value) + parseInt(station.half_field.value)
+
+      console.log("CALCULATE REST")
+}
+
+
 function distribute (option) {
     input_field = document.getElementById("dist-input-field")
     input = parseFloat(input_field.value)
@@ -31,13 +60,17 @@ function distribute (option) {
 
     stations = {}
     {% for station in stations %}
+
+      single_full_field = document.getElementById("dist-station-single-full-{{ station.id }}")
+      single_half_field = document.getElementById("dist-station-single-half-{{ station.id }}")
+
       stations["{{ station.id }}"] = {
           "name": "{{station.name}}",
           "total_field" : document.getElementById("dist-station-total-{{ station.id }}"),
           "full_field"  : document.getElementById("dist-station-full-{{ station.id }}"),
           "half_field"  : document.getElementById("dist-station-half-{{ station.id }}"),
-          "single_full_field" : document.getElementById("dist-station-single-full-{{ station.id }}"),
-          "single_half_field" : document.getElementById("dist-station-single-half-{{ station.id }}"),
+          "single_full_field" : single_full_field,
+          "single_half_field" : single_half_field,
           "members_total" : {{ station.members_full + station.members_half }},
           "members_full"  : {{ station.members_full }},
           "members_half"  : {{ station.members_half }}

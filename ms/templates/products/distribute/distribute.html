@@ -108,14 +108,32 @@
 <div class="columns">
   <div class="column">
     <div class="level">
-       <div class="level-left">
+       <div class="level-left bordered p-2">
          <div class="level-item">●</div>
          <div class="level-item"><p id="dist-station-single-full-{{ station.id }}"></p></div>
+         <button class="level-item button is-link"
+                 id="dist-button-full-add-{{station.id}}"
+                 onclick="change_station({{station.id}}, type='full', x='add')"
+                 >+</button>
+         <button class="level-item button is-link"
+                 id="dist-button-full-remove-{{station.id}}"
+                 onclick="change_station({{station.id}}, type='full', x='remove')"
+                 >-</button>
        </div>
-       <div class="level-right">
+
+       <div class="level-right bordered p-2">
          <div class="level-item"><p id="dist-station-single-half-{{ station.id }}"></p></div>
          <div class="level-item">◑</div>
+         <button class="level-item button is-link"
+                 id="dist-button-half-add-{{station.id}}"
+                 onclick="change_station({{station.id}}, type='half', x='add')"
+                 >+</button>
+         <button class="level-item button is-link"
+                 id="dist-button-half-remove-{{station.id}}"
+                 onclick="change_station({{station.id}}, type='half', x='remove')"
+                 >-</button>
        </div>
+
     </div>
   </div>
 </div>
