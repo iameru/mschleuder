@@ -1,0 +1,23 @@
+version: "3"
+services:
+  web:
+    # Give your image a static name
+    image: i3o/mschleuder
+
+    # Give your container a static name
+    container_name: mschleuder
+
+    build:
+      # Explicitly show docker-cli where your Dockerfile lies
+      context: ./
+
+      # Explicitly state the name of your dockerfile
+      dockerfile: Dockerfile
+
+    # Env file
+    env_file:
+      - .staging.env
+
+    # Expose ports
+    ports:
+      - 4000:4000
