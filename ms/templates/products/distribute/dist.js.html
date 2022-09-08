@@ -1,7 +1,25 @@
 <script>
+
+function toggle_buttons (option) {
+      buttons = document.getElementsByClassName("dist-button-toggle")
+      for (let button of buttons) {
+        button.classList.remove("is-primary")
+        button.classList.add("is-link")
+      }
+      document.getElementById("dist-button-"+option).classList.remove("is-link")
+      document.getElementById("dist-button-"+option).classList.add("is-primary")
+}
+
+
 function distribute (option) {
     input_field = document.getElementById("dist-input-field")
     input = parseFloat(input_field.value)
+
+    toggle_buttons(option)
+
+    if (option == "even") {divisor = 1}
+    if (option == "half") {divisor = 0.5}
+    if (option == "none") {divisor = 0}
 
     by_piece = {% if product.by_piece %}true{% else %}false{% endif %}
 
@@ -25,9 +43,6 @@ function distribute (option) {
           "members_half"  : {{ station.members_half }}
           }
     {% endfor %}
-    if (option == "even") {divisor = 1}
-    if (option == "half") {divisor = 0.5}
-    if (option == "none") {divisor = 0}
 
     if (by_piece) {
       dist_by_piece(input, members_full, members_half, divisor)

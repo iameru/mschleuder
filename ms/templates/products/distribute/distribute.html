@@ -17,7 +17,7 @@
       {% if product.recent_distribution %}
       <div class="level-left">
         <div class="level-item">zuletzt</div>
-        <div class="level-item">📅 {{ product.recent_distribution }}</div>
+        <div class="level-item">📅: {{ product.recent_distribution }}</div>
       </div>
       {% endif %}
       {% if product.info %}
@@ -35,21 +35,24 @@
   <div class="column is-12">
   <div class="columns">
 
-    <div class="column is-4">{{ number_input(product.amount, label="Input", id="dist-input-field") }}</div>
+    <div class="column is-4">{{ number_input(product.amount, label="Ernte", id="dist-input-field") }}</div>
       <div class="column is-4">
         <div class="field is-grouped is-grouped-centered">
           <div class="control">
-            <button class="button is-primary"
+            <button class="button is-link dist-button-toggle"
+                    id="dist-button-even"
                     onclick="distribute('even')"
                     >gleich</button>
           </div>
           <div class="control">
-            <button class="button is-primary"
+            <button class="button is-link dist-button-toggle"
+                    id="dist-button-half"
                     onclick="distribute('half')"
                     >halbe halb</button>
           </div>
           <div class="control">
-            <button class="button is-primary"
+            <button class="button is-link dist-button-toggle"
+                    id="dist-button-none"
                     onclick="distribute('none')"
                     >halbe nix</button>
           </div>
