@@ -1,38 +1,22 @@
+{% from 'macros.html' import nav_link with context %}
+
 <aside class="menu">
   <p class="menu-label">
   Menu
   </p>
   <ul class="menu-list">
-    <li><a href ="{{ url_for('stations.stations_view') }}"
-           {% if site.title == 'Stationen' %}
-                 class="is-active"
-                 {% endif %}
-                 >Stationen</a>
-    </li>
-    <li><a href ="{{ url_for('products.products_view') }}"
-           {% if site.title == 'Erzeugnisse' %}
-                 class="is-active"
-                 {% endif %}
-                 >Gemüse</a>
-    </li>
-    <li><a href ="{{ url_for('history.history_view') }}"
-           {% if site.title == 'History' %}
-                 class="is-active"
-                 {% endif %}
-                 >History</a>
-    </li>
-    <li><a href ="{{ url_for('settings.settings_view') }}"
-           {% if site.title == 'Einstellungen' %}
-                 class="is-active"
-                 {% endif %}
-                 >Einstellungen</a>
-    </li>
+    {{ nav_link('stations.stations_view', 'Stationen') }}
+    {{ nav_link('products.products_view', 'Gemüse') }}
+    {{ nav_link('history.history_view', 'History') }}
+    {{ nav_link('settings.settings_view', 'Einstellungen') }}
   </ul>
   <p class="menu-label">
-  <a>Verteilung</a>
+  <a href="{{ url_for('products.distribute_view') }}">Aktuelle Verteilung</a>
   </p>
-  <ul class="menu-list">
-    <li><a>Möhren 20 Kg.</a></li>
-    <li><a>Hibiscus 15 St.</a></li>
-    <li><a>Salat 13 Bnd.</a></li>
+  <ul class="menu-list" id="products-in-distribution">
+  {% for product in in_distribution %}
+   <li><a href="{{url_for('products.distribute_by_id', productid=product.id) }}"
+          id="distributed-product-{{ product.id }}"
+          >{{ product.name }} {{ product.amount }} {{ product.unit }}</a></li>
+  {% endfor %}
   </ul>

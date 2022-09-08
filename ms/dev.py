@@ -1,3 +1,8 @@
+import json
+
+from testmark import parse
+
+
 def add_development_help(app):
     def has_no_empty_params(rule):
         defaults = rule.defaults if rule.defaults is not None else ()
@@ -19,3 +24,13 @@ def add_development_help(app):
         return render_template("site_map.html", links=links)
 
     return app
+
+
+def dev_data(option: str = None) -> dict:
+    dev_data = parse("dev.md")  # DEV DATA
+
+    _entry = dev_data.get(option)
+    if _entry:
+        return json.loads(_entry)
+
+    return None

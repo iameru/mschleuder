@@ -1,7 +1,4 @@
-import json
-
-from flask import Blueprint, flash, render_template
-from testmark import parse
+from flask import Blueprint, render_template
 
 history = Blueprint("history", __name__)
 
@@ -9,5 +6,4 @@ history = Blueprint("history", __name__)
 @history.route("/")
 def history_view():
 
-    site = {"title": "History"}
-    return render_template("history/history.html", site=site)
+    return render_template("history/history.html")

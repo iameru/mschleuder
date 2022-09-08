@@ -5,9 +5,10 @@ description = "a tool for CSA's to distribute and log their products"
 authors = ["v <post@i3o.eu>"]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.8"
 Flask = "^2.2.2"
-sqlmodel = "^0.0.7"
+gunicorn = "^20.1.0"
+python-testmark = "^1.0"
 
 [tool.poetry.dev-dependencies]
 python-testmark = "^1.0"
@@ -20,6 +21,7 @@ pytest-cov = "^3.0.0"
 invoke = "^1.6.0"
 pytest-watch = "^4.2.0"
 bs4 = "^0.0.1"
+flake8 = "^5.0.4"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

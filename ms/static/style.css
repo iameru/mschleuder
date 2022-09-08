@@ -36,6 +36,13 @@
 .nohover:hover {
     background-color: transparent;
     }
+#small-info {
+    font-size: 0.8em;
+    }
+.bordered {
+    border: 0.1em solid #abaca9;
+    border-radius: 6px;
+    }
 /***** MODAL DIALOG ****/
 #modal {
 	/* Underlay covers entire screen. */

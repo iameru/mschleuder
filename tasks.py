@@ -34,6 +34,15 @@ def test(c):
 
 
 @task
+def lint(c):
+    "lint with flake8"
+    c.run(
+        "flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics",
+        pty=True,
+    )
+
+
+@task
 def coverage(c):
     "See code coverage estimations"
     c.run("python -m pytest --cov=ms", pty=True)
@@ -45,12 +54,12 @@ def start(c):
 
 
 @task
-def deploy_staging(c):
-    c.run("poetry export --without-hashes --format=requirements.txt > requirements.txt")
+def staging(c):
+    c.run("caprover deploy -h https://captain.staging.i3o.eu -b docker -a ms")
 
 
 #####################################################################
-## Helper functions
+# Helper functions
 
 
 def run_with_passthrough(c, cmd, *args, **kwargs):

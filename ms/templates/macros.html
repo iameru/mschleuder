@@ -3,3 +3,25 @@ hx-get="{{ url_for(route, productid=id) }}"
 hx-target="body"
 hx-swap="beforeend"
 {% endmacro %}
+
+
+{% macro nav_link(endpoint, text) %}
+{% if request.endpoint.endswith(endpoint) %}
+    <li><a class="is-active" href="{{ url_for(endpoint) }}">{{text}}</a></li>
+{% else %}
+    <li><a href="{{ url_for(endpoint) }}">{{text}}</a></li>
+{% endif %}
+{% endmacro %}
+
+
+{% macro number_input(value, label, id) %}
+<div>
+<input type="number"
+       class="input"
+       value="{{ value }}"
+       id="{{ id }}"
+/>
+<label for="dist-input-field"
+       class="label">{{ label }}</label>
+</div>
+{% endmacro %}

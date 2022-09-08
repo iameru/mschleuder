@@ -1,7 +1,6 @@
-import json
+from flask import Blueprint, render_template
 
-from flask import Blueprint, flash, render_template
-from testmark import parse
+from ms.dev import dev_data
 
 stations = Blueprint("stations", __name__)
 
@@ -9,18 +8,16 @@ stations = Blueprint("stations", __name__)
 @stations.route("/")
 def stations_view():
 
-    site = {"title": "Stationen"}
-    dev_data = parse("dev.md")  # DEV DATA
     stations = {
-        "current": json.loads(dev_data["stations-current"]),
-        "historical": json.loads(dev_data["stations-historical"]),
+        "current": dev_data("stations-current"),
+        "historical": dev_data("stations-historical"),
     }
 
     labels = []
     data = []
     data = [[None for _ in range(len(stations["historical"]))] for x in range(123)]
 
-    chart_data = json.loads(dev_data["stations-chart"])
+    chart_data = dev_data("stations-chart")
 
     for idx, event in enumerate(stations["historical"]):
         labels.append(event["date"])
@@ -36,15 +33,14 @@ def stations_view():
     chart_data = {"labels": labels, "data": data}
 
     return render_template(
-        "stations/stations.html", stations=stations, chart_data=chart_data, site=site
+        "stations/stations.html", stations=stations, chart_data=chart_data
     )
 
 
 @stations.route("/stationsdetail/<int:stationid>")
 def detail_view(stationid):
 
-    dev_data = parse("dev.md")  # DEV DATA
-    stations = json.loads(dev_data["stations-current"])
+    stations = dev_data("stations-current")
 
     station = next((item for item in stations if item["id"] == stationid), None)
 

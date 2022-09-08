@@ -14,24 +14,23 @@
           href="{{ url_for('static', filename='customisation.css') }}"
           >
     {% block styles %}{% endblock %}
-    <title>
-      Möhrenschleuder
-    </title>
+    {% if csa.csa_name %}<title>ms | {{ csa.csa_name }}</title>
+    {% else %}<title>möhrenschleuder</title>{% endif %}
  </head>
 <body>
 
 <div class="container">
  <div class="columns">
   <div class="column is-10 mt-4">
+     <h2 class="title is-2"
+          id="site-title">{{ title }}</h2>
 
-  <h2 class="title is-2">{{ site.title }}</h3>
-
-   {% with messages = get_flashed_messages() %}{% if messages %}
-      <div class="notification is-danger is-light">
-        {{ messages[0] }}
-        <button class="delete"></button>
-      </div>
-     {% endif %}{% endwith %}
+         {% with messages = get_flashed_messages() %}{% if messages %}
+            <div class="notification is-danger is-light">
+              {{ messages[0] }}
+              <button class="delete"></button>
+            </div>
+           {% endif %}{% endwith %}
 
 {% block content %}{% endblock %}
    </div>

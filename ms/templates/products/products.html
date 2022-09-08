@@ -1,4 +1,5 @@
 {% from 'macros.html' import product_modal with context %}
+{% set title = 'Erzeugnisse' %}
 {% extends 'base.html' %}
 {% block styles %}
 <link rel="stylesheet" type="text/css"
@@ -21,7 +22,7 @@
 <div class="columns is-multiline is-centered recent-distribution" id="recent-distribution">
     {% for product in recent_products %}
     <div class="column" id="{{product.order}}">
-     <div class="box ms-box">
+     <div class="box ms-box clickable">
 
 
      <div class="columns">
@@ -69,7 +70,7 @@
 
 {% for product in products %}
 
-  <tr>
+<tr id="distribute-product-{{ product.id }}">
 
 <td class="clickable has-text-weight-medium pl-3"
     onclick="javascript:location.href='{{ url_for("products.distribute_by_id", productid=product.id) }}'">

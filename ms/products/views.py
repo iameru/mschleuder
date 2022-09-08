@@ -1,7 +1,6 @@
-import json
+from flask import Blueprint, render_template
 
-from flask import Blueprint, flash, render_template
-from testmark import parse
+from ms.dev import dev_data
 
 products = Blueprint("products", __name__)
 
@@ -9,19 +8,14 @@ products = Blueprint("products", __name__)
 @products.route("/")
 def products_view():
 
-    site = {"title": "Erzeugnisse"}
-
-    dev_data = parse("dev.md")  # DEV DATA
-    products = json.loads(dev_data["products"])
+    products = dev_data("products")
     all_products = sorted(products.copy(), key=lambda item: item["name"])
-
     recent_products = sorted(products, key=lambda item: item["recent_distribution"])
     recent_products.reverse()
     recent_products = recent_products[:10]
 
     return render_template(
         "products/products.html",
-        site=site,
         products=all_products,
         recent_products=recent_products,
     )
@@ -30,22 +24,46 @@ def products_view():
 @products.route("/productdetail/<int:productid>")
 def detail_view(productid):
 
-    dev_data = parse("dev.md")  # DEV DATA
-    products = json.loads(dev_data["products"])
-
+    products = dev_data("products")
     product = next((item for item in products if item["id"] == productid), None)
 
     return render_template("products/detail_view.html", product=product)
 
 
+@products.route("/distribute")
+def distribute_view():
+
+    return render_template("products/distribute/overview.html")
+
+
 @products.route("/distribute/<int:productid>")
 def distribute_by_id(productid):
 
-    dev_data = parse("dev.md")  # DEV DATA
-    products = json.loads(dev_data["products"])
+    products = dev_data("products")
+    in_distribution = dev_data("in-distribution")
 
     product = next((item for item in products if item["id"] == productid), None)
-    return ""
+    # already distributed product:
+    d_product = next(
+        (item for item in in_distribution if item["id"] == productid), None
+    )
+    if d_product:
+        product.update(d_product)
+
+    stations = dev_data("stations-current")
+
+    station_sums = {
+        "full": sum(station["members_full"] for station in stations),
+        "half": sum(station["members_half"] for station in stations),
+    }
+    station_sums["total"] = station_sums["full"] + station_sums["half"]
+
+    return render_template(
+        "products/distribute/distribute.html",
+        product=product,
+        stations=stations,
+        station_sums=station_sums,
+    )
 
 
 @products.route("/new")

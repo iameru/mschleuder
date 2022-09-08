@@ -1,1 +1,33 @@
 {% extends 'base.html' %}
+{% set title = 'Einstellungen' %}
+{% block content %}
+
+
+
+<input type="text"
+       class="input"
+       hint="SoLaWi Name"
+       value="{{ csa.csa_name }}"
+       id="input-csa-name"/>
+<label class="label"
+       for="input-csa-name">SoLaWi Name <small>(auch für Lieferschein)</small></label>
+
+<div id="settings-unit">
+Einheit  {% for unit in csa.units %}
+      {{unit}}
+    {% endfor %}
+</div>
+
+<div id="settings-unit-info">
+    {% for base_unit in csa.base_units %}
+            {{ base_unit }}
+    {% endfor %}
+</div>
+
+Logo: <img src={{ csa.logo }}
+     alt="CSA logo"/>
+
+
+{{ csa.packinglist_footer }}
+
+{% endblock %}
