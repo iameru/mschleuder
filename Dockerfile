@@ -18,7 +18,7 @@ ENV FLASK_DEBUG 0
 # Set entrypoint
 ENV FLASK_APP ms
 ENV FLASK_RUN_HOST 0.0.0.0
-EXPOSE 4000
+EXPOSE 80
 
 # Run Flask command
-CMD ["gunicorn","-w", "4", "-b", "0.0.0.0:4000", "ms:create_app()"]
+CMD ["gunicorn","-w", "4", "-b", "0.0.0.0:80", "ms:create_app()"]

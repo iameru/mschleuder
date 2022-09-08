@@ -53,6 +53,11 @@ def start(c):
     c.run("FLASK_ENV=development flask run", pty=True)
 
 
+@task
+def staging(c):
+    c.run("caprover deploy -h https://captain.staging.i3o.eu -b docker -a ms")
+
+
 #####################################################################
 # Helper functions
 
