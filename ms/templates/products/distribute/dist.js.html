@@ -1,5 +1,7 @@
 <script>
 
+rest_field = document.getElementById("dist-rest-field")
+
 function toggle_buttons (option) {
       buttons = document.getElementsByClassName("dist-button-toggle")
       for (let button of buttons) {
@@ -30,13 +32,15 @@ function change_station(station_id, type, x) {
       // change display for all shares of station
       members_field = station[type+'_field']
       members = parseInt(station['members_'+type])
+      change = members * bohren_und_der_club_of_gore
 
       members_f = parseInt(members_field.value)
-      members_field.value = members_f + members * bohren_und_der_club_of_gore
+      members_field.value = members_f + change
 
       station.total_field.textContent = parseInt(station.full_field.value) + parseInt(station.half_field.value)
 
-      console.log("CALCULATE REST")
+      rest_o = parseInt(rest_field.textContent)
+      rest_field.textContent = rest_o - change
 }
 
 
@@ -56,7 +60,6 @@ function distribute (option) {
     members_full = {{ station_sums.full }}
     members_half = {{ station_sums.half }}
 
-    rest_field = document.getElementById("dist-rest-field")
 
     stations = {}
     {% for station in stations %}
