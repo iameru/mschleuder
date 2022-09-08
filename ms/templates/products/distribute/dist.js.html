@@ -18,29 +18,32 @@ function change_station(station_id, type, x) {
 
     let id_name = ["dist","station","single",type,station_id].join("-")
     let station = stations[station_id]
+    // single full/half share of stationID
     let field = document.getElementById(id_name)
 
-    // change field content
-    current_single_value = parseInt(field.textContent)
+    let current_single_value = parseInt(field.textContent)
+
     if (x == "add") { bohren_und_der_club_of_gore = 1 }
     if (x == "remove") { bohren_und_der_club_of_gore = -1 }
 
-      // change display for single share
-      let new_single_value = current_single_value + bohren_und_der_club_of_gore
-      field.textContent = new_single_value
+    let members = parseInt(station['members_'+type])
+    let change = members * bohren_und_der_club_of_gore
+    let new_single_value = current_single_value + bohren_und_der_club_of_gore
 
-      // change display for all shares of station
-      let members_field = station[type+'_field']
-      let members = parseInt(station['members_'+type])
-      let change = members * bohren_und_der_club_of_gore
+    let members_field = station[type+'_field']
+    let rest_o = parseInt(rest_field.textContent)
+    let rest_new = rest_o - change
 
-      let members_f = parseInt(members_field.value)
-      members_field.value = members_f + change
+    // sanity checks
+    if (new_single_value < 0) {return}
+    if (rest_new < 0) {return}
 
-      station.total_field.textContent = parseInt(station.full_field.value) + parseInt(station.half_field.value)
-
-      rest_o = parseInt(rest_field.textContent)
-      rest_field.textContent = rest_o - change
+    // change display for all shares of station
+    rest_field.textContent = rest_new
+    field.textContent = new_single_value
+    let members_field_value = parseInt(members_field.textContent)
+    members_field.textContent = members_field_value + change
+    station.total_field.textContent = parseInt(station.full_field.textContent) + parseInt(station.half_field.textContent)
 }
 
 
@@ -105,8 +108,8 @@ function dist_by_piece (input, m_full, m_half, divisor) {
       station.single_full_field.textContent = single_value
       station.single_half_field.textContent = half_value
 
-      station.full_field.value = station_full
-      station.half_field.value = station_half
+      station.full_field.textContent = station_full
+      station.half_field.textContent = station_half
 
       station.total_field.textContent = station_full + station_half
 
@@ -129,8 +132,8 @@ function dist_by_weight (input, m_full, m_half, divisor ) {
       station.single_full_field.textContent = +single_value.toFixed(3)
       station.single_half_field.textContent = +(single_value*divisor).toFixed(3)
 
-      station.full_field.value = +station_full.toFixed(3)
-      station.half_field.value = +station_half.toFixed(3)
+      station.full_field.textContent = +station_full.toFixed(3)
+      station.half_field.textContent = +station_half.toFixed(3)
 
       station.total_field.textContent = +(station_full + station_half).toFixed(3)
     })
