@@ -55,7 +55,7 @@ def start(c):
 
 @task
 def staging(c):
-    c.run("caprover deploy -h https://captain.staging.i3o.eu -b docker -a ms")
+    c.run("caprover deploy -h https://captain.staging.i3o.eu -b staging -a ms")
 
 
 #####################################################################
