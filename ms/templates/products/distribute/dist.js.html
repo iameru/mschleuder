@@ -3,7 +3,7 @@
 rest_field = document.getElementById("dist-rest-field")
 
 function toggle_buttons (option) {
-      buttons = document.getElementsByClassName("dist-button-toggle")
+      let buttons = document.getElementsByClassName("dist-button-toggle")
       for (let button of buttons) {
         button.classList.remove("is-primary")
         button.classList.add("is-link")
@@ -16,9 +16,9 @@ function toggle_buttons (option) {
 function change_station(station_id, type, x) {
     // type = "full"/"half"
 
-    id_name = ["dist","station","single",type,station_id].join("-")
-    station = stations[station_id]
-    field = document.getElementById(id_name)
+    let id_name = ["dist","station","single",type,station_id].join("-")
+    let station = stations[station_id]
+    let field = document.getElementById(id_name)
 
     // change field content
     current_single_value = parseInt(field.textContent)
@@ -26,15 +26,15 @@ function change_station(station_id, type, x) {
     if (x == "remove") { bohren_und_der_club_of_gore = -1 }
 
       // change display for single share
-      new_single_value = current_single_value + bohren_und_der_club_of_gore
+      let new_single_value = current_single_value + bohren_und_der_club_of_gore
       field.textContent = new_single_value
 
       // change display for all shares of station
-      members_field = station[type+'_field']
-      members = parseInt(station['members_'+type])
-      change = members * bohren_und_der_club_of_gore
+      let members_field = station[type+'_field']
+      let members = parseInt(station['members_'+type])
+      let change = members * bohren_und_der_club_of_gore
 
-      members_f = parseInt(members_field.value)
+      let members_f = parseInt(members_field.value)
       members_field.value = members_f + change
 
       station.total_field.textContent = parseInt(station.full_field.value) + parseInt(station.half_field.value)
