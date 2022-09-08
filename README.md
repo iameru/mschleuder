@@ -11,4 +11,4 @@ pre-commit install
 pre-commit
 ```
 
-[![Python versions lint and tests](https://github.com/iameru/mschleuder/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/iameru/mschleuder/actions/workflows/tests.yml)
+[![Testing 3.8 3.9 3.10](https://github.com/iameru/mschleuder/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/iameru/mschleuder/actions/workflows/tests.yml)
