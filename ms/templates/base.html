@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-{# STYLING #}
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet"
           type="text/css"
@@ -13,61 +12,63 @@
           type="text/css"
           href="{{ url_for('static', filename='customisation.css') }}"
           >
+
     {% block styles %}{% endblock %}
-    {% if csa.csa_name %}<title>ms | {{ csa.csa_name }}</title>
-    {% else %}<title>möhrenschleuder</title>{% endif %}
+
+    {% if csa.csa_name %}<title>ms | {{ csa.csa_name }}</title>{% else %}<title>möhrenschleuder</title>{% endif %}
  </head>
 <body>
 
-<div class="container">
- <div class="columns">
-  <div class="column is-10 mt-4">
-     <h2 class="title is-2"
-          id="site-title">{{ title }}</h2>
+  <div class="container">
 
-         {% with messages = get_flashed_messages() %}{% if messages %}
-            <div class="notification is-danger is-light">
-              {{ messages[0] }}
-              <button class="delete"></button>
-            </div>
-           {% endif %}{% endwith %}
+    <div class="columns reverse-row-order">{# reverse for flexbox (desktop), displaying correct order in mobile/touch #}
 
-{% block content %}{% endblock %}
-   </div>
+      <div class="column is-2 has-background-info-light">
+        {% include 'menu.html' %}
+      </div>
 
-  <div class="column is-2 has-background-info-light">
-{% include 'menu.html' %}
-  </div>
+      <div class="column mt-4">
+      {# messages------------------------------ #}
+        <h2 class="title is-2"
+              id="site-title">{{ title }}</h2>
+        {% with messages = get_flashed_messages() %}{% if messages %}
+        <div class="notification is-danger is-light">
+          {{ messages[0] }}
+          <button class="delete"></button>
+        </div>
+        {% endif %}{% endwith %}
 
- </div>
-
-{% include 'footer.html' %}
-</div>
+        {% block content %}{% endblock %}
+      </div>
 
 
-<script src="{{ url_for('static', filename='assets/htmx.min.js') }}"></script>
-<script src="{{ url_for('static', filename='assets/hyperscript.js') }}"></script>
-{% block scripts %}{% endblock %}
-<script>
-{# BULMA CSS close notifications #}
-document.addEventListener('DOMContentLoaded', () => {
-  (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
-    const $notification = $delete.parentNode;
+    </div>
 
-    $delete.addEventListener('click', () => {
-      $notification.parentNode.removeChild($notification);
+    {% include 'footer.html' %}
+
+  </div>{# end container div #}
+
+
+  <script src="{{ url_for('static', filename='assets/htmx.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/hyperscript.js') }}"></script>
+  {% block scripts %}{% endblock %}
+  <script>
+    {# BULMA CSS close notifications #}
+    document.addEventListener('DOMContentLoaded', () => {
+      (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+        const $notification = $delete.parentNode;
+
+        $delete.addEventListener('click', () => {
+          $notification.parentNode.removeChild($notification);
+        });
+      });
     });
-  });
-});
-{# simple toggle for display:none #}
-function expand(e) {
-        document.getElementById(e).classList.toggle('expand');
-}
-</script>
-
-
+    {# simple toggle for display:none #}
+    function expand(e) {
+            document.getElementById(e).classList.toggle('expand');
+    }
+  </script>
 
   </body>
-
 <!-- made by e https//i3o.eu -->
-<html>
+</html>

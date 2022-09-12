@@ -1,3 +1,9 @@
+.reverse-row-order{
+    flex-direction:row-reverse;
+}
+@media screen and (max-width: 500px) {
+  #products-in-distribution > li { display: none; }
+}
 .expand {
     display:none;
     }
@@ -25,7 +31,7 @@
     border-radius: 6px;
     }
 .hover:hover {
-    background-color: #D9DCD7;
+    background-color: #D9DCD7 !important;
     }
 .hover-alt:hover {
     background-color: #FFFFFF;
