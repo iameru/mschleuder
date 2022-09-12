@@ -8,11 +8,10 @@
 
 {% block content %}
 
-
-
 <div class="columns is-multiline" id="dist-stations-area">
 
-  <div class="column is-12">
+  {# Info #}
+  <div class="column is-full">
     <div class="level">
       {% if product.recent_distribution %}
       <div class="level-left">
@@ -30,13 +29,27 @@
     </div>
   </div>
 
+  {# Verteilung Input and Rest #}
+  <div class="column is-full">
 
+    <div class="columns is-mobile is-centered is-multiline">
 
-  <div class="column is-12">
-  <div class="columns">
+      <div class="column is-one-third-desktop is-full-mobile">
+        <div class="columns is-mobile is-centered">
+          <div class="column is-half is-half-mobile has-text-centered">
+            <input type="number"
+                   class="input"
+                   value="{{ product.amount }}"
+                   id="dist-input-field"
+                   />
+            <label for="dist-input-field"
+                  class="label">Ernte <small>( in {{product.unit }} )</small></label>
+          </div>
+        </div>
+      </div>
 
-    <div class="column is-4">{{ number_input(product.amount, label="Ernte", id="dist-input-field") }}</div>
-      <div class="column is-4">
+      {# buttons #}
+      <div class="column is-one-third-desktop is-full-mobile">
         <div class="field is-grouped is-grouped-centered">
           <div class="control">
             <button class="button is-link dist-button-toggle"
@@ -58,7 +71,9 @@
           </div>
         </div>
       </div>
-      <div class="column is-4">
+
+      {# rest #}
+      <div class="column is-one-third-desktop is-half-mobile">
       {% if product.by_piece %}
         <div class="columns is-centered">
           <div class="column is-4 has-text-centered bordered">
@@ -69,80 +84,81 @@
         </div>
       {% endif %}
       </div>
+      </div>
     </div>
-  </div>
 
-{% for station in stations %}
+  {# station boxes #}
+  {% for station in stations %}
 
-<div class="column is-4"
-     id="dist-station-{{station.id}}">
-<div class="box">
+  <div class="column is-one-third"
+       id="dist-station-{{station.id}}">
+    <div class="box">
 
-<div class="level">
-  <div class="level-left">
-    <div class="level-item">{{ station.name }}</div>
-  </div>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">{{ station.name }}</div>
+        </div>
 
-  <div class="level-right" id="small-info">
-    <div class="level-item">👥{{ station.members_full + station.members_half }}
-    ● {{ station.members_full }}
-    ◑ {{station.members_half }}</div>
-  </div>
-</div>
+        <div class="level-right" id="small-info">
+          <div class="level-item">👥{{ station.members_full + station.members_half }}
+          ● {{ station.members_full }}
+          ◑ {{station.members_half }}</div>
+        </div>
+      </div>
 
-{# share for all station members #}
-<div class="columns">
- <div class="column is-4">
-    <p id="dist-station-total-{{ station.id }}">/</p>
-    <p>👥</p>
- </div>
- <div class="column is-4">
-    <p id="dist-station-full-{{ station.id }}">/</p>
-    <p>●</p>
- </div>
- <div class="column is-4">
-    <p id="dist-station-half-{{ station.id }}">/</p>
-    <p>◑</p>
- </div>
-</div>
-
-{# share of a single member #}
-<div class="columns">
-  <div class="column">
-    <div class="level">
-       <div class="level-left bordered p-2">
-         <div class="level-item">●</div>
-         <div class="level-item"><p id="dist-station-single-full-{{ station.id }}"></p></div>
-         <button class="level-item button is-link"
-                 id="dist-button-full-add-{{station.id}}"
-                 onclick="change_station({{station.id}}, type='full', x='add')"
-                 >+</button>
-         <button class="level-item button is-link"
-                 id="dist-button-full-remove-{{station.id}}"
-                 onclick="change_station({{station.id}}, type='full', x='remove')"
-                 >-</button>
+    {# share for all station members #}
+      <div class="columns">
+       <div class="column is-4">
+          <p id="dist-station-total-{{ station.id }}">/</p>
+          <p>👥</p>
        </div>
-
-       <div class="level-right bordered p-2">
-         <div class="level-item"><p id="dist-station-single-half-{{ station.id }}"></p></div>
-         <div class="level-item">◑</div>
-         <button class="level-item button is-link"
-                 id="dist-button-half-add-{{station.id}}"
-                 onclick="change_station({{station.id}}, type='half', x='add')"
-                 >+</button>
-         <button class="level-item button is-link"
-                 id="dist-button-half-remove-{{station.id}}"
-                 onclick="change_station({{station.id}}, type='half', x='remove')"
-                 >-</button>
+       <div class="column is-4">
+          <p id="dist-station-full-{{ station.id }}">/</p>
+          <p>●</p>
        </div>
+       <div class="column is-4">
+          <p id="dist-station-half-{{ station.id }}">/</p>
+          <p>◑</p>
+       </div>
+      </div>
 
-    </div>
-  </div>
-</div>
+    {# share of a single member #}
+      <div class="columns">
+        <div class="column">
+          <div class="level">
+             <div class="level-left bordered p-2">
+               <div class="level-item">●</div>
+               <div class="level-item"><p id="dist-station-single-full-{{ station.id }}"></p></div>
+               <button class="level-item button is-link"
+                       id="dist-button-full-add-{{station.id}}"
+                       onclick="change_station({{station.id}}, type='full', x='add')"
+                       >+</button>
+               <button class="level-item button is-link"
+                       id="dist-button-full-remove-{{station.id}}"
+                       onclick="change_station({{station.id}}, type='full', x='remove')"
+                       >-</button>
+             </div>
+
+             <div class="level-right bordered p-2">
+               <div class="level-item"><p id="dist-station-single-half-{{ station.id }}"></p></div>
+               <div class="level-item">◑</div>
+               <button class="level-item button is-link"
+                       id="dist-button-half-add-{{station.id}}"
+                       onclick="change_station({{station.id}}, type='half', x='add')"
+                       >+</button>
+               <button class="level-item button is-link"
+                       id="dist-button-half-remove-{{station.id}}"
+                       onclick="change_station({{station.id}}, type='half', x='remove')"
+                       >-</button>
+             </div>
+
+          </div>
+        </div>
+      </div>
 
 
-</div>{# box #}
-</div>{# column #}
+    </div>{# box #}
+  </div>{# column #}
 {% endfor %}
 
 </div>
