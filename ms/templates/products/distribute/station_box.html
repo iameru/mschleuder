@@ -8,8 +8,8 @@
       <thead>
         <td></td>
         <td>total</td>
-        <td>volle</td>
-        <td>halbe</td>
+        <td>●</td>
+        <td>◑</td>
       </thead>
       <tfoot>
         <td><small>(mitgl.)</small></td>
@@ -28,10 +28,11 @@
     {# share of a single member #}
       <tr>
         <td>●</td>
-        <td id="dist-station-single-full-{{station.id}}">0</td>
+        <td class="has-text-weight-medium" id="dist-station-single-full-{{station.id}}">0</td>
         <td>◑</td>
-        <td id="dist-station-single-half-{{station.id}}">0</td>
+        <td class="has-text-weight-medium" id="dist-station-single-half-{{station.id}}">0</td>
       </tr>
+      {% if product.by_piece %}
       <tr>
         <td>
            <button class="level-item button is-link"
@@ -58,6 +59,7 @@
                    >-</button>
         </td>
       </tr>
+      {% endif %}
     </table>
 
   </div>{# box #}

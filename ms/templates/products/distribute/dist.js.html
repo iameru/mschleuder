@@ -1,6 +1,28 @@
 <script>
 
-rest_field = document.getElementById("dist-rest-field")
+const rest_field = document.getElementById("dist-rest-field")
+const accuracy_field = document.getElementById("dist-accuracy-field")
+const input_field = document.getElementById("dist-input-field")
+const stations = {}
+var distribution_started = false
+
+{% for station in stations %}
+
+single_full_field = document.getElementById("dist-station-single-full-{{ station.id }}")
+single_half_field = document.getElementById("dist-station-single-half-{{ station.id }}")
+
+stations["{{ station.id }}"] = {
+    "name": "{{station.name}}",
+    "total_field" : document.getElementById("dist-station-total-{{ station.id }}"),
+    "full_field"  : document.getElementById("dist-station-full-{{ station.id }}"),
+    "half_field"  : document.getElementById("dist-station-half-{{ station.id }}"),
+    "single_full_field" : single_full_field,
+    "single_half_field" : single_half_field,
+    "members_total" : {{ station.members_full + station.members_half }},
+    "members_full"  : {{ station.members_full }},
+    "members_half"  : {{ station.members_half }}
+    }
+{% endfor %}
 
 function toggle_buttons (option) {
       let buttons = document.getElementsByClassName("dist-button-toggle")
@@ -16,6 +38,7 @@ function toggle_buttons (option) {
 function change_station(station_id, type, x) {
     // type = "full"/"half"
 
+    if (!distribution_started) { return }
     let id_name = ["dist","station","single",type,station_id].join("-")
     let station = stations[station_id]
     // single full/half share of stationID
@@ -48,8 +71,8 @@ function change_station(station_id, type, x) {
 
 
 function distribute (option) {
-    input_field = document.getElementById("dist-input-field")
     input = parseFloat(input_field.value)
+    if (!input) { return }
 
     toggle_buttons(option)
 
@@ -64,30 +87,14 @@ function distribute (option) {
     members_half = {{ station_sums.half }}
 
 
-    stations = {}
-    {% for station in stations %}
-
-      single_full_field = document.getElementById("dist-station-single-full-{{ station.id }}")
-      single_half_field = document.getElementById("dist-station-single-half-{{ station.id }}")
-
-      stations["{{ station.id }}"] = {
-          "name": "{{station.name}}",
-          "total_field" : document.getElementById("dist-station-total-{{ station.id }}"),
-          "full_field"  : document.getElementById("dist-station-full-{{ station.id }}"),
-          "half_field"  : document.getElementById("dist-station-half-{{ station.id }}"),
-          "single_full_field" : single_full_field,
-          "single_half_field" : single_half_field,
-          "members_total" : {{ station.members_full + station.members_half }},
-          "members_full"  : {{ station.members_full }},
-          "members_half"  : {{ station.members_half }}
-          }
-    {% endfor %}
 
     if (by_piece) {
       dist_by_piece(input, members_full, members_half, divisor)
     } else {
       dist_by_weight(input, members_full, members_half, divisor)
     }
+
+    distribution_started = true
     return true
 }
 
@@ -119,27 +126,40 @@ function dist_by_piece (input, m_full, m_half, divisor) {
 
 function dist_by_weight (input, m_full, m_half, divisor ) {
 
-    single_value = input / ( m_full + (m_half * divisor) )
-    single_value = round(single_value, 5)
-    half_value = round(single_value*divisor, 5)
+    let round_int = 5
+    let single_value = input / ( m_full + (m_half * divisor) )
+    single_value = round(single_value, round_int)
+    let half_value = round(single_value*divisor, round_int)
 
 
     Object.values(stations).forEach(station => {
 
-      station_full = round(single_value * station.members_full, 5)
-      station_half = round(single_value * station.members_half * divisor, 5)
+      station_full = round(single_value * station.members_full, round_int)
+      station_half = round(single_value * station.members_half * divisor, round_int)
 
-      station.single_full_field.textContent = +single_value.toFixed(3)
-      station.single_half_field.textContent = +(single_value*divisor).toFixed(3)
+      station.single_full_field.textContent = +single_value.toFixed(2)
+      station.single_half_field.textContent = +(single_value*divisor).toFixed(2)
 
-      station.full_field.textContent = +station_full.toFixed(3)
-      station.half_field.textContent = +station_half.toFixed(3)
+      station.full_field.textContent = +station_full.toFixed(1)
+      station.half_field.textContent = +station_half.toFixed(1)
 
-      station.total_field.textContent = +(station_full + station_half).toFixed(3)
+      station.total_field.textContent = +(station_full + station_half).toFixed(1)
     })
+
+    let accuracy = get_accuracy()
+    accuracy_field.textContent = +accuracy.toFixed(5)
+
 }
 
 function round(value, decimals) {
   return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
 }
+
+function get_accuracy() {
+  let sum_d = 0
+  Object.values(stations).forEach(station => { sum_d += parseFloat(station.total_field.textContent) })
+  sum_d = round(sum_d, 5)
+  return parseFloat(input_field.value) - sum_d
+}
+
 </script>
