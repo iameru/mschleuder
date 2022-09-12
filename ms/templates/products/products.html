@@ -1,105 +1,13 @@
 {% from 'macros.html' import product_modal with context %}
+
 {% set title = 'Erzeugnisse' %}
+
 {% extends 'base.html' %}
+
 {% block styles %}
 <link rel="stylesheet" type="text/css"
       href="{{ url_for('static', filename='assets/jquery.dataTables.css') }}">
-{% endblock %}
-{% block content %}
-
-<div class="level">
-<div class="level-left"></div>
- <div class="level-right">
-         <button class="button is-link"
-            hx-get="{{ url_for('products.new_product') }}"
-            hx-target="body"
-            hx-swap="beforeend"
-                 >neues produkt</button>
-</div>
-</div>
-
- {# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - RECENTLY USED PRODUCTS #}
-<div class="columns is-multiline is-centered recent-distribution" id="recent-distribution">
-    {% for product in recent_products %}
-    <div class="column" id="{{product.order}}">
-     <div class="box ms-box clickable">
-
-
-     <div class="columns">
-             <div class="column has-text-weight-medium has-text-dark"
-                  id="product{{product.id}}"
-                  onclick="javascript:location.href='{{ url_for("products.distribute_by_id", productid=product.id) }}'">
-           {{ product.name }}
-       </div>
-       <div class="column is-2 ms-product-edit">
-         <a
-           {{ product_modal("products.detail_view", product.id) }}
-         >🖉</a>
-       </div>
-     </div>
-    </div>
-    </div>
-{% endfor %}
-</div>
-
- {# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ALL PRODUCTS #}
-<div class="columns is-centered">
-<div class="column is-10 mt-2">
- <table class="table is-hoverable is-fullwidth"
-       id="all-products-table">
- <thead>
-  <tr>
-   <th class="hover has-text-centered">Name</th>
-   <th class="hover has-text-centered">Einheit</th>
-   <th class="hover has-text-centered">Zuletzt verteilt</th>
-   <th class="hover has-text-centered">Info</th>
-   <th class="hover has-text-centered">🖉</th>
-  </tr>
- </thead>
- <tfoot>
-  <tr>
-   <th class="hover has-text-centered">Name</th>
-   <th class="hover has-text-centered">Einheit</th>
-   <th class="hover has-text-centered">Zuletzt verteilt</th>
-   <th class="hover has-text-centered">Info</th>
-   <th class="hover has-text-centered">🖉</th>
-  </tr>
- </tfoot>
-
- <tbody id=item-table-body>
-
-{% for product in products %}
-
-<tr id="distribute-product-{{ product.id }}">
-
-<td class="clickable has-text-weight-medium pl-3"
-    onclick="javascript:location.href='{{ url_for("products.distribute_by_id", productid=product.id) }}'">
- {{ product.name }}</td>
-<td class="clickable has-text-centered"
-    onclick="javascript:location.href='{{ url_for("products.distribute_by_id", productid=product.id) }}'">
- {{ product.unit }}</td>
-<td class="clickable has-text-centered"
-    onclick="javascript:location.href='{{ url_for("products.distribute_by_id", productid=product.id) }}'">
- {{ product.recent_distribution }}</td>
-<td class="clickable"
-    onclick="javascript:location.href='{{ url_for("products.distribute_by_id", productid=product.id) }}'">
- {{ product.info }}</td>
-   <td class="hover-alt clickable has-text-centered"
-       {{ product_modal("products.detail_view", product.id) }}
-       id="product-detail-view-{{product.id}}"
-     >🖉
-   </td>
-
-  </tr>
-
-{% endfor %}
- </tbody>
- </table>
- </div>
-</div>
-
-{% endblock %}
-
+{% endblock styles %}
 
 {% block scripts %}
 <script type="text/javascript" charset="utf8"
@@ -121,4 +29,84 @@
     });
   });
 </script>
-{% endblock %}
+{% endblock scripts %}
+
+{% block content %}
+
+<div class="level">
+  <div class="level-left"></div>
+  <div class="level-right">
+    <button class="button is-link"
+            hx-get="{{ url_for('products.new_product') }}"
+            hx-target="body"
+            hx-swap="beforeend"
+            >neues produkt</button>
+  </div>
+</div>
+{# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - RECENTLY USED PRODUCTS #}
+<p class="pb-2 has-text-centered">Zuletzt verteilt:</p>
+<div class="columns is-mobile is-multiline is-centered recent-distribution" id="recent-distribution">
+  {% for product in recent_products %}
+  <div class="column is-narrow is-one-third-mobile" id="{{product.order}}">
+   <div class="box ms-box clickable">
+     <div class="columns">
+       <div class="column has-text-weight-medium has-text-dark"
+            id="product{{product.id}}"
+            onclick="javascript:location.href='{{ url_for("products.distribute_by_id", productid=product.id) }}'">
+           {{ product.name }}
+         </div>
+       </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ALL PRODUCTS #}
+<div class="columns is-centered">
+  <div class="column is-10 mt-2">
+    <table class="table is-hoverable is-fullwidth"
+           id="all-products-table">
+      <thead>
+       <tr>
+        <th class="hover has-text-centered">Name</th>
+        <th class="hover has-text-centered">Einheit</th>
+        <th class="hover has-text-centered">Zuletzt verteilt</th>
+        <th class="hover has-text-centered">Info</th>
+        <th class="hover has-text-centered">🖉</th>
+       </tr>
+      </thead>
+      <tfoot>
+       <tr>
+        <th class="hover has-text-centered">Name</th>
+        <th class="hover has-text-centered">Einheit</th>
+        <th class="hover has-text-centered">Zuletzt verteilt</th>
+        <th class="hover has-text-centered">Info</th>
+        <th class="hover has-text-centered">🖉</th>
+       </tr>
+      </tfoot>
+
+      <tbody id=item-table-body>
+      {% for product in products %}
+        <tr id="distribute-product-{{ product.id }}">
+          <td class="clickable has-text-weight-medium pl-3"
+              onclick="javascript:location.href='{{ url_for("products.distribute_by_id", productid=product.id) }}'"
+              >{{ product.name }}</td>
+          <td class="clickable has-text-centered"
+              onclick="javascript:location.href='{{ url_for("products.distribute_by_id", productid=product.id) }}'"
+              >{{ product.unit }}</td>
+          <td class="clickable has-text-centered"
+              onclick="javascript:location.href='{{ url_for("products.distribute_by_id", productid=product.id) }}'"
+              >{{ product.recent_distribution }}</td>
+          <td class="clickable"
+              onclick="javascript:location.href='{{ url_for("products.distribute_by_id", productid=product.id) }}'"
+              >{{ product.info }}</td>
+          <td class="hover-alt clickable has-text-centered"
+              {{ product_modal("products.detail_view", product.id) }}
+              id="product-detail-view-{{product.id}}"
+              >🖉</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock content %}
