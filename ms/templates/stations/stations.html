@@ -26,10 +26,13 @@
     <h2 class="level-left is-size-2 has-text-weight-medium is-primary has-text-dark">
        {{ station.name }}
     </h2>
-    <small="level-right"><a id="station-edit-view-{{station.id}}"
-                            hx-get="{{ url_for('stations.detail_view', stationid=station.id) }}"
-                            hx-target="body"
-                            hx-swap="beforeend">🖉</a>
+    <small="level-right">
+    <a id="station-edit-view-{{station.id}}"
+       hx-get="{{ url_for('stations.detail_view', stationid=station.id) }}"
+       hx-target="body"
+       hx-swap="beforeend">
+     <img src="{{url_for('static', filename='icons/edit.svg')}}" width=24 />
+   </a>
     </small>
     </div>
      <p>

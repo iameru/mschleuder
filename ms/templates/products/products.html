@@ -71,7 +71,7 @@
         <th class="hover has-text-centered">Einheit</th>
         <th class="hover has-text-centered">Zuletzt verteilt</th>
         <th class="hover has-text-centered">Info</th>
-        <th class="hover has-text-centered">🖉</th>
+        <th class="has-text-centered"><img src="{{url_for('static', filename='icons/edit.svg')}}" width=18 /></th>
        </tr>
       </thead>
       <tfoot>
@@ -80,7 +80,7 @@
         <th class="hover has-text-centered">Einheit</th>
         <th class="hover has-text-centered">Zuletzt verteilt</th>
         <th class="hover has-text-centered">Info</th>
-        <th class="hover has-text-centered">🖉</th>
+        <th class="has-text-centered"><img src="{{url_for('static', filename='icons/edit.svg')}}" width=18 /></th>
        </tr>
       </tfoot>
 
@@ -102,7 +102,9 @@
           <td class="hover-alt clickable has-text-centered"
               {{ product_modal("products.detail_view", product.id) }}
               id="product-detail-view-{{product.id}}"
-              >🖉</td>
+              >
+              <img src="{{url_for('static', filename='icons/edit.svg')}}" width=18 alt="edit">
+              </td>
         </tr>
       {% endfor %}
       </tbody>
