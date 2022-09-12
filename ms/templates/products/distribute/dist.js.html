@@ -4,6 +4,8 @@ const rest_field = document.getElementById("dist-rest-field")
 const accuracy_field = document.getElementById("dist-accuracy-field")
 const input_field = document.getElementById("dist-input-field")
 const stations = {}
+const error_div = document.getElementById("dist-error-div")
+const error_field = document.getElementById("dist-error-field")
 var distribution_started = false
 
 {% for station in stations %}
@@ -35,10 +37,19 @@ function toggle_buttons (option) {
 }
 
 
+function send_error(message) {
+      error_field.textContent = message
+      error_div.classList.toggle("expand")
+      setTimeout(() => {
+        error_div.classList.toggle("expand")
+        }, 3000)
+}
+
+
 function change_station(station_id, type, x) {
     // type = "full"/"half"
 
-    if (!distribution_started) { return }
+    if (!distribution_started) { return send_error("Bitte erst Ernte verteilen"); }
     let id_name = ["dist","station","single",type,station_id].join("-")
     let station = stations[station_id]
     // single full/half share of stationID
@@ -72,7 +83,7 @@ function change_station(station_id, type, x) {
 
 function distribute (option) {
     input = parseFloat(input_field.value)
-    if (!input) { return }
+    if (!input) { return send_error("Keine Ernte angegeben?!") }
 
     toggle_buttons(option)
 

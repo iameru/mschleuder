@@ -5,7 +5,10 @@
   #products-in-distribution > li { display: none; }
 }
 .expand {
-    display:none;
+    display:none !important;
+    }
+.expand-error {
+    display:none !important;
     }
 .edit-hr {
     overflow: visible;
