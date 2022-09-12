@@ -1,0 +1,64 @@
+<div class="column is-one-third"
+       id="dist-station-{{station.id}}">
+  <div class="box ">
+
+    <p class="has-text-centered has-text-weight-medium is-size-3">{{ station.name }}</p>
+
+    <table class="distribution-table is-fullwidth">
+      <thead>
+        <td></td>
+        <td>total</td>
+        <td>volle</td>
+        <td>halbe</td>
+      </thead>
+      <tfoot>
+        <td><small>(mitgl.)</small></td>
+        <th>👥{{ station.members_full + station.members_half }}</th>
+        <th>● {{ station.members_full }}</th>
+        <th>◑ {{station.members_half }}</th>
+      </tfoot>
+      <tbody>
+        <tr>
+          <td></td>
+          <td class="has-text-weight-medium is-size-2" id="dist-station-total-{{ station.id }}">0</p></td>
+          <td class="has-text-weight-light" id="dist-station-full-{{ station.id }}"></p>0</td>
+          <td class="has-text-weight-light" id="dist-station-half-{{ station.id }}"></p>0</td>
+        </tr>
+      </tbody>
+    {# share of a single member #}
+      <tr>
+        <td>●</td>
+        <td id="dist-station-single-full-{{station.id}}">0</td>
+        <td>◑</td>
+        <td id="dist-station-single-half-{{station.id}}">0</td>
+      </tr>
+      <tr>
+        <td>
+           <button class="level-item button is-link"
+                   id="dist-button-full-add-{{station.id}}"
+                   onclick="change_station({{station.id}}, type='full', x='add')"
+                   >+</button>
+        </td>
+        <td style="padding-right:0.5em;">
+           <button class="level-item button is-link"
+                   id="dist-button-full-remove-{{station.id}}"
+                   onclick="change_station({{station.id}}, type='full', x='remove')"
+                   >-</button>
+        </td>
+        <td>
+           <button class="level-item button is-link"
+                   id="dist-button-half-add-{{station.id}}"
+                   onclick="change_station({{station.id}}, type='half', x='add')"
+                   >+</button>
+        </td>
+        <td>
+           <button class="level-item button is-link"
+                   id="dist-button-half-remove-{{station.id}}"
+                   onclick="change_station({{station.id}}, type='half', x='remove')"
+                   >-</button>
+        </td>
+      </tr>
+    </table>
+
+  </div>{# box #}
+</div>

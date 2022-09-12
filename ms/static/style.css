@@ -49,6 +49,18 @@
     border: 0.1em solid #abaca9;
     border-radius: 6px;
     }
+.bordered-dash {
+    border: 0.1em dashed #abaca9;
+    border-radius: 6px;
+    }
+.distribution-table {
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+.distribution-table td {
+    padding: 0.1em;
+    }
+
 /***** MODAL DIALOG ****/
 #modal {
 	/* Underlay covers entire screen. */
