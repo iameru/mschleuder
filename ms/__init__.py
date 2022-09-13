@@ -40,6 +40,9 @@ def create_app(test_config=None):
     app.register_blueprint(settings, url_prefix="/settings", options=_tmplt)
 
     db.init_app(app)
+    if not test_config:
+        with app.app_context():
+            db.create_all()
 
     app.context_processor(context_processor.inject)
 
