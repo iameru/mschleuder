@@ -7,22 +7,22 @@
     <table class="distribution-table is-fullwidth">
       <thead>
         <td></td>
-        <td>total</td>
-        <td>●</td>
-        <td>◑</td>
+        <td></td>
+        <td></td>
+        <td></td>
       </thead>
       <tfoot>
-        <td><small>(mitgl.)</small></td>
+        <td></td>
         <th>👥{{ station.members_full + station.members_half }}</th>
         <th>● {{ station.members_full }}</th>
         <th>◑ {{station.members_half }}</th>
       </tfoot>
       <tbody>
         <tr>
-          <td></td>
+          <td class="expand has-text-weight-light" id="dist-station-full-{{ station.id }}"></p>0</td>
+          <td class="expand has-text-weight-light" id="dist-station-half-{{ station.id }}"></p>0</td>
           <td class="has-text-weight-medium is-size-2" id="dist-station-total-{{ station.id }}">0</p></td>
-          <td class="has-text-weight-light" id="dist-station-full-{{ station.id }}"></p>0</td>
-          <td class="has-text-weight-light" id="dist-station-half-{{ station.id }}"></p>0</td>
+          <td>{{ product.unit }}</td>
         </tr>
       </tbody>
     {# share of a single member #}
