@@ -54,7 +54,7 @@ def test_menu_links(test_client):
 
     parse_menu(test_client, "/stations/", "Stationen")
     parse_menu(test_client, "/products/", "Gemüse")
-    parse_menu(test_client, "/history/", "History")
+    parse_menu(test_client, "/", "History")
 
 
 def test_products_in_distribution(test_client):
@@ -81,7 +81,7 @@ def test_products_in_distribution(test_client):
 
 def test_distribution_overview_link(test_client):
 
-    html = test_client.get("/history/")
+    html = test_client.get("/")
     menu = bs(html.data, "html.parser").find("aside", {"class": "menu"})
 
     link = menu.find("a", string="Aktuelle Verteilung")

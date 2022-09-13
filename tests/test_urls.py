@@ -33,7 +33,7 @@ def test_template_and_url_for_products(test_client):
 
 
 def test_template_and_url_for_history(test_client):
-    url(test_client, "/history", "History")
+    url(test_client, "", "History")
 
 
 def test_template_and_url_for_distribute_overview(test_client):
