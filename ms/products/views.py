@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request
 
 from ms.dev import dev_data
 
@@ -69,3 +69,18 @@ def distribute_by_id(productid):
 @products.route("/new")
 def new_product():
     return render_template("products/new.html")
+
+
+import json
+
+from ms.db.models import Product, db
+
+
+@products.route("/new", methods=["POST"])
+def post_new_product():
+
+    product = Product(**request.json)
+    db.session.add(product)
+    db.session.commit()
+
+    return f"{product.name}", 201

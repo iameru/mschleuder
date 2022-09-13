@@ -3,7 +3,7 @@ from random import choice
 import pytest
 
 from ms import create_app
-from ms.db import db
+from ms.db.models import db
 from ms.dev import dev_data
 
 test_config = {
