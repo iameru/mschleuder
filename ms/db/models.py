@@ -1,8 +1,24 @@
 import datetime
 
+from flask import session
 from flask_sqlalchemy import SQLAlchemy
+from wtforms.csrf.session import SessionCSRF
+from wtforms_alchemy import ModelForm
+
+from ms.config import Config
 
 db = SQLAlchemy()
+
+
+class BaseForm(ModelForm):
+    class Meta:
+        csrf = True
+        csrf_class = SessionCSRF
+        csrf_secret = Config.CSRF_SECRET_KEY
+
+        @property
+        def csrf_context(self):
+            return session
 
 
 class Product(db.Model):
@@ -19,3 +35,8 @@ class Product(db.Model):
         self.name = name
         self.by_piece = by_piece
         self.last_update = datetime.datetime.now()
+
+
+class ProductForm(BaseForm):
+    class Meta:
+        model = Product

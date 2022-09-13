@@ -10,6 +10,7 @@ Flask = "^2.2.2"
 gunicorn = "^20.1.0"
 python-testmark = "^1.0"
 Flask-SQLAlchemy = "^2.5.1"
+WTForms-Alchemy = "^0.18.0"
 
 [tool.poetry.dev-dependencies]
 python-testmark = "^1.0"
