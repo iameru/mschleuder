@@ -24,7 +24,6 @@ def create_app(test_config=None):
         from .dev import add_development_help
 
         add_development_help(app)
-        app.config["SECRET_KEY"] = "DEVELOPMENT"
 
     _tmplt = {"template_folder": "templates"}
 
