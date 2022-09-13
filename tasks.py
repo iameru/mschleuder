@@ -55,7 +55,7 @@ def start(c):
 
 @task
 def staging(c):
-    c.run("caprover deploy -h https://captain.staging.i3o.eu -b staging -a ms")
+    c.run("git checkout staging && git merge main && git push && git checkout main")
 
 
 #####################################################################
