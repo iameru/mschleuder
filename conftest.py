@@ -38,6 +38,6 @@ def products():
     return dev_data("products")
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="function")
 def product(products):
     return choice(products)
