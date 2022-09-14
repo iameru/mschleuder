@@ -9,6 +9,7 @@ test_config = {
     "SECRET_KEY": "TEST_CONFIG",
     "TESTING": True,
     "SQLALCHEMY_DATABASE_URI": "sqlite:///:memory:",
+    "CSRF_SECRET_KEY": "CSRF_TEST_KEY",
 }
 
 
