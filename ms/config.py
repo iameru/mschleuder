@@ -1,8 +1,12 @@
-import os
+from dotenv import dotenv_values
+
+env = dotenv_values(".env")
 
 
 class Config:
-    SECRET_KEY = os.environ.get("SECRET_KEY")
+
+    SECRET_KEY = env.get("SECRET_KEY")
+    CSRF_SECRET_KEY = env.get("CSRF_SECRET_KEY").encode()
+
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = "sqlite:///../instance/database.sqlite"
-    CSRF_SECRET_KEY = os.environ.get("CSRF_SECRET_KEY").encode()
