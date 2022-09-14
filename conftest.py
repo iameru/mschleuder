@@ -3,8 +3,7 @@ from random import choice
 import pytest
 
 from ms import create_app
-from ms.db.models import db
-from ms.dev import dev_data
+from ms.db.models import Product, Unit, db
 
 test_config = {
     "SECRET_KEY": "TEST_CONFIG",
@@ -21,6 +20,12 @@ def test_app():
     with test_app.app_context():
 
         db.create_all()
+        # dirty for migrate to SQL
+        kg = Unit(shortname="kg", by_piece=False, longname="Kilogramm")
+        st = Unit(shortname="st", by_piece=True, longname="Stück")
+        db.session.add(kg)
+        db.session.add(st)
+        db.session.commit()
         yield test_app
         db.drop_all()
 
@@ -35,7 +40,7 @@ def test_client(test_app):
 
 @pytest.fixture(scope="session")
 def products():
-    return dev_data("products")
+    return Product.query.all()
 
 
 @pytest.fixture(scope="function")

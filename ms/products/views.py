@@ -1,6 +1,6 @@
 import json
 
-from flask import Blueprint, render_template, request
+from flask import Blueprint, abort, render_template, request
 
 from ms.db.models import Product, ProductForm, db
 from ms.dev import dev_data
@@ -11,13 +11,14 @@ products = Blueprint("products", __name__)
 @products.route("/")
 def products_view():
 
-    products = dev_data("products")
-    all_products = sorted(products.copy(), key=lambda item: item["name"])
+    products = Product.query.all()
+
+    all_products = sorted(products.copy(), key=lambda item: item.name)
     distributed_products = [
-        product for product in products if product["recent_distribution"]
+        product for product in products if product.last_distribution
     ]
     recent_products = sorted(
-        distributed_products, key=lambda item: item["recent_distribution"]
+        distributed_products, key=lambda item: item.last_distribution
     )
     recent_products.reverse()
     recent_products = recent_products[:10]
@@ -32,8 +33,7 @@ def products_view():
 @products.route("/productdetail/<int:productid>")
 def detail_view(productid):
 
-    products = dev_data("products")
-    product = next((item for item in products if item["id"] == productid), None)
+    product = Product.query.get(productid)
 
     return render_template("products/detail_view.html", product=product)
 
@@ -47,19 +47,11 @@ def distribute_view():
 @products.route("/distribute/<int:productid>")
 def distribute_by_id(productid):
 
-    products = dev_data("products")
-    in_distribution = dev_data("in-distribution")
-
-    product = next((item for item in products if item["id"] == productid), None)
-    # already distributed product:
-    d_product = next(
-        (item for item in in_distribution if item["id"] == productid), None
-    )
-    if d_product:
-        product.update(d_product)
+    product = Product.query.get(productid)
+    if not product:
+        abort(404)
 
     stations = dev_data("stations-current")
-
     station_sums = {
         "full": sum(station["members_full"] for station in stations),
         "half": sum(station["members_half"] for station in stations),
@@ -74,7 +66,7 @@ def distribute_by_id(productid):
     )
 
 
-@products.route("/new")
+@products.route("/new", methods=["GET"])
 def new_product():
 
     form = ProductForm()
@@ -84,6 +76,8 @@ def new_product():
 
 @products.route("/new", methods=["POST"])
 def post_new_product():
+
+    #    form = ProductForm(request.POST)
 
     product = Product(**request.json)
     db.session.add(product)

@@ -13,10 +13,10 @@
   {# Info #}
   <div class="column is-full">
     <div class="level">
-      {% if product.recent_distribution %}
+      {% if product.last_distribution %}
       <div class="level-left">
         <div class="level-item">zuletzt</div>
-        <div class="level-item">📅: {{ product.recent_distribution }}</div>
+        <div class="level-item">📅: {{ product.last_distribution }}</div>
       </div>
       {% endif %}
       {% if product.info %}
