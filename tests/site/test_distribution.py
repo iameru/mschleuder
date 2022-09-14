@@ -1,5 +1,3 @@
-from random import choice
-
 from bs4 import BeautifulSoup as bs
 from pytest import mark
 
@@ -54,7 +52,6 @@ def test_existing_distribution_data_shown(test_client, product):
 
 def test_stations_in_dist(test_client, product):
 
-    in_distribution = dev_data("in-distribution")
     response = test_client.get(f"/products/distribute/{product.id}")
     body = bs(response.data, "html.parser").find("body")
 

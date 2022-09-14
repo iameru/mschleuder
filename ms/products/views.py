@@ -1,5 +1,3 @@
-import json
-
 from flask import Blueprint, abort, render_template, request
 
 from ms.db.models import Product, ProductForm, db

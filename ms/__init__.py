@@ -28,7 +28,7 @@ def create_app(test_config=None):
     _tmplt = {"template_folder": "templates"}
 
     from ms import context_processor
-    from ms.db.models import Product, Unit, db
+    from ms.db.models import Unit, db
     from ms.history.views import history
     from ms.products.views import products
     from ms.settings.views import settings
