@@ -27,7 +27,12 @@ def test_recently_used_products(test_client):
 
     response = test_client.get("/products/")
 
-    recent_products = sorted(products, key=lambda item: item["recent_distribution"])
+    distributed_products = [
+        product for product in products if product["recent_distribution"]
+    ]
+    recent_products = sorted(
+        distributed_products, key=lambda item: item["recent_distribution"]
+    )
     recent_products.reverse()
     top_ten = recent_products[:10]
 
@@ -71,3 +76,16 @@ def test_new_product_modal_shown(test_client):
     modal = test_client.get(link["hx-get"])
     assert modal.status_code == 200
     assert "Neues Produkt" in modal.text
+
+
+def test_add_product(test_client, product):
+
+    item = dict(name=product["name"], unit_id=2, info=None)
+
+    data = json.dumps(item)
+    response = test_client.post(
+        "/products/new", data=data, content_type="application/json"
+    )
+
+    assert product["name"] in response.text
+    assert response.status_code == 201

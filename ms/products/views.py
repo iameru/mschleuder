@@ -13,7 +13,12 @@ def products_view():
 
     products = dev_data("products")
     all_products = sorted(products.copy(), key=lambda item: item["name"])
-    recent_products = sorted(products, key=lambda item: item["recent_distribution"])
+    distributed_products = [
+        product for product in products if product["recent_distribution"]
+    ]
+    recent_products = sorted(
+        distributed_products, key=lambda item: item["recent_distribution"]
+    )
     recent_products.reverse()
     recent_products = recent_products[:10]
 
