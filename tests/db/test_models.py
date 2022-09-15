@@ -97,7 +97,7 @@ def test_adding_station(test_app):
     assert station == station_2
 
 
-def test_edit_station_save_to_hist(test_app):
+def test_edit_station_change_and_timestamp(test_app):
 
     # get station
     station = Station.query.get(1)
@@ -117,9 +117,3 @@ def test_edit_station_save_to_hist(test_app):
 
     # expect updated time to be changed
     assert station_new.updated != first_update_time
-
-    # expect previous station was saved to history
-    entry = StationHistory.query.filter_by(
-        name="Station Superstar", date=first_update_time, members_full=members_full
-    ).first()
-    assert entry

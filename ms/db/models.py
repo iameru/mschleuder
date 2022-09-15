@@ -34,9 +34,18 @@ class Product(TimestampMixin, db.Model):
 
 class Station(TimestampMixin, db.Model):
 
+    __tablename__ = "stations"
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(128), nullable=False)
     info = db.Column(db.String(128), nullable=False)
     delivery_order = db.Column(db.Integer)
     members_full = db.Column(db.Integer, nullable=False)
     members_half = db.Column(db.Integer, nullable=False)
+
+
+class StationHistory(Station):
+
+    __tablename__ = "stationshistory"
+
+    saved = db.Column(db.DateTime, onupdate=datetime.datetime.utcnow)

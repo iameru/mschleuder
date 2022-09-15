@@ -1,4 +1,15 @@
 {% extends 'modal.html' %}
 {% block modal_content %}
 <h4 class="title is-4">Neue Station anlegen</h4>
+
+  <form action="{{ url_for('stations.new_station') }}" method="post" class="form">
+
+    {{ form.csrf_token }}
+
+    {{ form.name.label() }}
+    {{ form.name }}
+
+    <button class="button is-link" type="submit">Go!</button>
+  </form>
+
 {% endblock %}

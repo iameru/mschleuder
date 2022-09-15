@@ -4,6 +4,8 @@ from random import choice
 from bs4 import BeautifulSoup as bs
 from testmark import parse
 
+from ms.db.models import Station
+
 stations = json.loads(parse("dev.md")["stations-current"])
 
 
@@ -48,3 +50,33 @@ def test_new_station_modal_shown(test_client):
     modal = test_client.get(link["hx-get"])
     assert modal.status_code == 200
     assert "Neue Station" in modal.text
+
+
+def test_add_station(test_client, csrf):
+
+    station = dict(
+        name="Station One",
+        info="01234 Infotown - 123 Superstreet",
+        members_full=2,
+        members_half=1,
+    )
+
+    # check station not in table
+    response = test_client.get("/stations")
+    assert station["name"] not in response.text
+
+    # create station
+    response = test_client.get("/stations/new")
+    station["csrf_token"] = csrf(response)
+    response = test_client.post("/stations/new", data=station, follow_redirects=True)
+    assert response.status_code == 200
+
+    # check if station got saved in the view
+    station = Station.query.filter_by(name="Station One").first()
+    box = bs(response.data, "html.parser").find(
+        "div", {"id": f"box-station-{station.id}"}
+    )
+    assert box
+    assert str(station.members_half) in box.text
+    assert station.info in box.text
+    assert "Station One" in box.text

@@ -4,7 +4,7 @@ from wtforms.fields import SelectField
 from wtforms_alchemy import ModelForm
 
 from ms.config import Config
-from ms.db.models import Product, Unit
+from ms.db.models import Product, Station, Unit
 
 
 class BaseForm(ModelForm):
@@ -27,3 +27,8 @@ class ProductForm(BaseForm):
     def __init__(self, *args, **kwargs):
         super(ProductForm, self).__init__(*args, **kwargs)
         self.unit_id.choices = [(unit.id, unit.longname) for unit in Unit.query.all()]
+
+
+class StationForm(BaseForm):
+    class Meta:
+        model = Station
