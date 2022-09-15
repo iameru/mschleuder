@@ -72,9 +72,19 @@ def test_new_product_modal_shown(test_client):
     assert "Neues Produkt" in modal.text
 
 
-def test_add_product(test_client, product, csrf):
+def test_add_product_modal(test_client, csrf):
 
-    item = dict(name="Tomate", info=None)
+    response = test_client.get("/products/new")
+    doc = bs(response.data, "html.parser")
+    assert doc.find("input", {"id": "name"})
+    assert doc.find("input", {"id": "info"})
+    assert doc.find("input", {"id": "unit_id"})
+    assert csrf(response)
+
+
+def test_add_product(test_client, csrf):
+
+    item = dict(name="Tomate", info="yummi", unit_id=2)
 
     response = test_client.get("/products")
     assert item["name"] not in response.text
@@ -85,3 +95,5 @@ def test_add_product(test_client, product, csrf):
 
     assert response.status_code == 200
     assert item["name"] in response.text
+    assert item["info"] in response.text
+    assert item["unit_id"] in response.text

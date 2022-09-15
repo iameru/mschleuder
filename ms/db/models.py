@@ -56,3 +56,4 @@ class ProductForm(BaseForm):
     class Meta:
         model = Product
         exclude = ["last_update", "last_distribution"]
+        include = ["unit_id"]

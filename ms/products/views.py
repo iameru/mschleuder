@@ -71,7 +71,9 @@ def new_product():
 
     if request.method == "POST" and form.validate():
 
-        product = Product(name=form.data["name"], unit_id=1)
+        product = Product(
+            name=form.data["name"], unit_id=form.data["unit_id"], info=form.data["info"]
+        )
         db.session.add(product)
         db.session.commit()
         return redirect(url_for("products.products_view"), 302)
