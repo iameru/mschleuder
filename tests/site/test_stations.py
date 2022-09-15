@@ -1,43 +1,39 @@
 import json
-from random import choice
 
 from bs4 import BeautifulSoup as bs
-from testmark import parse
 
 from ms.db.models import Station
 
-stations = json.loads(parse("dev.md")["stations-current"])
 
+def test_station_on_site(test_client, station):
 
-def test_station_on_site(test_client):
-
-    station = choice(stations)
+    station = Station.query.get(1)
     response = test_client.get("/stations/")
 
-    assert station["name"].encode() in response.data
+    assert station.name in response.text
 
 
 def test_all_stations_on_site(test_client):
 
     response = test_client.get("/stations/")
 
-    for station in stations:
-        assert station["name"].encode() in response.data
+    for station in Station.query.all():
+        assert station.name in response.text
 
 
 def test_htmx_edit_station(test_client):
 
-    station = choice(stations)
+    station = Station.query.get(1)
     response = test_client.get("/stations/")
     html = bs(response.data, "html.parser")
 
-    edit_button = html.find("a", {"id": f"station-edit-view-{station['id']}"})
+    edit_button = html.find("a", {"id": f"station-edit-view-{station.id}"})
 
     url = edit_button["hx-get"]
-    assert str(station["id"]) == url.split("/")[-1]
+    assert str(station.id) == url.split("/")[-1]
 
     modal = test_client.get(url)
-    assert station["name"] in modal.text
+    assert station.name in modal.text
 
 
 def test_new_station_modal_shown(test_client):

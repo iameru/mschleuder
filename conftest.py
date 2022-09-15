@@ -4,7 +4,7 @@ import pytest
 from bs4 import BeautifulSoup as bs
 
 from ms import create_app
-from ms.db.models import Product, Unit, db
+from ms.db.models import Product, Station, Unit, db
 
 test_config = {
     "SECRET_KEY": "TEST_CONFIG",
@@ -51,7 +51,7 @@ def csrf():
     return _func
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def products():
     return Product.query.all()
 
@@ -59,3 +59,13 @@ def products():
 @pytest.fixture(scope="function")
 def product(products):
     return choice(products)
+
+
+@pytest.fixture(scope="function")
+def stations():
+    return Station.query.all()
+
+
+@pytest.fixture(scope="function")
+def station(stations):
+    return choice(stations)

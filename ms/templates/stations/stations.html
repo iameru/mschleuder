@@ -19,7 +19,7 @@
 
 
 <div class="columns is-multiline">
-{% for station in stations.current %}
+{% for station in stations %}
  <div class="column is-4" id="{{station.order}}">
    <div class="box" id="box-station-{{station.id}}">
     <div class="level">
@@ -53,11 +53,6 @@
   {% endfor %}
 </div>
 
-</div>
-
-<div class="row">
- <h3 class="title">Bisher:</h3>
- {% include 'stations/chart.html' %}
 </div>
 
 </div>
