@@ -1,4 +1,4 @@
-from flask import Blueprint, abort, render_template, request
+from flask import Blueprint, abort, redirect, render_template, request, session, url_for
 
 from ms.db.models import Product, ProductForm, db
 from ms.dev import dev_data
@@ -64,21 +64,16 @@ def distribute_by_id(productid):
     )
 
 
-@products.route("/new", methods=["GET"])
+@products.route("/new", methods=["GET", "POST"])
 def new_product():
 
-    form = ProductForm()
+    form = ProductForm(request.form)
+
+    if request.method == "POST" and form.validate():
+
+        product = Product(name=form.data["name"], unit_id=1)
+        db.session.add(product)
+        db.session.commit()
+        return redirect(url_for("products.products_view"), 302)
 
     return render_template("products/new.html", form=form)
-
-
-@products.route("/new", methods=["POST"])
-def post_new_product():
-
-    #    form = ProductForm(request.POST)
-
-    product = Product(**request.json)
-    db.session.add(product)
-    db.session.commit()
-
-    return f"{product.name}", 201

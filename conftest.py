@@ -1,6 +1,7 @@
 from random import choice
 
 import pytest
+from bs4 import BeautifulSoup as bs
 
 from ms import create_app
 from ms.db.models import Product, Unit, db
@@ -37,6 +38,17 @@ def test_client(test_app):
     with test_app.test_client() as test_client:
 
         yield test_client
+
+
+@pytest.fixture(scope="session")
+def csrf():
+    # This is a helper function grabbing CSRF Token for testing
+    def _func(response):
+        doc = bs(response.data, "html.parser")
+        csrf_field = doc.find("input", {"id": "csrf_token", "name": "csrf_token"})
+        return csrf_field["value"]
+
+    return _func
 
 
 @pytest.fixture(scope="session")

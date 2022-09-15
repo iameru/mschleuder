@@ -72,14 +72,16 @@ def test_new_product_modal_shown(test_client):
     assert "Neues Produkt" in modal.text
 
 
-def test_add_product(test_client, product):
+def test_add_product(test_client, product, csrf):
 
-    item = dict(name=product.name, unit_id=2, info=None)
+    item = dict(name="Tomate", info=None)
 
-    data = json.dumps(item)
-    response = test_client.post(
-        "/products/new", data=data, content_type="application/json"
-    )
+    response = test_client.get("/products")
+    assert item["name"] not in response.text
 
-    assert product.name in response.text
-    assert response.status_code == 201
+    response = test_client.get("/products/new")
+    item["csrf_token"] = csrf(response)
+    response = test_client.post("/products/new", data=item, follow_redirects=True)
+
+    assert response.status_code == 200
+    assert item["name"] in response.text

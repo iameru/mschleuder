@@ -55,3 +55,4 @@ class Product(db.Model):
 class ProductForm(BaseForm):
     class Meta:
         model = Product
+        exclude = ["last_update", "last_distribution"]
