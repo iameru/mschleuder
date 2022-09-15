@@ -1,5 +1,7 @@
 import datetime
 
+from pytest import mark
+
 from ms.db.models import Product, Station, Unit, db
 
 
@@ -42,6 +44,29 @@ def test_consistency_of_db_model():
 
     assert "Kartoffel" == potatoe.name
     assert "Mangold" == mangold.name
+
+
+def test_edit_products_change_and_timestamp(test_app):
+
+    # get product
+    product = Product.query.get(1)
+    info = product.info
+    assert product.name == "Kartoffel"
+    assert product.created
+    assert not product.updated
+
+    # make changes
+    product.name = "Krombeere"
+    product.info = "Schmackhaft"
+    db.session.commit()
+
+    # expect changes
+    product = Product.query.get(1)
+    assert product.name != "Kartoffel"
+    assert product.info != info
+
+    # expect updated time to be changed
+    assert product.updated
 
 
 def test_adding_station(test_app):

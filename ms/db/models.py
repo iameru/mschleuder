@@ -29,16 +29,7 @@ class Product(TimestampMixin, db.Model):
     name = db.Column(db.String(128), nullable=False)
     info = db.Column(db.String(128))
     last_distribution = db.Column(db.DateTime)
-    last_update = db.Column(db.DateTime, nullable=False)
-
     unit_id = db.Column(db.Integer, db.ForeignKey("units.id"), nullable=False)
-
-    def __init__(self, name, unit_id, info=None):
-
-        self.name = name
-        self.unit_id = unit_id
-        self.info = info
-        self.last_update = datetime.datetime.now()
 
 
 class Station(TimestampMixin, db.Model):
@@ -49,11 +40,3 @@ class Station(TimestampMixin, db.Model):
     delivery_order = db.Column(db.Integer)
     members_full = db.Column(db.Integer, nullable=False)
     members_half = db.Column(db.Integer, nullable=False)
-
-    def __init__(self, **k):
-
-        self.name = k["name"]
-        self.info = k["info"]
-        self.delivery_order = k["delivery_order"]
-        self.members_full = k["members_full"]
-        self.members_half = k["members_half"]

@@ -21,7 +21,6 @@ class BaseForm(ModelForm):
 class ProductForm(BaseForm):
     class Meta:
         model = Product
-        exclude = ["last_update", "last_distribution"]
 
     unit_id = SelectField("Einheit", coerce=int)
 
