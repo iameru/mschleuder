@@ -52,8 +52,16 @@ class Product(db.Model):
         self.last_update = datetime.datetime.now()
 
 
+from wtforms.fields import SelectField
+
+
 class ProductForm(BaseForm):
     class Meta:
         model = Product
         exclude = ["last_update", "last_distribution"]
-        include = ["unit_id"]
+
+    unit_id = SelectField("Einheit", coerce=int)
+
+    def __init__(self, *args, **kwargs):
+        super(ProductForm, self).__init__(*args, **kwargs)
+        self.unit_id.choices = [(unit.id, unit.longname) for unit in Unit.query.all()]

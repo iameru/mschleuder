@@ -1,6 +1,6 @@
 from flask import Blueprint, abort, redirect, render_template, request, session, url_for
 
-from ms.db.models import Product, ProductForm, db
+from ms.db.models import Product, ProductForm, Unit, db
 from ms.dev import dev_data
 
 products = Blueprint("products", __name__)

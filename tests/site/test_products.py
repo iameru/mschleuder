@@ -2,6 +2,8 @@ import json
 
 from bs4 import BeautifulSoup as bs
 
+from ms.db.models import Unit
+
 
 def test_product_on_site(test_client, product):
 
@@ -81,7 +83,15 @@ def test_add_product_modal(test_client, csrf):
     assert doc.find("input", {"id": "unit_id"})
     assert csrf(response)
 
+    units = Unit.query.all()
+    for unit in units:
+        assert unit.longname in response.text
 
+
+from pytest import mark
+
+
+@mark.skip
 def test_add_product(test_client, csrf):
 
     item = dict(name="Tomate", info="yummi", unit_id=2)
