@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup as bs
 from pytest import mark
 
+from ms.db.models import Unit
 from ms.dev import dev_data
 
 
@@ -44,6 +45,31 @@ def test_distribute_product_details_shown(test_client, product):
 def test_existing_distribution_data_shown(test_client, product):
 
     assert False
+
+
+def test_distribution_page_change_by_units(test_client):
+
+    product = Unit.query.filter_by(by_piece=True).first()
+    body = bs(
+        test_client.get(f"/products/distribute/{product.id}").data, "html.parser"
+    ).find("body")
+    accuracy_field = body.find("p", {"id": "dist-accuracy-field"})
+    rest_field = body.find("p", {"id": "dist-rest-field"})
+    add_piece_field = body.find("button", {"class": "level-item button is-link"})
+    assert not accuracy_field
+    assert rest_field
+    assert add_piece_field
+
+    product = Unit.query.filter_by(by_piece=False).first()
+    body = bs(
+        test_client.get(f"/products/distribute/{product.id}").data, "html.parser"
+    ).find("body")
+    accuracy_field = body.find("p", {"id": "dist-accuracy-field"})
+    rest_field = body.find("p", {"id": "dist-rest-field"})
+    add_piece_field = body.find("button", {"class": "level-item button is-link"})
+    assert accuracy_field
+    assert not rest_field
+    assert not add_piece_field
 
 
 def test_stations_in_dist(test_client, product):
