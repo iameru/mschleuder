@@ -19,35 +19,31 @@ def test_distribution_site_throws_404_if_no_product(test_client):
 
 def test_distribute_product_details_shown(test_client, product):
 
+    # check  link and follow
     response = test_client.get("/products/")
     html = bs(response.data, "html.parser")
-
     product_row = html.find("tr", {"id": f"distribute-product-{product.id}"})
-    assert product_row
-
     url = product_row.find("td")["onclick"].split("'")[1]
-
     distribute_page = test_client.get(url)
+
+    assert product_row
     assert distribute_page.status_code == 200
 
-    assert product.name in distribute_page.text
+    # check distribute page for details
+    body = bs(distribute_page.data, "html.parser").find("body")
+    label = body.find("label", {"for": "dist-input-field"})
+    input_field = body.find("input", {"id": "dist-input-field"})
+    title = body.find("h2", {"id": "site-title"})
+
+    assert product.name in title.text
     assert product.info in distribute_page.text
+    assert product.unit.longname in label.text
 
 
 @mark.skip
 def test_existing_distribution_data_shown(test_client, product):
 
-    in_distribution = dev_data("in-distribution")
-
-    response = test_client.get(f"/products/distribute/{product.id}")
-
-    assert response.status_code == 200
-
-    body = bs(response.data, "html.parser").find("body")
-
-    amount_string = f"{product.amount} {product.unit}"
-
-    assert amount_string in body.text
+    assert False
 
 
 def test_stations_in_dist(test_client, product):

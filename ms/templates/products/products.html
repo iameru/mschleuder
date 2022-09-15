@@ -92,13 +92,13 @@
               >{{ product.name }}</td>
           <td class="clickable has-text-centered"
               onclick="javascript:location.href='{{ url_for("products.distribute_by_id", productid=product.id) }}'"
-              >{{ product.unit }}</td>
+              >{{ product.unit.shortname }}</td>
           <td class="clickable has-text-centered"
               onclick="javascript:location.href='{{ url_for("products.distribute_by_id", productid=product.id) }}'"
               >{{ product.recent_distribution }}</td>
           <td class="clickable"
               onclick="javascript:location.href='{{ url_for("products.distribute_by_id", productid=product.id) }}'"
-              >{{ product.info }}</td>
+              >{% if product.info %}{{ product.info }}{% else %}{% endif %}</td>
           <td class="hover-alt clickable has-text-centered"
               {{ product_modal("products.detail_view", product.id) }}
               id="product-detail-view-{{product.id}}"
