@@ -2,7 +2,7 @@ import json
 
 from bs4 import BeautifulSoup as bs
 
-from ms.db.models import Unit
+from ms.db.models import Product, Unit
 
 
 def test_product_on_site(test_client, product):
@@ -80,7 +80,7 @@ def test_add_product_modal(test_client, csrf):
     doc = bs(response.data, "html.parser")
     assert doc.find("input", {"id": "name"})
     assert doc.find("input", {"id": "info"})
-    assert doc.find("input", {"id": "unit_id"})
+    assert doc.find("select", {"id": "unit_id"})
     assert csrf(response)
 
     units = Unit.query.all()
@@ -88,22 +88,26 @@ def test_add_product_modal(test_client, csrf):
         assert unit.longname in response.text
 
 
-from pytest import mark
-
-
-@mark.skip
 def test_add_product(test_client, csrf):
 
     item = dict(name="Tomate", info="yummi", unit_id=2)
 
+    # check product not in table
     response = test_client.get("/products")
     assert item["name"] not in response.text
 
+    # create product
     response = test_client.get("/products/new")
     item["csrf_token"] = csrf(response)
     response = test_client.post("/products/new", data=item, follow_redirects=True)
-
     assert response.status_code == 200
-    assert item["name"] in response.text
-    assert item["info"] in response.text
-    assert item["unit_id"] in response.text
+
+    # check if product is in table
+    product = Product.query.filter_by(name=item["name"]).first()
+    table = bs(response.data, "html.parser").find("table", {"id": "all-products-table"})
+    row = table.find("tr", {"id": f"distribute-product-{product.id}"})
+    unit = Unit.query.get(item["unit_id"])
+
+    assert item["name"] in row.text
+    assert item["info"] in row.text
+    assert unit.shortname in row.text

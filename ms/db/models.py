@@ -1,24 +1,8 @@
 import datetime
 
-from flask import session
 from flask_sqlalchemy import SQLAlchemy
-from wtforms.csrf.session import SessionCSRF
-from wtforms_alchemy import ModelForm
-
-from ms.config import Config
 
 db = SQLAlchemy()
-
-
-class BaseForm(ModelForm):
-    class Meta:
-        csrf = True
-        csrf_class = SessionCSRF
-        csrf_secret = Config.CSRF_SECRET_KEY
-
-        @property
-        def csrf_context(self):
-            return session
 
 
 class Unit(db.Model):
@@ -50,18 +34,3 @@ class Product(db.Model):
         self.unit_id = unit_id
         self.info = info
         self.last_update = datetime.datetime.now()
-
-
-from wtforms.fields import SelectField
-
-
-class ProductForm(BaseForm):
-    class Meta:
-        model = Product
-        exclude = ["last_update", "last_distribution"]
-
-    unit_id = SelectField("Einheit", coerce=int)
-
-    def __init__(self, *args, **kwargs):
-        super(ProductForm, self).__init__(*args, **kwargs)
-        self.unit_id.choices = [(unit.id, unit.longname) for unit in Unit.query.all()]
