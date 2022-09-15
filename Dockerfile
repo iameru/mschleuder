@@ -14,6 +14,9 @@ COPY . /app
 
 # Turn of debugging in production
 ENV FLASK_DEBUG 0
+ENV FLASK_APP=ms
+ENV SECRET_KEY="_____________  STAGING __________"
+ENV CSRF_SECRET_KEY="_____________  STAGING __________"
 
 # Set entrypoint
 ENV FLASK_APP ms
