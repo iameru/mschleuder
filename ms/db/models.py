@@ -16,8 +16,8 @@ class Unit(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     by_piece = db.Column(db.Boolean, nullable=False)
-    shortname = db.Column(db.String(128), nullable=False)
-    longname = db.Column(db.String(128), nullable=False)
+    shortname = db.Column(db.String(128), unique=True, nullable=False)
+    longname = db.Column(db.String(128), unique=True, nullable=False)
     products = db.relationship("Product", backref="unit", lazy=True)
 
 
@@ -37,7 +37,7 @@ class Station(TimestampMixin, db.Model):
     __tablename__ = "stations"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(128), nullable=False)
+    name = db.Column(db.String(128), unique=True, nullable=False)
     info = db.Column(db.String(128), nullable=False)
     delivery_order = db.Column(db.Integer)
     members_full = db.Column(db.Integer, nullable=False)

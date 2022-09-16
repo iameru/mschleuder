@@ -7,10 +7,10 @@ from ms.db.models import Product, Station, Unit, db
 def test_adding_unit_product(test_app):
 
     # add units as they are needed
-    kg = Unit(shortname="kg", by_piece=False, longname="Kilogramm")
-    st = Unit(shortname="st", by_piece=True, longname="Stück")
-    db.session.add(kg)
-    db.session.add(st)
+    kg = dict(shortname="kg", by_piece=False, longname="Kilogramm")
+    st = dict(shortname="st", by_piece=True, longname="Stück")
+    db_api.add(Unit, kg)
+    db_api.add(Unit, st)
 
     # add products
     product_1 = dict(name="Kartoffel", unit_id=1, info="Lecker Kartoffel")
