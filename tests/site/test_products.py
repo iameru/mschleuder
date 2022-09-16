@@ -93,17 +93,26 @@ def test_add_product(test_client, csrf):
     item = dict(name="Tomate", info="yummi", unit_id=2)
 
     # check product not in table
-    response = test_client.get("/products")
-    assert item["name"] not in response.text
+    response = test_client.get("/products/")
+    table = bs(response.data, "html.parser").find("table", {"id": "all-products-table"})
+    assert item["name"] not in table.text
+
+    # find button
+    new_product_button = bs(response.data, "html.parser").find(
+        "button", {"id": "new-product-button"}
+    )
+    assert new_product_button
+    assert new_product_button["hx-get"] == "/products/new"
 
     # create product
-    response = test_client.get("/products/new")
+    response = test_client.get(new_product_button["hx-get"])
     item["csrf_token"] = csrf(response)
     response = test_client.post("/products/new", data=item, follow_redirects=True)
     assert response.status_code == 200
 
-    # check if product is in table
+    # check if product is in table now
     product = Product.query.filter_by(name=item["name"]).first()
+    assert product
     table = bs(response.data, "html.parser").find("table", {"id": "all-products-table"})
     row = table.find("tr", {"id": f"distribute-product-{product.id}"})
     unit = Unit.query.get(item["unit_id"])
