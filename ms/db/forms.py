@@ -32,3 +32,15 @@ class ProductForm(BaseForm):
 class StationForm(BaseForm):
     class Meta:
         model = Station
+
+
+class UnitForm(BaseForm):
+    class Meta:
+        model = Unit
+
+    # coerce by "True" as html doesnt return boolean
+    by_piece = SelectField(
+        "Einheit?",
+        choices=[("True", "In Stück"), ("False", "In Gewicht")],
+        coerce=lambda x: x == "True",
+    )

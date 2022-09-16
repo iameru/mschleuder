@@ -43,12 +43,6 @@ def create_app(test_config=None):
     if not test_config:
         with app.app_context():
             db.create_all()
-            # DIRTY for migrating to sql
-            kg = Unit(shortname="kg", by_piece=False, longname="Kilogramm")
-            st = Unit(shortname="st", by_piece=True, longname="Stück")
-            db.session.add(kg)
-            db.session.add(st)
-            db.session.commit()
 
     app.context_processor(context_processor.inject)
 

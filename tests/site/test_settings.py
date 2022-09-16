@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup as bs
 
+from ms.db.models import Unit
 from ms.dev import dev_data
 
 
@@ -48,3 +49,59 @@ def test_settings_being_applied_to_other_sites(test_client):
 
     title = html.find("title")
     assert settings["csa_name"] in title.text
+
+
+def test_add_product_modal(test_client, csrf):
+
+    response = test_client.get("/settings/units/new")
+    doc = bs(response.data, "html.parser")
+    assert doc.find("input", {"id": "longname"})
+    assert doc.find("input", {"id": "shortname"})
+    assert doc.find("select", {"id": "by_piece"})
+    assert csrf(response)
+
+
+def test_add_unit(test_client, csrf):
+
+    item = dict(shortname="kSt", longname="Kiste", by_piece=True)
+    # check unit not in table
+    response = test_client.get("/settings/")
+    table = bs(response.data, "html.parser").find("table", {"id": "all-units-table"})
+    assert item["longname"] not in table.text
+
+    # find button
+    new_unit_button = bs(response.data, "html.parser").find(
+        "button", {"id": "new-unit-button"}
+    )
+    assert new_unit_button
+    assert new_unit_button["hx-get"] == "/settings/units/new"
+
+    # open modal and create product
+    response = test_client.get(new_unit_button["hx-get"])
+    item["csrf_token"] = csrf(response)
+    response = test_client.post("/settings/units/new", data=item, follow_redirects=True)
+    del item["csrf_token"]
+    assert response.status_code == 200
+
+    # check if unit is in table now
+    unit = Unit.query.filter_by(**item).first()
+    assert unit
+    table = bs(response.data, "html.parser").find("table", {"id": "all-units-table"})
+    row = table.find("tr", {"id": f"unit-{unit.id}"})
+    assert item["longname"] in row.text  # by_piece=True
+
+    #  the same stuff for the item for weight
+    item = dict(shortname="mg", longname="Miligramm", by_piece=False)
+    # open modal and create product
+    response = test_client.get(new_unit_button["hx-get"])
+    item["csrf_token"] = csrf(response)
+    response = test_client.post("/settings/units/new", data=item, follow_redirects=True)
+    del item["csrf_token"]
+    assert response.status_code == 200
+
+    # check if unit is in table now
+    unit = Unit.query.filter_by(**item).first()
+    assert unit
+    table = bs(response.data, "html.parser").find("table", {"id": "all-units-table"})
+    row = table.find("tr", {"id": f"unit-{unit.id}"})
+    assert item["longname"] in row.text  # by_piece=False

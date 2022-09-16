@@ -1,0 +1,21 @@
+{% extends 'modal.html' %}
+{% block modal_content %}
+<h4 class="title is-4">Neue Einheit anlegen</h4>
+
+  <form action="{{ url_for('settings.add_unit') }}" method="post" class="form">
+
+    {{ form.csrf_token }}
+
+    {{ form.longname.label() }}
+    {{ form.longname }}
+
+    {{ form.shortname.label() }}
+    {{ form.shortname }}
+
+    {{ form.by_piece.label() }}
+    {{ form.by_piece }}
+
+    <button class="button is-link" type="submit">Go!</button>
+  </form>
+
+{% endblock %}

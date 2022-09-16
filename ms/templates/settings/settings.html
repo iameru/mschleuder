@@ -2,6 +2,29 @@
 {% set title = 'Einstellungen' %}
 {% block content %}
 
+<button class="button is-link"
+        hx-get="{{ url_for('settings.add_unit') }}"
+        hx-target="body"
+        hx-swap="beforeend"
+        id="new-unit-button"
+        >neue Einheit</button>
+<table class="table is-hoverable is-fullwidth"
+       id="all-units-table">
+  <thead>
+    <th class="hover has-text-centered">Langname</th>
+    <th class="hover has-text-centered">Abkürzung</th>
+    <th class="hover has-text-centered">In stück</th>
+  </thead>
+  <tbody>
+    {% for unit in units %}
+    <tr id="unit-{{unit.id}}">
+     <td>{{unit.longname}}</td>
+     <td>{{unit.shortname}}</td>
+     <td>{% if unit.by_piece %}PP{% else %}WGHT{% endif %}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 
 
 <input type="text"
@@ -30,4 +53,4 @@ Logo: <img src={{ csa.logo }}
 
 {{ csa.packinglist_footer }}
 
-{% endblock %}
+{% endblock content %}
