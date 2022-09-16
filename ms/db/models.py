@@ -26,7 +26,7 @@ class Product(TimestampMixin, db.Model):
     __tablename__ = "products"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(128), nullable=False)
+    name = db.Column(db.String(128), unique=True, nullable=False)
     info = db.Column(db.String(128))
     last_distribution = db.Column(db.DateTime)
     unit_id = db.Column(db.Integer, db.ForeignKey("units.id"), nullable=False)

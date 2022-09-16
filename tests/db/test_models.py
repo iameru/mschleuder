@@ -2,6 +2,7 @@ import datetime
 
 from pytest import mark
 
+from ms.db import db_api
 from ms.db.models import Product, Station, Unit, db
 
 
@@ -35,6 +36,17 @@ def test_adding_unit_product(test_app):
     assert product_1 in unit.products
     assert product_2 not in unit.products
     assert product_3 in unit.products
+
+
+def test_unique_product_names():
+
+    product = dict(name="Kartoffel", unit_id=1, info="Lecker Kartoffel")
+    db_api.add(Product, product)
+    db_api.add(Product, product)
+    db_api.add(Product, product)
+    db_api.add(Product, product)
+    potatoes = Product.query.filter_by(name="Kartoffel").all()
+    assert len(potatoes) == 1
 
 
 def test_consistency_of_db_model():
