@@ -26,7 +26,29 @@
   </tbody>
 </table>
 
+<form action="{{ url_for('settings.settings_view') }}" method="post" class="form">
 
+  {{ form.csrf_token }}
+
+  {{ form.name.label() }}
+  {{ form.name }}
+  {{ form.display_name.label() }}
+  {{ form.display_name }}
+  {{ form.info.label() }}
+  {{ form.info }}
+  {{ form.header.label() }}
+  {{ form.header }}
+  {{ form.footer.label() }}
+  {{ form.footer }}
+
+  <button class="button is-link" type="submit">Go!</button>
+</form>
+
+
+
+
+
+<hr>
 <input type="text"
        class="input"
        hint="SoLaWi Name"

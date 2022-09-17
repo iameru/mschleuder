@@ -4,7 +4,7 @@ from wtforms.fields import SelectField
 from wtforms_alchemy import ModelForm
 
 from ms.config import Config
-from ms.db.models import Product, Station, Unit
+from ms.db.models import Organisation, Product, Station, Unit
 
 
 class BaseForm(ModelForm):
@@ -44,3 +44,8 @@ class UnitForm(BaseForm):
         choices=[("True", "In Stück"), ("False", "In Gewicht")],
         coerce=lambda x: x == "True",
     )
+
+
+class OrganisationForm(BaseForm):
+    class Meta:
+        model = Organisation

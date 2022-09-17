@@ -49,3 +49,16 @@ class StationHistory(Station):
     __tablename__ = "stationshistory"
 
     saved = db.Column(db.DateTime, onupdate=datetime.datetime.utcnow)
+
+
+class Organisation(db.Model):
+
+    __tablename__ = "settings"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(128), unique=True, nullable=False)
+    display_name = db.Column(db.String(128), unique=True, nullable=False)
+    info = db.Column(db.String(128))
+
+    header = db.Column(db.String(128), unique=True, nullable=False)
+    footer = db.Column(db.String(128), unique=True, nullable=False)
