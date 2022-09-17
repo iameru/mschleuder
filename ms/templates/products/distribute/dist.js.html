@@ -116,7 +116,6 @@ function dist_by_piece (input, m_full, m_half, divisor) {
     half_value   = Math.floor(single_value*divisor)
 
     rest = input - ( (single_value * m_full) + (half_value * m_half) )
-    if (rest == 0) { rest = "♥" }
 
     Object.values(stations).forEach(station => {
 

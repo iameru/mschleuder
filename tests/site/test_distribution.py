@@ -1,8 +1,6 @@
 from bs4 import BeautifulSoup as bs
-from pytest import mark
 
 from ms.db.models import Unit
-from ms.dev import dev_data
 
 
 def test_distribution_site_available(test_client, product):
@@ -41,6 +39,9 @@ def test_distribute_product_details_shown(test_client, product):
     assert product.unit.longname in label.text
 
 
+from pytest import mark
+
+
 @mark.skip
 def test_existing_distribution_data_shown(test_client, product):
 
@@ -72,12 +73,10 @@ def test_distribution_page_change_by_units(test_client):
     assert not add_piece_field
 
 
-def test_stations_in_dist(test_client, product):
+def test_stations_in_dist(test_client, product, stations):
 
     response = test_client.get(f"/products/distribute/{product.id}")
     body = bs(response.data, "html.parser").find("body")
-
-    stations = dev_data("stations-current")
 
     stations_element = body.find("div", {"id": "dist-stations-area"})
 
@@ -86,8 +85,8 @@ def test_stations_in_dist(test_client, product):
     for station in stations:
 
         station_element = stations_element.find(
-            "div", {"id": f"dist-station-{station['id']}"}
+            "div", {"id": f"dist-station-{station.id}"}
         )
-        assert station["name"] in station_element.text
-        assert str(station["members_full"]) in station_element.text
-        assert str(station["members_half"]) in station_element.text
+        assert station.name in station_element.text
+        assert str(station.members_full) in station_element.text
+        assert str(station.members_half) in station_element.text

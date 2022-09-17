@@ -1,8 +1,7 @@
 from flask import Blueprint, abort, redirect, render_template, request, session, url_for
 
 from ms.db.forms import ProductForm
-from ms.db.models import Product, Unit, db
-from ms.dev import dev_data
+from ms.db.models import Product, Station, Unit, db
 
 products = Blueprint("products", __name__)
 
@@ -50,10 +49,10 @@ def distribute_by_id(productid):
     if not product:
         abort(404)
 
-    stations = dev_data("stations-current")
+    stations = Station.query.all()
     station_sums = {
-        "full": sum(station["members_full"] for station in stations),
-        "half": sum(station["members_half"] for station in stations),
+        "full": sum(station.members_full for station in stations),
+        "half": sum(station.members_half for station in stations),
     }
     station_sums["total"] = station_sums["full"] + station_sums["half"]
 

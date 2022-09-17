@@ -62,6 +62,16 @@ def product(products):
 
 
 @pytest.fixture(scope="function")
+def units():
+    return Unit.query.all()
+
+
+@pytest.fixture(scope="function")
+def unit(units):
+    return choice(units)
+
+
+@pytest.fixture(scope="function")
 def stations():
     return Station.query.all()
 
