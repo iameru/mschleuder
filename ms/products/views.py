@@ -28,12 +28,21 @@ def products_view():
     )
 
 
-@products.route("/productdetail/<int:productid>")
-def detail_view(productid):
+@products.route("/productdetail/<int:productid>", methods=["POST", "GET"])
+def edit_view(productid):
 
     product = Product.query.get(productid)
+    form = ProductForm(request.form, obj=product)
 
-    return render_template("products/detail_view.html", product=product)
+    form.populate_obj(product)
+
+    if request.method == "POST" and form.validate():
+        db.session.add(product)
+        db.session.commit()
+
+        return redirect(url_for("products.products_view"), 302)
+
+    return render_template("products/detail_view.html", product=product, form=form)
 
 
 @products.route("/distribute")

@@ -9,7 +9,7 @@
     <small><i>(created at: {{product.created}})</i></small>
   {% endif %}
 <hr class="edit-hr">
-<form action="{{ url_for('product.edit', productid=product.id) }}"
+<form action="{{ url_for('products.edit_view', productid=product.id) }}"
       method="post"
       id="product-edit-form"
       class="form">

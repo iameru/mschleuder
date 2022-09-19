@@ -21,7 +21,7 @@ def test_distribute_product_details_shown(test_client, product):
     # check  link and follow
     response = test_client.get("/products/")
     html = bs(response.data, "html.parser")
-    product_row = html.find("tr", {"id": f"distribute-product-{product.id}"})
+    product_row = html.find("tr", {"id": f"product-row-{product.id}"})
     url = product_row.find("td")["onclick"].split("'")[1]
     distribute_page = test_client.get(url)
 
@@ -40,12 +40,6 @@ def test_distribute_product_details_shown(test_client, product):
 
 
 from pytest import mark
-
-
-@mark.skip
-def test_existing_distribution_data_shown(test_client, product):
-
-    assert False
 
 
 def test_distribution_page_change_by_units(test_client):

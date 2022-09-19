@@ -87,7 +87,7 @@
 
       <tbody id=item-table-body>
       {% for product in products %}
-        <tr id="distribute-product-{{ product.id }}">
+        <tr id="product-row-{{ product.id }}">
           <td class="clickable has-text-weight-medium pl-3"
               onclick="javascript:location.href='{{ url_for("products.distribute_by_id", productid=product.id) }}'"
               >{{ product.name }}</td>
@@ -99,10 +99,10 @@
               >{{ product.recent_distribution }}</td>
           <td class="clickable"
               onclick="javascript:location.href='{{ url_for("products.distribute_by_id", productid=product.id) }}'"
-              >{% if product.info %}{{ product.info }}{% else %}{% endif %}</td>
+              >{{ product.info }}</td>
           <td class="hover-alt clickable has-text-centered"
-              {{ product_modal("products.detail_view", product.id) }}
-              id="product-detail-view-{{product.id}}"
+              {{ product_modal("products.edit_view", product.id) }}
+              id="product-edit-view-{{product.id}}"
               >
               <img src="{{url_for('static', filename='icons/edit.svg')}}" width=18 alt="edit">
               </td>
