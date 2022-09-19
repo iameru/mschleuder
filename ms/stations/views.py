@@ -1,5 +1,6 @@
 from flask import Blueprint, redirect, render_template, request, url_for
 
+from ms.db import db_api
 from ms.db.forms import StationForm
 from ms.db.models import Station, db
 
@@ -13,10 +14,21 @@ def stations_view():
     return render_template("stations/stations.html", stations=stations)
 
 
-@stations.route("/edit", methods=["POST"])
-def edit():
+@stations.route("/edit/<int:stationid>", methods=["POST"])
+def edit(stationid):
 
-    return ""
+    station = Station.query.get(stationid)
+    form = StationForm(request.form)
+
+    if form.validate():
+
+        db_api.update(station, form.data)
+        db.session.commit()
+
+        return redirect(url_for("stations.stations_view"), 302)
+
+    flash("Da ging was schief..")
+    return redirect(url_for("stations.stations_view"), 302)
 
 
 @stations.route("/stationsdetail/<int:stationid>")

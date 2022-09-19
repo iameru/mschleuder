@@ -10,8 +10,7 @@
   {% endif %}
 <div>
 <hr class="edit-hr">
-
-<form action="{{ url_for('stations.edit') }}"
+<form action="{{ url_for('stations.edit', stationid=station.id) }}"
       method="post"
       id="station-edit-form"
       class="form">
@@ -36,61 +35,5 @@
 
     <button class="button is-link" type="submit">Go!</button>
   </form>
-
-
-
-  <hr>
-
-<form>
-
-<div class="columns is-centered">
- <div class="column is-4 has-text-centered border">
-             ●<input class="input"
-             id="membfull{{station.id}}"
-			 type="number"
-			 value="{{ station.members_full }}">
 </div>
- <div class="column is-4 has-text-centered">
-             ◑<input class="input"
-             id="membhalf{{station.id}}"
-			 type="number"
-			 value="{{ station.members_half }}">
- </div>
-</div>
-
-<div class="rows">
-  <div class="row">
-     <div class="field is-horizontal">
-		<label class="label">🛈</label>
-	    <div class="control">
-	     <input class="input"
-			type="text"
-			placeholder="infotext"
-			id="info{{station.id}}"
-			value="{{station.info}}">
-		</div>
-	</div>
-   </div>
-  <div class="row">
-     <div class="field is-horizontal">
-		<label class="label">order</label>
-	    <div class="control">
-	     <input class="input"
-			type="number"
-			placeholder="infotext"
-			id="order{{station.id}}"
-			value="{{station.order}}">
-		</div>
-	</div>
-   </div>
-<div class="row">
-    <button class="button is-link">💾 save</button>
-</div>
-</div>
-
-</form>
-</div>
-
-
-
 {% endblock %}

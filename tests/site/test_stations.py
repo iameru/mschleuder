@@ -102,6 +102,9 @@ def test_edit_station(test_client, csrf, station):
     del station_data["id"]
     del station_data["updated"]
     del station_data["created"]
+    station_data["members_full"] += 12
+    station_data["members_half"] += 1
+    station_data["name"] = "Station Site Edit Testname"
     response = test_client.post(
         form["action"], data=station_data, follow_redirects=True
     )
@@ -112,7 +115,10 @@ def test_edit_station(test_client, csrf, station):
     station_box = bs(response.data, "html.parser").find(
         "div", {"id": f"box-station-{station.id}"}
     )
-    assert station_box
+    assert station_data["name"] in station_box.text
+    assert station_data["info"] in station_box.text
+    assert str(station_data["members_full"]) in station_box.text
+    assert str(station_data["members_half"]) in station_box.text
 
 
 def test_values_in_edit_station(test_client, station):
@@ -133,6 +139,6 @@ def test_values_in_edit_station(test_client, station):
     # Values in Fields?
     assert station.name == name["value"]
     assert station.info == info["value"]
-    assert str(station.delivery_order) == delivery_order["value"]
+    assert station.delivery_order == int(delivery_order["value"])
     assert str(station.members_full) == members_full["value"]
     assert str(station.members_half) == members_half["value"]

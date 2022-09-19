@@ -39,10 +39,11 @@ def test_changing_organisation_changes_id_1(test_app):
     # For the moment I want to only use ID1 as organisations are per instance
     # later on this might be changed to multiple orgas per instance f.e. on a single server
 
-    assert Organisation.query.filter_by(**organisation).first()
+    org = Organisation.query.filter_by(**organisation).first()
+    assert org
 
     updates = dict(name="RuRübe SoLaWi", info="More Infos soon")
-    db_api.update(Organisation, organisation, updates)
+    db_api.update(org, updates)
 
     # updates should be in query
     organisation.update(updates)

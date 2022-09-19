@@ -1,4 +1,5 @@
 from sqlalchemy.dialects.sqlite import insert
+from sqlalchemy.orm import class_mapper
 
 from ms.db.models import Organisation, db
 
@@ -25,11 +26,24 @@ def add_org(item: dict):
     return True
 
 
-def update(Model, query_item: dict, update: dict):
+def update(modelinstance, update: dict):
 
-    if len(Model.query.filter_by(**query_item).all()) == 1:
+    _class = modelinstance.__class__
+    fields = class_mapper(_class).attrs.keys()
 
-        Model.query.filter_by(**query_item).update(update)
-        return True
+    for key, value in update.items():
 
-    return False
+        if key in fields:
+
+            setattr(modelinstance, key, value)
+
+
+# def _update(Model, query_item: dict, update: dict):
+#
+#    if len(Model.query.filter_by(**query_item).all()) == 1:
+#
+#        Model.query.filter_by(**query_item).update(update)
+#        db.session.commit()
+#        return True
+#
+#    return False
