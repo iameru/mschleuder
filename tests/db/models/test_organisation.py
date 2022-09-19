@@ -1,19 +1,49 @@
-from bs4 import BeautifulSoup as bs
+import datetime
+
+from ms.db import db_api
+from ms.db.models import Organisation, db
+
+organisation = dict(
+    name="CSA-Runkelrübe",
+    display_name="RuRü",
+    info="Some Information",
+    header="Here is your stuff for this week",
+    footer="Feel free to participate: https://runkerlrüberli.de.vu.xyz.com.ru.de/members",
+)
 
 
-# for now each app has one entry here. might change to multi later
-def test_settings_on_site(test_client):
+def test_adding_organisation(test_app):
 
-    response = test_client.get("/settings/")
+    # add orga
+    db_api.add(Organisation, organisation)
 
-    body = bs(response.data, "html.parser").find("body")
+    assert Organisation.query.filter_by(**organisation).first()
 
-    # find input fields
-    name = body.find("input", {"id": "name"})
-    display_name = body.find("input", {"id": "display_name"})
-    header = body.find("input", {"id": "header"})
-    footer = body.find("input", {"id": "footer"})
-    assert name
-    assert display_name
-    assert header
-    assert footer
+    # add more does not add more..
+    organisation.copy().update(name="Runkelrüberli SoLaWi")
+    db_api.add(Organisation, organisation)
+    organisation.copy().update(info="Epic")
+    db_api.add(Organisation, organisation)
+
+    assert len(Organisation.query.all()) == 1
+
+    # organisation is same as first entry
+    orga = Organisation.query.get(1).__dict__
+    del orga["_sa_instance_state"]
+    del orga["id"]
+    assert orga == organisation
+
+
+def test_changing_organisation_changes_id_1(test_app):
+
+    # For the moment I want to only use ID1 as organisations are per instance
+    # later on this might be changed to multiple orgas per instance f.e. on a single server
+
+    assert Organisation.query.filter_by(**organisation).first()
+
+    updates = dict(name="RuRübe SoLaWi", info="More Infos soon")
+    db_api.update(Organisation, organisation, updates)
+
+    # updates should be in query
+    organisation.update(updates)
+    assert Organisation.query.filter_by(**organisation).first()

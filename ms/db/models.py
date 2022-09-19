@@ -60,5 +60,5 @@ class Organisation(db.Model):
     display_name = db.Column(db.String(128), unique=True, nullable=False)
     info = db.Column(db.String(128))
 
-    header = db.Column(db.String(128), unique=True, nullable=False)
-    footer = db.Column(db.String(128), unique=True, nullable=False)
+    header = db.Column(db.String(128), unique=True, nullable=True)
+    footer = db.Column(db.String(128), unique=True, nullable=True)
