@@ -39,7 +39,7 @@ class Station(TimestampMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(128), unique=True, nullable=False)
     info = db.Column(db.String(128), nullable=True)
-    delivery_order = db.Column(db.Integer)
+    delivery_order = db.Column(db.Integer, nullable=False)
     members_full = db.Column(db.Integer, nullable=False)
     members_half = db.Column(db.Integer, nullable=False)
 

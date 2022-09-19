@@ -54,6 +54,7 @@ def test_add_station(test_client, csrf):
     station = dict(
         name="Station One",
         info="01234 Infotown - 123 Superstreet",
+        delivery_order=4,
         members_full=2,
         members_half=1,
     )
