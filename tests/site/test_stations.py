@@ -122,6 +122,38 @@ def test_edit_station(test_client, csrf, station):
     assert str(station_data["members_half"]) in station_box.text
 
 
+def test_edit_station_members(test_client, csrf):
+
+    response = test_client.get("/stations/stationsdetail/1")
+
+    form = bs(response.data, "html.parser").find("form")
+
+    name = form.find("input", {"id": "name"})
+    info = form.find("input", {"id": "info"})
+    delivery_order = form.find("input", {"id": "delivery_order"})
+    members_full = form.find("input", {"id": "members_full"})
+    members_half = form.find("input", {"id": "members_half"})
+
+    data = dict(
+        name=name["value"],
+        info=info["value"],
+        delivery_order=delivery_order["value"],
+        members_full=int(members_full["value"]) + 5,
+        members_half=int(members_half["value"]) + 3,
+    )
+
+    data.update(csrf=csrf(response))
+
+    response = test_client.post(form["action"], data=data, follow_redirects=True)
+    # find new values in stations site
+    response = test_client.get("/stations/")
+    station_box = bs(response.data, "html.parser").find("div", {"id": "box-station-1"})
+    assert data["name"] in station_box.text
+    assert data["info"] in station_box.text
+    assert str(data["members_full"]) in station_box.text
+    assert str(data["members_half"]) in station_box.text
+
+
 def test_values_in_edit_station(test_client, station):
 
     response = test_client.get("/stations/")

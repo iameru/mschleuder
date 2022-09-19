@@ -69,17 +69,3 @@ def test_edit_station_change_and_timestamp(test_app):
 
     # expect updated time to be changed
     assert station.updated
-
-
-def test_edit_station_edit_via_attrs(test_app, station):
-
-    assert station.name != "Superduper"
-
-    data = dict(name="Superduper", extra_value_key="123")
-    _id = station.id
-
-    db_api.update(station, data)
-
-    station = Station.query.get(_id)
-    assert station.name == "Superduper"
-    assert "extra_value_key" not in station.__dict__

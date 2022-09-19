@@ -43,7 +43,9 @@ def test_changing_organisation_changes_id_1(test_app):
     assert org
 
     updates = dict(name="RuRübe SoLaWi", info="More Infos soon")
-    db_api.update(org, updates)
+
+    query = dict(id=org.id)
+    db_api.update(Organisation, query, updates)
 
     # updates should be in query
     organisation.update(updates)

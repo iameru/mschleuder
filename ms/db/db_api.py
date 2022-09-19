@@ -6,7 +6,15 @@ from ms.db.models import Organisation, db
 
 def add(Model, item: dict):
 
-    stmt = insert(Model).values(**item).on_conflict_do_nothing()
+    data = {}
+    # throw away fields not used in Model
+    fields = class_mapper(Model).attrs.keys()
+    for key, value in item.items():
+
+        if key in fields:
+            data[key] = value
+
+    stmt = insert(Model).values(**data).on_conflict_do_nothing()
     db.session.execute(stmt)
     db.session.commit()
 
@@ -26,24 +34,12 @@ def add_org(item: dict):
     return True
 
 
-def update(modelinstance, update: dict):
+def update(Model, query_item: dict, update: dict):
 
-    _class = modelinstance.__class__
-    fields = class_mapper(_class).attrs.keys()
+    if len(Model.query.filter_by(**query_item).all()) == 1:
 
-    for key, value in update.items():
+        Model.query.filter_by(**query_item).update(update)
+        db.session.commit()
+        return True
 
-        if key in fields:
-
-            setattr(modelinstance, key, value)
-
-
-# def _update(Model, query_item: dict, update: dict):
-#
-#    if len(Model.query.filter_by(**query_item).all()) == 1:
-#
-#        Model.query.filter_by(**query_item).update(update)
-#        db.session.commit()
-#        return True
-#
-#    return False
+    return False
