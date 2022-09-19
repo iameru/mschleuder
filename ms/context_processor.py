@@ -9,6 +9,7 @@ def inject():
     context.update({"in_distribution": dev_data("in-distribution")})
 
     organisation = Organisation.query.get(1)
+
     context.update({"csa": organisation})
 
     return context

@@ -20,10 +20,6 @@ def url(test_client, url, string, longmode=True):
     assert string in title.text
 
 
-def test_template_and_url_for_settings(test_client):
-    url(test_client, "/settings", "Einstellungen")
-
-
 def test_template_and_url_for_stations(test_client):
     url(test_client, "/stations", "Stationen")
 

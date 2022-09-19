@@ -7,12 +7,19 @@ from ms.db.models import Organisation, Unit, db
 settings = Blueprint("settings", __name__)
 
 
+@settings.route("/setup")
+def setup():
+
+    return "hello"
+
+
 @settings.route("/")
 def settings_view():
 
     organisation = Organisation.query.get(1)
     if not organisation:
-        abort(404)  # REDIRECT create
+        return redirect(url_for("settings.setup"), 302)
+
     form = OrganisationForm(request.form, organisation)
 
     # if request.method == "POST" and form.validate():

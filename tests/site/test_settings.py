@@ -1,6 +1,31 @@
 from bs4 import BeautifulSoup as bs
 
-from ms.db.models import Organisation, Unit
+from ms.db import db_api
+from ms.db.models import Organisation, Unit, db
+from tests.db.models.test_organisation import organisation
+
+
+def test_no_settings_available_hint(test_client):
+
+    # settup ensure no db entry for orga
+    org = Organisation.query.get(1)
+    db.session.delete(org)
+    db.session.commit()
+    org = Organisation.query.get(1)
+    assert not org
+
+    # Check some routes for a redirect if there is a warning
+    response = test_client.get("/stations", follow_redirects=True)
+    assert bs(response.data, "html.parser").find("div", {"id": "setup-warning"})
+
+    # teardown
+    db_api.add(Organisation, organisation)
+    org = Organisation.query.get(1)
+    assert org
+
+    # Check some routes for a redirect if there is no warning
+    response = test_client.get("/stations", follow_redirects=True)
+    assert not bs(response.data, "html.parser").find("div", {"id": "setup-warning"})
 
 
 def test_settings_on_page(test_client):

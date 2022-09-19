@@ -18,7 +18,6 @@
     {% if csa.name %}<title>ms | {{ csa.name }}</title>{% else %}<title>möhrenschleuder</title>{% endif %}
  </head>
 <body>
-
   <div class="container">
 
     <div class="columns reverse-row-order">{# reverse for flexbox (desktop), displaying correct order in mobile/touch #}
@@ -27,8 +26,7 @@
         {% include 'menu.html' %}
       </div>
 
-      <div class="column mt-4">
-      {# messages------------------------------ #}
+      <div class="column mt-4"> {# CONTENT DIV #}
         <h2 class="title is-2"
               id="site-title">{{ title }}</h2>
         {% with messages = get_flashed_messages() %}{% if messages %}
@@ -37,38 +35,40 @@
           <button class="delete"></button>
         </div>
         {% endif %}{% endwith %}
-
+        {% if not csa %}
+                                                                                                                                                                               <div class="notification is-danger" id="setup-warning">
+            <p>Noch nicht eingerichtet!</p>
+            <p>Bitte <a href="{{url_for("settings.setup")}}">Infos zur SoLaWi angeben!</a>
+          </div>
+        {% endif %}
         {% block content %}{% endblock %}
       </div>
 
-
     </div>
-
     {% include 'footer.html' %}
-
   </div>{# end container div #}
 
 
-  <script src="{{ url_for('static', filename='assets/htmx.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='assets/hyperscript.js') }}"></script>
-  {% block scripts %}{% endblock %}
-  <script>
-    {# BULMA CSS close notifications #}
-    document.addEventListener('DOMContentLoaded', () => {
-      (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
-        const $notification = $delete.parentNode;
+<script src="{{ url_for('static', filename='assets/htmx.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/hyperscript.js') }}"></script>
+{% block scripts %}{% endblock %}
+<script>
+  {# BULMA CSS close notifications #}
+  document.addEventListener('DOMContentLoaded', () => {
+    (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+      const $notification = $delete.parentNode;
 
-        $delete.addEventListener('click', () => {
-          $notification.parentNode.removeChild($notification);
-        });
+      $delete.addEventListener('click', () => {
+        $notification.parentNode.removeChild($notification);
       });
     });
-    {# simple toggle for display:none #}
-    function expand(e) {
-            document.getElementById(e).classList.toggle('expand');
-    }
-  </script>
+  });
+  {# simple toggle for display:none #}
+  function expand(e) {
+          document.getElementById(e).classList.toggle('expand');
+  }
+</script>
 
-  </body>
+</body>
 <!-- made by e https//i3o.eu -->
 </html>
