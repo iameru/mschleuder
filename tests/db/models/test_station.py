@@ -52,13 +52,14 @@ def test_edit_station_change_and_timestamp(test_app):
 
     # get station
     station = Station.query.get(1)
-    assert station.name == "Station Superstar"
-    first_update_time = station.updated
     members_full = station.members_full
+    assert station.name == "Station Superstar"
+    assert station.created
+    assert not station.updated
 
     # make changes
     station.name = "Superstation Megagood NEW"
-    station.members_full = 35
+    station.members_full = members_full + 5
     db.session.commit()
 
     # expect changes
@@ -67,4 +68,4 @@ def test_edit_station_change_and_timestamp(test_app):
     assert station_new.members_full != members_full
 
     # expect updated time to be changed
-    assert station_new.updated != first_update_time
+    assert station.updated
