@@ -28,7 +28,7 @@ def edit(stationid):
 
         return redirect(url_for("stations.stations_view"), 302)
 
-    flash(form.errors)
+    flash("something went wrong...")
     return redirect(url_for("stations.stations_view"), 302)
 
 
@@ -44,15 +44,15 @@ def detail_view(stationid):
 @stations.route("/new", methods=["GET", "POST"])
 def new_station():
 
+    station = Station()
     form = StationForm(request.form)
+    form.populate_obj(station)
 
     if request.method == "POST" and form.validate():
 
-        data = form.data
-        del data["csrf_token"]
-        station = Station(**data)
         db.session.add(station)
         db.session.commit()
+
         return redirect(url_for("stations.stations_view"), 302)
 
     return render_template("stations/new.html", form=form)

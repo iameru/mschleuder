@@ -33,10 +33,10 @@ def edit_view(productid):
 
     product = Product.query.get(productid)
     form = ProductForm(request.form, obj=product)
-
     form.populate_obj(product)
 
     if request.method == "POST" and form.validate():
+
         db.session.add(product)
         db.session.commit()
 
@@ -76,15 +76,15 @@ def distribute_by_id(productid):
 @products.route("/new", methods=["GET", "POST"])
 def new_product():
 
+    product = Product()
     form = ProductForm(request.form)
+    form.populate_obj(product)
 
     if request.method == "POST" and form.validate():
 
-        data = form.data
-        del data["csrf_token"]
-        product = Product(**data)
         db.session.add(product)
         db.session.commit()
+
         return redirect(url_for("products.products_view"), 302)
 
     return render_template("products/new.html", form=form)
