@@ -1,6 +1,6 @@
 from sqlalchemy.dialects.sqlite import insert
 
-from ms.db.models import db
+from ms.db.models import Organisation, db
 
 
 def add(Model, item: dict):
@@ -12,13 +12,17 @@ def add(Model, item: dict):
     return True
 
 
-def _add(Model):
+def add_org(item: dict):
 
-    val = dict(**Model.__dict__)
-    del val["_sa_instance_state"]
-    s = insert(Model.__class__).values(val).on_conflict_do_nothing()
-    db.session.execute(s)
+    # currently one org per app
+    if len(Organisation.query.all()) >= 1:
+        return False
+
+    stmt = insert(Organisation).values(**item).on_conflict_do_nothing()
+    db.session.execute(stmt)
     db.session.commit()
+
+    return True
 
 
 def update(Model, query_item: dict, update: dict):

@@ -1,13 +1,14 @@
 from bs4 import BeautifulSoup as bs
+from flask import url_for
 
 from ms.db import db_api
 from ms.db.models import Organisation, Unit, db
 from tests.db.models.test_organisation import organisation
 
 
-def test_no_settings_available_hint(test_client):
+def test_no_settings_available_hint(test_client, test_app, csrf):
 
-    # settup ensure no db entry for orga
+    # setup scenario, app not set up yet by users
     org = Organisation.query.get(1)
     db.session.delete(org)
     db.session.commit()
@@ -16,14 +17,28 @@ def test_no_settings_available_hint(test_client):
 
     # Check some routes for a redirect if there is a warning
     response = test_client.get("/stations", follow_redirects=True)
-    assert bs(response.data, "html.parser").find("div", {"id": "setup-warning"})
+    user_warning = bs(response.data, "html.parser").find("div", {"id": "setup-warning"})
+    assert user_warning
 
-    # teardown
-    db_api.add(Organisation, organisation)
+    # follow user warning
+    link = user_warning.find("a")
+    response = test_client.get(link["href"])
+    form = bs(response.data, "html.parser").find(
+        "form", {"id": "new-organisation-form"}
+    )
+    assert form
+
+    # add organisation
+    data = organisation.copy()
+    data["csrf_token"] = csrf(response)
+    response = test_client.post(form["action"], data=data, follow_redirects=True)
+    assert response.status_code == 200
+
+    # expect it in database
     org = Organisation.query.get(1)
     assert org
 
-    # Check some routes for a redirect if there is no warning
+    # Check some routes for a redirect if there is no warning anymore
     response = test_client.get("/stations", follow_redirects=True)
     assert not bs(response.data, "html.parser").find("div", {"id": "setup-warning"})
 

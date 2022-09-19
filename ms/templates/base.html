@@ -36,10 +36,10 @@
         </div>
         {% endif %}{% endwith %}
         {% if not csa %}
-                                                                                                                                                                               <div class="notification is-danger" id="setup-warning">
-            <p>Noch nicht eingerichtet!</p>
-            <p>Bitte <a href="{{url_for("settings.setup")}}">Infos zur SoLaWi angeben!</a>
-          </div>
+        <div class="notification is-danger" id="setup-warning">
+          <p>Noch nicht eingerichtet!</p>
+          <p>Bitte <a href="{{url_for("settings.settings_view")}}">Infos zur SoLaWi angeben!</a>
+        </div>
         {% endif %}
         {% block content %}{% endblock %}
       </div>
