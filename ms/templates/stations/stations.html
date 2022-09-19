@@ -22,18 +22,20 @@
 {% for station in stations %}
  <div class="column is-4" id="{{station.order}}">
    <div class="box" id="box-station-{{station.id}}">
-    <div class="level">
-    <h2 class="level-left is-size-2 has-text-weight-medium is-primary has-text-dark">
-       {{ station.name }}
-    </h2>
-    <small="level-right">
-    <a id="station-edit-view-{{station.id}}"
-       hx-get="{{ url_for('stations.detail_view', stationid=station.id) }}"
-       hx-target="body"
-       hx-swap="beforeend">
-     <img src="{{url_for('static', filename='icons/edit.svg')}}" width=24 />
-   </a>
-    </small>
+    <div class="columns is-multiline">
+      <div class="column">
+        <h2 class="level-left is-size-2 has-text-weight-medium is-primary has-text-dark">
+           {{ station.name }}
+        </h2>
+      </div>
+      <div class="column is-2">
+        <a id="station-edit-view-{{station.id}}"
+           hx-get="{{ url_for('stations.detail_view', stationid=station.id) }}"
+           hx-target="body"
+           hx-swap="beforeend">
+          <img src="{{url_for('static', filename='icons/edit.svg')}}" width=24 />
+        </a>
+      </div>
     </div>
      <p>
        👥{{ station.members_full + station.members_half }}
@@ -48,7 +50,7 @@
     </p>
 
 
-   </div>
+   </div> {# end div box #}
   </div>
   {% endfor %}
 </div>

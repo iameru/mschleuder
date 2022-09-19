@@ -13,11 +13,19 @@ def stations_view():
     return render_template("stations/stations.html", stations=stations)
 
 
+@stations.route("/edit", methods=["POST"])
+def edit():
+
+    return ""
+
+
 @stations.route("/stationsdetail/<int:stationid>")
 def detail_view(stationid):
 
     station = Station.query.get(stationid)
-    return render_template("stations/detail_view.html", station=station)
+    form = StationForm(request.form, station)
+
+    return render_template("stations/detail_view.html", station=station, form=form)
 
 
 @stations.route("/new", methods=["GET", "POST"])
