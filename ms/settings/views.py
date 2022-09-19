@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, render_template, request, url_for
+from flask import Blueprint, abort, redirect, render_template, request, url_for
 
 from ms.db import db_api
 from ms.db.forms import OrganisationForm, UnitForm
@@ -11,6 +11,8 @@ settings = Blueprint("settings", __name__)
 def settings_view():
 
     organisation = Organisation.query.get(1)
+    if not organisation:
+        abort(404)  # REDIRECT create
     form = OrganisationForm(request.form, organisation)
 
     # if request.method == "POST" and form.validate():

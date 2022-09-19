@@ -2,77 +2,52 @@
 {% set title = 'Einstellungen' %}
 {% block content %}
 
-<button class="button is-link"
-        hx-get="{{ url_for('settings.add_unit') }}"
-        hx-target="body"
-        hx-swap="beforeend"
-        id="new-unit-button"
-        >neue Einheit</button>
-<table class="table is-hoverable is-fullwidth"
-       id="all-units-table">
-  <thead>
-    <th class="hover has-text-centered">Langname</th>
-    <th class="hover has-text-centered">Abkürzung</th>
-    <th class="hover has-text-centered">In stück</th>
-  </thead>
-  <tbody>
-    {% for unit in units %}
-    <tr id="unit-{{unit.id}}">
-     <td>{{unit.longname}}</td>
-     <td>{{unit.shortname}}</td>
-     <td>{% if unit.by_piece %}PP{% else %}WGHT{% endif %}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<div class="columns is-multiline is-centered">
+  <div class="column is-half">
+    <form action="{{ url_for('settings.settings_view') }}" method="post" class="form">
 
-<form action="{{ url_for('settings.settings_view') }}" method="post" class="form">
+      {{ form.csrf_token }}
 
-  {{ form.csrf_token }}
+      {{ form.name.label() }}
+      {{ form.name }}
+      {{ form.display_name.label() }}
+      {{ form.display_name }}
+      {{ form.info.label() }}
+      {{ form.info }}
+      {{ form.header.label() }}
+      {{ form.header }}
+      {{ form.footer.label() }}
+      {{ form.footer }}
 
-  {{ form.name.label() }}
-  {{ form.name }}
-  {{ form.display_name.label() }}
-  {{ form.display_name }}
-  {{ form.info.label() }}
-  {{ form.info }}
-  {{ form.header.label() }}
-  {{ form.header }}
-  {{ form.footer.label() }}
-  {{ form.footer }}
+      <button class="button is-link" type="submit">Go!</button>
+    </form>
+  </div>
+  <div class="column is-half" id="units-div">
+    <button class="button is-link"
+            hx-get="{{ url_for('settings.add_unit') }}"
+            hx-target="body"
+            hx-swap="beforeend"
+            id="new-unit-button"
+            >neue Einheit</button>
+    <table class="table is-hoverable is-fullwidth"
+           id="all-units-table">
+      <thead>
+        <th class="hover has-text-centered">Langname</th>
+        <th class="hover has-text-centered">Abkürzung</th>
+        <th class="hover has-text-centered">In stück</th>
+      </thead>
+      <tbody>
+        {% for unit in units %}
+        <tr id="unit-{{unit.id}}">
+         <td>{{unit.longname}}</td>
+         <td>{{unit.shortname}}</td>
+         <td>{% if unit.by_piece %}PP{% else %}WGHT{% endif %}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 
-  <button class="button is-link" type="submit">Go!</button>
-</form>
-
-
-
-
-
-<hr>
-<input type="text"
-       class="input"
-       hint="SoLaWi Name"
-       value="{{ csa.csa_name }}"
-       id="input-csa-name"/>
-<label class="label"
-       for="input-csa-name">SoLaWi Name <small>(auch für Lieferschein)</small></label>
-
-<div id="settings-unit">
-Einheit  {% for unit in csa.units %}
-      {{unit}}
-    {% endfor %}
 </div>
-
-<div id="settings-unit-info">
-    {% for base_unit in csa.base_units %}
-            {{ base_unit }}
-    {% endfor %}
-</div>
-
-Logo: <img src={{ csa.logo }}
-     alt="CSA logo"/>
-
-
-{{ csa.packinglist_footer }}
 
 {% endblock content %}
