@@ -1,9 +1,18 @@
 {% extends 'modal.html' %}
 {% block modal_content %}
-<h4 class="title is-4"> Edit </h4>
-<p class="subtitle"> this will be an editing screen modal </p>
-{{ product.name }}
-{{ product.unit }}
-{{ product.recent_distribution }}
-{{ product.info }}
+<h3 class="title is-3">{{product.name}}</h3>
+<p class="subtitle">
+  {% if product.updated %}
+    <small><i>(last edit: {{product.updated}})</i></small>
+  {% endif %}
+  {% if product.created %}
+    <small><i>(created at: {{product.created}})</i></small>
+  {% endif %}
+<hr class="edit-hr">
+<form action="{{ url_for('product.edit', productid=product.id) }}"
+      method="post"
+      id="product-edit-form"
+      class="form">
+  {% include 'products/form.html' %}
+</form>
 {% endblock %}

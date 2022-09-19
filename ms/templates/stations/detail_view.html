@@ -8,32 +8,11 @@
   {% if station.created %}
     <small><i>(created at: {{station.created}})</i></small>
   {% endif %}
-<div>
 <hr class="edit-hr">
 <form action="{{ url_for('stations.edit', stationid=station.id) }}"
       method="post"
       id="station-edit-form"
       class="form">
-
-    {{ form.csrf_token }}
-
-    {{ form.name.label() }}
-    {{ form.name }}
-
-    {{ form.info.label() }}
-    {{ form.info }}
-
-    {{ form.delivery_order.label() }}
-    {{ form.delivery_order }}
-
-    {{ form.members_full.label() }}
-    {{ form.members_full }}
-
-    {{ form.members_half.label() }}
-    {{ form.members_half }}
-
-
-    <button class="button is-link" type="submit">Go!</button>
+    {% include 'stations/form.html' %}
   </form>
-</div>
 {% endblock %}
