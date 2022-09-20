@@ -1,10 +1,11 @@
 from flask import session
 from wtforms.csrf.session import SessionCSRF
-from wtforms.fields import SelectField
+from wtforms.fields import FieldList, FormField, SelectField, SelectMultipleField
 from wtforms_alchemy import ModelForm
+from wtforms_alchemy.fields import QuerySelectMultipleField
 
 from ms.config import Config
-from ms.db.models import Organisation, Product, Station, Unit
+from ms.db.models import Organisation, Product, Station, Unit, db
 
 
 class BaseForm(ModelForm):
@@ -18,22 +19,6 @@ class BaseForm(ModelForm):
             return session
 
 
-class ProductForm(BaseForm):
-    class Meta:
-        model = Product
-
-    unit_id = SelectField("Einheit", coerce=int)
-
-    def __init__(self, *args, **kwargs):
-        super(ProductForm, self).__init__(*args, **kwargs)
-        self.unit_id.choices = [(unit.id, unit.longname) for unit in Unit.query.all()]
-
-
-class StationForm(BaseForm):
-    class Meta:
-        model = Station
-
-
 class UnitForm(BaseForm):
     class Meta:
         model = Unit
@@ -44,6 +29,23 @@ class UnitForm(BaseForm):
         choices=[("True", "In Stück"), ("False", "In Gewicht")],
         coerce=lambda x: x == "True",
     )
+
+
+class ProductForm(BaseForm):
+    class Meta:
+        model = Product
+
+    units = QuerySelectMultipleField(
+        "Units",
+        query_factory=lambda: db.session.query(Unit),
+        get_pk=lambda unit: unit.id,
+        get_label=lambda unit: unit.longname,
+    )
+
+
+class StationForm(BaseForm):
+    class Meta:
+        model = Station
 
 
 class OrganisationForm(BaseForm):

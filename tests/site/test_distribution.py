@@ -36,7 +36,8 @@ def test_distribute_product_details_shown(test_client, product):
 
     assert product.name in title.text
     assert product.info in distribute_page.text
-    assert product.unit.longname in label.text
+    for unit in product.units:
+        assert unit.longname in label.text
 
 
 from pytest import mark

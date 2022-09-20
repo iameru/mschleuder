@@ -77,7 +77,8 @@ def distribute_by_id(productid):
 def new_product():
 
     product = Product()
-    form = ProductForm(request.form)
+    form = ProductForm(request.form, obj=product)
+
     form.populate_obj(product)
 
     if request.method == "POST" and form.validate():

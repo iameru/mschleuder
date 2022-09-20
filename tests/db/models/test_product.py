@@ -11,20 +11,24 @@ def test_adding_unit_product(test_app):
     st = dict(shortname="st", by_piece=True, longname="Stück")
     db_api.add(Unit, kg)
     db_api.add(Unit, st)
+    kg = Unit.query.filter_by(**kg).first()
+    st = Unit.query.filter_by(**st).first()
 
     # add products
-    product_1 = dict(name="Kartoffel", unit_id=1, info="Lecker Kartoffel")
-    db_api.add(Product, product_1)
-    product_2 = dict(name="Kohlrabi", unit_id=2, info="Super Kohlrabi")
-    db_api.add(Product, product_2)
-    product_3 = dict(name="Mangold", unit_id=1, info="Mega Mangold")
-    db_api.add(Product, product_3)
+    product_1 = dict(name="Kartoffel", units=[kg], info="Lecker Kartoffel")
+    product_2 = dict(name="Kohlrabi", units=[st], info="Super Kohlrabi")
+    product_3 = dict(name="Mangold", units=[kg], info="Mega Mangold")
+    for product in [product_1, product_2, product_3]:
+        pr = Product(**product)
+        db.session.add(pr)
+
+    db.session.commit()
 
     # get products and check unit name
     products = Product.query.all()
     assert len(products) == 3
     for product in products:
-        assert product.unit.longname
+        assert len(product.units) == 1
 
     # get one unit and check its products
     unit = Unit.query.filter_by(shortname="kg").first()
@@ -68,3 +72,17 @@ def test_edit_products_change_and_timestamp(test_app):
 
     # expect updated time to be changed
     assert product.updated
+
+
+def test_product_multiple_units():
+
+    unit_1 = Unit.query.get(1)
+    unit_2 = Unit.query.get(2)
+    product_data = dict(name="Rote Beete", units=[unit_1, unit_2], info="choose wisely")
+    product = Product(**product_data)
+    db.session.add(product)
+
+    product = Product.query.filter_by(name="Rote Beete").first()
+    assert product
+    assert unit_1 in product.units
+    assert unit_2 in product.units

@@ -80,7 +80,7 @@ def test_add_product_modal(test_client, csrf):
     doc = bs(response.data, "html.parser")
     assert doc.find("input", {"id": "name"})
     assert doc.find("input", {"id": "info"})
-    assert doc.find("select", {"id": "unit_id"})
+    assert doc.find("select", {"id": "units"})
     assert csrf(response)
 
     units = Unit.query.all()
@@ -88,9 +88,10 @@ def test_add_product_modal(test_client, csrf):
         assert unit.longname in response.text
 
 
-def test_add_product(test_client, csrf):
+def test_add_product_with_two_units(test_client, csrf):
 
-    item = dict(name="Tomate", info="yummi", unit_id=2)
+    units = [Unit.query.get(1), Unit.query.get(2)]
+    item = dict(name="Tomate", info="yummi", units=[unit.id for unit in units])
 
     # check product not in table
     response = test_client.get("/products/")
@@ -115,11 +116,11 @@ def test_add_product(test_client, csrf):
     assert product
     table = bs(response.data, "html.parser").find("table", {"id": "all-products-table"})
     row = table.find("tr", {"id": f"product-row-{product.id}"})
-    unit = Unit.query.get(item["unit_id"])
 
     assert item["name"] in row.text
     assert item["info"] in row.text
-    assert unit.shortname in row.text
+    for unit in units:
+        assert unit.shortname in row.text
 
 
 def test_edit_product(test_client, csrf, product):

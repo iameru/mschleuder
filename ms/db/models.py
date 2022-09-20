@@ -1,6 +1,7 @@
 import datetime
 
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.ext.associationproxy import association_proxy
 
 db = SQLAlchemy()
 
@@ -18,7 +19,13 @@ class Unit(db.Model):
     by_piece = db.Column(db.Boolean, nullable=False)
     shortname = db.Column(db.String(128), unique=True, nullable=False)
     longname = db.Column(db.String(128), unique=True, nullable=False)
-    products = db.relationship("Product", backref="unit", lazy=True)
+
+
+product_units = db.Table(
+    "product_units",
+    db.Column("unit_id", db.Integer, db.ForeignKey("units.id"), primary_key=True),
+    db.Column("product_id", db.Integer, db.ForeignKey("products.id"), primary_key=True),
+)
 
 
 class Product(TimestampMixin, db.Model):
@@ -29,7 +36,12 @@ class Product(TimestampMixin, db.Model):
     name = db.Column(db.String(128), unique=True, nullable=False)
     info = db.Column(db.String(128))
     last_distribution = db.Column(db.DateTime)
-    unit_id = db.Column(db.Integer, db.ForeignKey("units.id"), nullable=False)
+    units = db.relationship(
+        "Unit",
+        secondary=product_units,
+        lazy="subquery",
+        backref=db.backref("products", lazy="subquery"),
+    )
 
 
 class Station(TimestampMixin, db.Model):
