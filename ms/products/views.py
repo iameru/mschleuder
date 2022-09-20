@@ -11,21 +11,7 @@ def products_view():
 
     products = Product.query.all()
 
-    all_products = sorted(products.copy(), key=lambda item: item.name)
-    distributed_products = [
-        product for product in products if product.last_distribution
-    ]
-    recent_products = sorted(
-        distributed_products, key=lambda item: item.last_distribution
-    )
-    recent_products.reverse()
-    recent_products = recent_products[:10]
-
-    return render_template(
-        "products/products.html",
-        products=all_products,
-        recent_products=recent_products,
-    )
+    return render_template("products/products.html", products=products)
 
 
 @products.route("/productdetail/<int:productid>", methods=["POST", "GET"])

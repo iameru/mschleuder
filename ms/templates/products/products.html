@@ -19,6 +19,7 @@
     $('#all-products-table').DataTable({
         paging: false,
         responsive: true,
+        order: [[2, 'desc'], [0, 'asc']],
         columns: [
         null,
         null,
@@ -43,23 +44,6 @@
             id="new-product-button"
             >neues produkt</button>
   </div>
-</div>
-{# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - RECENTLY USED PRODUCTS #}
-<p class="pb-2 has-text-centered">Zuletzt verteilt:</p>
-<div class="columns is-mobile is-multiline is-centered recent-distribution" id="recent-distribution">
-  {% for product in recent_products %}
-  <div class="column is-narrow is-one-third-mobile" id="{{product.order}}">
-   <div class="box ms-box clickable">
-     <div class="columns">
-       <div class="column has-text-weight-medium has-text-dark"
-            id="product{{product.id}}"
-            onclick="javascript:location.href='{{ url_for("products.distribute_by_id", productid=product.id) }}'">
-           {{ product.name }}
-         </div>
-       </div>
-    </div>
-  </div>
-  {% endfor %}
 </div>
 {# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ALL PRODUCTS #}
 <div class="columns is-centered">
