@@ -10,3 +10,12 @@
     {{ form.info }}
 
     <button class="button is-link" type="submit">Go!</button>
+
+    <script>
+    $("option").mousedown(function(e) {
+      e.preventDefault();
+      this.parentElement.focus();
+      this.selected = !this.selected;
+      return false;
+      });
+    </script>
