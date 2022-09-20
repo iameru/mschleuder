@@ -40,13 +40,20 @@ def test_adding_unit_product(test_app):
     assert p in unit.products
 
 
+from sqlalchemy.exc import IntegrityError
+
+
 def test_unique_product_names():
 
-    product = dict(name="Kartoffel", unit_id=1, info="Lecker Kartoffel")
-    db_api.add(Product, product)
-    db_api.add(Product, product)
-    db_api.add(Product, product)
-    db_api.add(Product, product)
+    kg = Unit.query.filter_by(shortname="kg").first()
+    product = dict(name="Kartoffel", units=[kg], info="Lecker Kartoffel")
+    try:
+        db.session.add(Product(**product))
+        db.session.add(Product(**product))
+        db.session.commit()
+    except IntegrityError:
+        db.session.rollback()
+
     potatoes = Product.query.filter_by(name="Kartoffel").all()
     assert len(potatoes) == 1
 
