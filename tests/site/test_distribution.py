@@ -7,22 +7,12 @@ from pytest import mark
 from ms.db.models import Product, Unit
 
 
-@mark.skip
-def test_distribution_site_available(test_client, product):
-
-    response = test_client.get(f"/products/distribute/{product.id}")
-    assert response.status_code == 200
-    assert product.name in response.text
-
-
-@mark.skip
 def test_distribution_site_throws_404_if_no_product(test_client):
 
-    response = test_client.get("/products/distribute/999999999")
+    response = test_client.get("/distribute/999999999")
     assert response.status_code == 404
 
 
-@mark.skip
 def test_distribute_product_details_shown(test_client, product):
 
     # check  link and follow
@@ -30,10 +20,18 @@ def test_distribute_product_details_shown(test_client, product):
     html = bs(response.data, "html.parser")
     product_row = html.find("tr", {"id": f"product-row-{product.id}"})
     url = product_row.find("td")["onclick"].split("'")[1]
-    distribute_page = test_client.get(url)
+
+    if len(product.units) > 1:
+        unit = choice(product.units)
+        url = url_for(
+            "distribution.distribute",
+            p_unit_shortname=unit.shortname,
+            p_id=product.id,
+        )
+
+    distribute_page = test_client.get(url, follow_redirects=True)
 
     assert product_row
-    assert distribute_page.status_code == 200
 
     # check distribute page for details
     body = bs(distribute_page.data, "html.parser").find("body")
@@ -43,40 +41,61 @@ def test_distribute_product_details_shown(test_client, product):
 
     assert product.name in title.text
     assert product.info in distribute_page.text
-    for unit in product.units:
+    if len(product.units) > 1:
         assert unit.longname in label.text
+    else:
+        for unit in product.units:
+            assert unit.longname in label.text
 
 
-@mark.skip
 def test_distribution_page_change_by_units(test_client):
 
-    product = Unit.query.filter_by(by_piece=True).first()
-    body = bs(
-        test_client.get(f"/products/distribute/{product.id}").data, "html.parser"
-    ).find("body")
+    # get a product in Piece
+    unit = Unit.query.filter_by(by_piece=True).first()
+    product = choice(unit.products)
+    url = url_for(
+        "distribution.distribute",
+        p_unit_shortname=unit.shortname,
+        p_id=product.id,
+    )
+    # get dist_site for it
+    body = bs(test_client.get(url).data, "html.parser").find("body")
     accuracy_field = body.find("p", {"id": "dist-accuracy-field"})
     rest_field = body.find("p", {"id": "dist-rest-field"})
     add_piece_field = body.find("button", {"class": "level-item button is-link"})
+    # assert fields for the product in Pieces
     assert not accuracy_field
     assert rest_field
     assert add_piece_field
 
-    product = Unit.query.filter_by(by_piece=False).first()
-    body = bs(
-        test_client.get(f"/products/distribute/{product.id}").data, "html.parser"
-    ).find("body")
+    # get a product in Weight
+    unit = Unit.query.filter_by(by_piece=False).first()
+    product = choice(unit.products)
+    url = url_for(
+        "distribution.distribute",
+        p_unit_shortname=unit.shortname,
+        p_id=product.id,
+    )
+    # get dist_site for it
+    body = bs(test_client.get(url).data, "html.parser").find("body")
     accuracy_field = body.find("p", {"id": "dist-accuracy-field"})
     rest_field = body.find("p", {"id": "dist-rest-field"})
     add_piece_field = body.find("button", {"class": "level-item button is-link"})
+    # assert fields for the product in Weight
     assert accuracy_field
     assert not rest_field
     assert not add_piece_field
 
 
-@mark.skip
 def test_stations_in_dist(test_client, product, stations):
 
-    response = test_client.get(f"/products/distribute/{product.id}")
+    unit = choice(product.units)
+    url = url_for(
+        "distribution.distribute",
+        p_unit_shortname=unit.shortname,
+        p_id=product.id,
+    )
+    response = test_client.get(url)
     body = bs(response.data, "html.parser").find("body")
 
     stations_element = body.find("div", {"id": "dist-stations-area"})
