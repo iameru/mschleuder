@@ -33,4 +33,4 @@ def test_template_and_url_for_history(test_client):
 
 
 def test_template_and_url_for_distribute_overview(test_client):
-    url(test_client, "/products/distribute", "Verteilung", longmode=False)
+    url(test_client, "/distribute/overview", "Verteilung", longmode=False)

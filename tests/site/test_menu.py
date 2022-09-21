@@ -86,7 +86,7 @@ def test_distribution_overview_link(test_client):
 
     link = menu.find("a", string="Aktuelle Verteilung")
     assert link
-    assert "/products/distribute" in link["href"]
+    assert "/distribute/overview" in link["href"]
 
     res = test_client.get(link["href"])
     assert res.status_code == 200

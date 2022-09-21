@@ -31,34 +31,6 @@ def edit_view(productid):
     return render_template("products/detail_view.html", product=product, form=form)
 
 
-@products.route("/distribute")
-def distribute_view():
-
-    return render_template("products/distribute/overview.html")
-
-
-@products.route("/distribute/<int:productid>")
-def distribute_by_id(productid):
-
-    product = Product.query.get(productid)
-    if not product:
-        abort(404)
-
-    stations = Station.query.all()
-    station_sums = {
-        "full": sum(station.members_full for station in stations),
-        "half": sum(station.members_half for station in stations),
-    }
-    station_sums["total"] = station_sums["full"] + station_sums["half"]
-
-    return render_template(
-        "products/distribute/distribute.html",
-        product=product,
-        stations=stations,
-        station_sums=station_sums,
-    )
-
-
 @products.route("/new", methods=["GET", "POST"])
 def new_product():
 

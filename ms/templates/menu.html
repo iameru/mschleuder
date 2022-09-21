@@ -9,11 +9,11 @@
       {{ nav_link('settings.settings_view', 'Einstellungen') }}
     </ul>
     <p class="menu-label">
-      <a href="{{ url_for('products.distribute_view') }}">Aktuelle Verteilung</a>
+      <a href="{{ url_for('distribution.overview') }}">Aktuelle Verteilung</a>
     </p>
     <ul class="menu-list" id="products-in-distribution">
       {% for product in in_distribution %}
-      <li><a href="{{url_for('products.distribute_by_id', productid=product.id) }}"
+      <li><a href="{{url_for('distribution.distribute_by_id', productid=product.id) }}"
              id="distributed-product-{{ product.id }}"
              >{{ product.name }} {{ product.amount }} {{ product.unit }}</a></li>
       {% endfor %}
