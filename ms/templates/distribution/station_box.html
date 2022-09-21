@@ -22,7 +22,7 @@
           <td class="expand has-text-weight-light" id="dist-station-full-{{ station.id }}"></p>0</td>
           <td class="expand has-text-weight-light" id="dist-station-half-{{ station.id }}"></p>0</td>
           <td class="has-text-weight-medium is-size-2" id="dist-station-total-{{ station.id }}">0</p></td>
-          <td>{{ product.unit.shortname }}</td>
+          <td>{{ unit.shortname }}</td>
         </tr>
       </tbody>
     {# share of a single member #}
@@ -32,7 +32,7 @@
         <td>◑</td>
         <td class="has-text-weight-medium" id="dist-station-single-half-{{station.id}}">0</td>
       </tr>
-      {% if product.unit.by_piece %}
+      {% if unit.by_piece %}
       <tr>
         <td>
            <button class="level-item button is-link"

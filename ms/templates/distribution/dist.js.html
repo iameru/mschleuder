@@ -91,7 +91,7 @@ function distribute (option) {
     if (option == "half") {divisor = 0.5}
     if (option == "none") {divisor = 0}
 
-    by_piece = {% if product.unit.by_piece %}true{% else %}false{% endif %}
+    by_piece = {% if unit.by_piece %}true{% else %}false{% endif %}
 
     members_total = {{ station_sums.total }}
     members_full = {{ station_sums.full }}
