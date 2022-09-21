@@ -1,4 +1,7 @@
+from random import choice
+
 from bs4 import BeautifulSoup as bs
+from flask import request, url_for
 from pytest import mark
 
 from ms.db.models import Product, Unit
@@ -90,49 +93,54 @@ def test_stations_in_dist(test_client, product, stations):
         assert str(station.members_half) in station_element.text
 
 
-from flask import request, url_for
-
-
-@mark.skip
 def test_redirect_for_products_without_multiple_units(test_app, test_client):
 
     product = Product.query.filter_by(name="Mangold").first()
-
-    data = {"name": product.name, "units": product.units}
     assert len(product.units) == 1
 
-    response = test_client.post(
-        "/products/distribute/gateway", data=data, follow_redirects=True
+    # go to distribution
+    response = test_client.get(
+        url_for("distribution.product", p_id=product.id), follow_redirects=True
     )
-    # 404 ! build route eru! :)
 
-    assert request.path == url_for(
-        "products.distribute_by_id",
-        product_unit_type=product.units[0].shortname,
-        productid=product.id,
+    # target Url we are supposed to be redirected to
+    target_url = url_for(
+        "distribution.distribute",
+        p_unit_shortname=product.units[0].shortname,
+        p_id=product.id,
     )
+
     assert response.status_code == 200
+    assert response.request.path == target_url
 
 
-## SOMETHING LIKE THIS
-
-#    from flask import url_for, request
-#    import yourapp
-#
-#    test_client = yourapp.app.test_client()
-#    with test_client:
-#            response = test_client.get(url_for('whatever.url'), follow_redirects=True)
-#                # check that the path changed
-#                    assert request.path == url_for('redirected.url')
-
-
-@mark.skip
 def test_redirect_for_products_with_multiple_units(test_client):
 
     product = Product.query.filter_by(name="Rote Beete").first()
     assert len(product.units) == 2
 
-    response = test_client.post(
-        "/products/distribute/gateway", data=product, follow_redirects=True
+    # go to distribution
+    response = test_client.get(
+        url_for("distribution.product", p_id=product.id), follow_redirects=True
     )
+
+    # not be redirected
     assert response.status_code == 200
+    assert response.request.path == url_for("distribution.product", p_id=product.id)
+
+    # but be asked to choose a unit for the product
+    html = bs(response.data, "html.parser")
+    for unit in product.units:
+        button = html.find("button", {"id": f"distribute-unit-{unit.id}"})
+        assert button
+
+    # choose unit and check url for correct redirect
+    unit = choice(product.units)
+    button = html.find("button", {"id": f"distribute-unit-{unit.id}"})
+    target_url = url_for(
+        "distribution.distribute",
+        p_unit_shortname=unit.shortname,
+        p_id=product.id,
+    )
+
+    assert button.parent["href"] == target_url

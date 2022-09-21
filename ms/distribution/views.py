@@ -1,4 +1,14 @@
-from flask import Blueprint, render_template
+from flask import (
+    Blueprint,
+    Response,
+    abort,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
+
+from ms.db.models import Product
 
 distribution = Blueprint("distribution", __name__)
 
@@ -9,8 +19,31 @@ def overview():
     return render_template("distribution/overview.html")
 
 
-@distribution.route("/gateway", methods=["POST"])
-def distribute_gateway():
+@distribution.route("/p_<int:p_id>", methods=["GET"])
+def product(p_id):
+
+    product = Product.query.get_or_404(p_id)
+
+    if not product.units:
+
+        abort(404)
+
+    if len(product.units) == 1:
+
+        return redirect(
+            url_for(
+                "distribution.distribute",
+                p_id=product.id,
+                p_unit_shortname=product.units[0].shortname,
+            ),
+            302,
+        )
+
+    return render_template("distribution/choose_unit.html", product=product)
+
+
+@distribution.route("/<int:p_id>/<p_unit_shortname>")
+def distribute(p_id: int, p_unit_shortname: str):
 
     return ""
 

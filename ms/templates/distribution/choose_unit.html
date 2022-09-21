@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% set title = product.name+" verteilen" %}
+{% block content %}
+<div class="columns is-centered is-multiline is-mobile mt-4 mb-6">
+  <div class="column has-text-centered is-full">
+    <p>Wie soll {{product.name}} verteilt werden?</p>
+  </div>
+
+{% for unit in product.units %}
+  <div class="column is-one-third has-text-centered mt-4">
+    <a href="{{ url_for('distribution.distribute', p_id=product.id, p_unit_shortname=unit.shortname) }}">
+      <button class="button is-link is-large"
+              id="distribute-unit-{{unit.id}}"
+              >{{ unit.longname }}</button>
+    </a>
+  </div>
+{% endfor %}
+</div>
+{% endblock content %}

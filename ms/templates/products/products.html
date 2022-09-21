@@ -73,16 +73,16 @@
       {% for product in products %}
         <tr id="product-row-{{ product.id }}">
           <td class="clickable has-text-weight-medium pl-3"
-              onclick="javascript:location.href='{{ url_for("distribution.distribute_by_id", productid=product.id) }}'"
+              onclick="javascript:location.href='{{ url_for("distribution.product", p_id=product.id) }}'"
               >{{ product.name }}</td>
           <td class="clickable has-text-centered"
-              onclick="javascript:location.href='{{ url_for("distribution.distribute_by_id", productid=product.id) }}'"
+              onclick="javascript:location.href='{{ url_for("distribution.product", p_id=product.id) }}'"
               >{% for unit in  product.units %}{{ unit.shortname }} {% endfor %}</td>
           <td class="clickable has-text-centered"
-              onclick="javascript:location.href='{{ url_for("distribution.distribute_by_id", productid=product.id) }}'"
+              onclick="javascript:location.href='{{ url_for("distribution.product", p_id=product.id) }}'"
               >{{ product.recent_distribution }}</td>
           <td class="clickable"
-              onclick="javascript:location.href='{{ url_for("distribution.distribute_by_id", productid=product.id) }}'"
+              onclick="javascript:location.href='{{ url_for("distribution.product", p_id=product.id) }}'"
               >{{ product.info }}</td>
           <td class="hover-alt clickable has-text-centered"
               {{ product_modal("products.edit_view", product.id) }}
