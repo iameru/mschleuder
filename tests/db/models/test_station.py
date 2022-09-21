@@ -31,6 +31,34 @@ def test_adding_station(test_app):
     assert station.id == 2
 
 
+def test_station_has_total_member_sum(test_app):
+
+    for _ in range(3):
+        # Check current value
+        station = Station.query.get(2)
+        full = station.members_full
+        half = station.members_half
+        total = full + half
+        assert total == station.members_total
+        # edit both value and check new value
+        full += 5
+        half += 1
+        total = full + half
+        station.members_full = full
+        station.members_half = half
+        db.session.add(station)
+        db.session.commit()
+        assert total == station.members_total
+        # edit one value and check new value
+        full += 2
+        total = full + half
+        station.members_full = full
+        station.members_half = half
+        db.session.add(station)
+        db.session.commit()
+        assert total == station.members_total
+
+
 def test_unique_station_names():
 
     station = dict(

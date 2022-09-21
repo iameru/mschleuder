@@ -34,6 +34,12 @@ def test(c):
 
 
 @task
+def failfast(c):
+    "Run the tests"
+    run_with_passthrough(c, "pytest-watch -c -- -x", pty=True)
+
+
+@task
 def lint(c):
     "lint with flake8"
     c.run(

@@ -1,7 +1,7 @@
 import datetime
 
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy import Computed
 
 db = SQLAlchemy()
 
@@ -54,6 +54,7 @@ class Station(TimestampMixin, db.Model):
     delivery_order = db.Column(db.Integer, nullable=False)
     members_full = db.Column(db.Integer, nullable=False)
     members_half = db.Column(db.Integer, nullable=False)
+    members_total = db.Column(db.Integer, Computed("members_full + members_half"))
 
 
 class StationHistory(Station):

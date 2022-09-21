@@ -53,8 +53,8 @@ def distribute(p_id: int, p_unit_shortname: str):
     station_sums = {
         "full": sum(station.members_full for station in stations),
         "half": sum(station.members_half for station in stations),
+        "total": sum(station.members_total for station in stations),
     }
-    station_sums["total"] = station_sums["full"] + station_sums["half"]
 
     return render_template(
         "distribution/distribute.html",

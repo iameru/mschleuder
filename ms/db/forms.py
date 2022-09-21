@@ -47,6 +47,8 @@ class StationForm(BaseForm):
     class Meta:
         model = Station
 
+    exclude = ["members_total"]
+
 
 class OrganisationForm(BaseForm):
     class Meta:

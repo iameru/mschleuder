@@ -20,7 +20,7 @@ stations["{{ station.id }}"] = {
     "half_field"  : document.getElementById("dist-station-half-{{ station.id }}"),
     "single_full_field" : single_full_field,
     "single_half_field" : single_half_field,
-    "members_total" : {{ station.members_full + station.members_half }},
+    "members_total" : {{ station.members_total }},
     "members_full"  : {{ station.members_full }},
     "members_half"  : {{ station.members_half }}
     }
