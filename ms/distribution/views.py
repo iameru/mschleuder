@@ -17,9 +17,7 @@ distribution = Blueprint("distribution", __name__)
 def check_distribution_in_progress():
 
     # check if dist is in progress, else redirect to start it
-    in_progress = Distribution.query.filter_by(in_progress=True).first()
-
-    if not in_progress:
+    if not Distribution.query.get(1).in_progress:
 
         if not request.endpoint == "distribution.start":
 
@@ -28,6 +26,22 @@ def check_distribution_in_progress():
 
 @distribution.route("/start", methods=["GET", "POST"])
 def start():
+
+    if request.method == "POST":
+
+        distribute = request.form["distribution"]
+        if distribute == "start":
+
+            dist = Distribution.query.get(1)
+            dist.in_progress = True
+            db.session.add(dist)
+            db.session.commit()
+
+        elif distribute == "stop":
+
+            pass
+
+        return redirect(url_for("distribution.overview"), 302)
 
     return render_template("distribution/start_distribution.html")
 

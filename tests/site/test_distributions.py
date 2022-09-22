@@ -4,11 +4,12 @@ from bs4 import BeautifulSoup as bs
 from flask import request, url_for
 from pytest import mark
 
-from ms.db.models import Product, Station, Unit
+from ms.db.models import Distribution, Product, Station, Unit
 
 
 def test_invitation_to_start_distribution(test_client, product_distribution):
 
+    assert Distribution.query.get(1).in_progress == False
     response = test_client.get("/")
     button = bs(response.data, "html.parser").find(
         "button", {"id": "start-distribution-menu"}
@@ -56,7 +57,15 @@ def test_start_distribution_view(test_client):
 
 def test_starting_a_distribution(test_client):
 
-    assert False
+    assert Distribution.query.get(1).in_progress == False
+    data = {"distribution": "start"}
+    response = test_client.post(
+        url_for("distribution.start"), data=data, follow_redirects=True
+    )
+
+    assert response.status_code == 200
+    assert Distribution.query.get(1).in_progress == True
+    assert response.request.path == url_for("distribution.overview")
 
 
 def test_distribution_site_throws_404_if_no_product(test_client):
