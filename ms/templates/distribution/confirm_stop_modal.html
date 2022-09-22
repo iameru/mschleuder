@@ -1,0 +1,11 @@
+{% extends 'modal.html' %}
+{% block modal_content %}
+  <form id="form-stop-distribution" action="{{ url_for('distribution.trigger') }}">
+    <button id="stop-distribution"
+    class="button is-warning"
+    name="distribution"
+    type="submit"
+    value="stop"
+    >Verteilung stoppen</button>
+  </form>
+{% endblock modal_content %}

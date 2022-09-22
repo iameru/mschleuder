@@ -19,13 +19,18 @@ def check_distribution_in_progress():
     # check if dist is in progress, else redirect to start it
     if not Distribution.query.get(1).in_progress:
 
-        if not request.endpoint == "distribution.start":
+        if not request.endpoint == "distribution.trigger":
 
-            return redirect(url_for("distribution.start"))
+            return redirect(url_for("distribution.trigger"))
+
+
+@distribution.route("/stop")
+def confirm_stop_modal():
+    return render_template("distribution/confirm_stop_modal.html")
 
 
 @distribution.route("/start", methods=["GET", "POST"])
-def start():
+def trigger():
 
     if request.method == "POST":
 
@@ -39,7 +44,10 @@ def start():
 
         elif distribute == "stop":
 
-            pass
+            dist = Distribution.query.get(1)
+            dist.in_progress = False
+            db.session.add(dist)
+            db.session.commit()
 
         return redirect(url_for("distribution.overview"), 302)
 

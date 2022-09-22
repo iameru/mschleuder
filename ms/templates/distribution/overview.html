@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
 {% set title = 'Verteilung' %}
 {% block content %}
-{% endblock %}
+<a href="{{ url_for('distribution.confirm_stop_modal') }}">
+  <button class="button is-small"
+          id="stop-distribution-modal"
+          >Verteilung stoppen</button>
+</a>
+{% endblock content%}
