@@ -6,7 +6,26 @@ from sqlalchemy import Computed
 db = SQLAlchemy()
 
 
+class Archive:
+
+    # This class adds the archive function to a Model.
+    # The model **HAS** to have HistModel set to an appropriate counterpart
+
+    def archive(self):
+
+        # get non PK data into a dict and commit to History
+        table = self.__table__
+        non_pk_columns = [k for k in table.columns.keys() if k not in table.primary_key]
+        data = {c: getattr(self, c) for c in non_pk_columns}
+
+        archive_obj = self.HistModel(**data)
+        db.session.add(archive_obj)
+        db.session.commit()
+
+
 class TimestampMixin(object):
+
+    # This Mixin generates TimeStamps
     created = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
     updated = db.Column(db.DateTime, nullable=True, onupdate=datetime.datetime.utcnow)
 
@@ -44,9 +63,28 @@ class Product(TimestampMixin, db.Model):
     )
 
 
-class Station(TimestampMixin, db.Model):
+class StationHistory(db.Model):
+
+    __tablename__ = "stationshistory"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(128), unique=False, nullable=False)
+    info = db.Column(db.String(128), nullable=True)
+    delivery_order = db.Column(db.Integer, nullable=False)
+    members_full = db.Column(db.Integer, nullable=False)
+    members_half = db.Column(db.Integer, nullable=False)
+    members_total = db.Column(db.Integer, nullable=False)
+
+    time_archived = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    created = db.Column(db.DateTime, nullable=False)
+    updated = db.Column(db.DateTime, nullable=True)
+
+
+class Station(TimestampMixin, db.Model, Archive):
 
     __tablename__ = "stations"
+
+    HistModel = StationHistory
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(128), unique=True, nullable=False)
@@ -55,13 +93,6 @@ class Station(TimestampMixin, db.Model):
     members_full = db.Column(db.Integer, nullable=False)
     members_half = db.Column(db.Integer, nullable=False)
     members_total = db.Column(db.Integer, Computed("members_full + members_half"))
-
-
-class StationHistory(Station):
-
-    __tablename__ = "stationshistory"
-
-    saved = db.Column(db.DateTime, onupdate=datetime.datetime.utcnow)
 
 
 class Organisation(db.Model):
