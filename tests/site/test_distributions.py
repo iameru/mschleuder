@@ -1,15 +1,14 @@
 from random import choice
 
 from bs4 import BeautifulSoup as bs
-from flask import request, url_for
-from pytest import mark
+from flask import url_for
 
 from ms.db.models import Distribution, Product, Station, Unit, db
 
 
 def test_invitation_to_start_distribution(test_client, product_distribution):
 
-    assert Distribution.query.get(1).in_progress == False
+    assert Distribution.query.get(1).in_progress is False
     response = test_client.get("/")
     button = bs(response.data, "html.parser").find(
         "button", {"id": "start-distribution-menu"}
@@ -57,20 +56,20 @@ def test_start_distribution_view(test_client):
 
 def test_starting_a_distribution(test_client):
 
-    assert Distribution.query.get(1).in_progress == False
+    assert Distribution.query.get(1).in_progress is False
     data = {"distribution": "start"}
     response = test_client.post(
         url_for("distribution.trigger"), data=data, follow_redirects=True
     )
 
     assert response.status_code == 200
-    assert Distribution.query.get(1).in_progress == True
+    assert Distribution.query.get(1).in_progress is True
     assert response.request.path == url_for("distribution.overview")
 
 
 def test_stop_distribution_prematurely(test_client):
 
-    assert Distribution.query.get(1).in_progress == True
+    assert Distribution.query.get(1).in_progress is True
     # there shall be a button
     response = test_client.get(url_for("distribution.overview"))
     stop_modal_button = bs(response.data, "html.parser").find(
@@ -101,7 +100,7 @@ def test_stop_distribution_prematurely(test_client):
     # if pushed the distribution shall be stopped
     test_client.post(url, data={key: value})
     dist = Distribution.query.get(1)
-    assert dist.in_progress == False
+    assert dist.in_progress is False
 
     # cleanup
     dist.in_progress = True
@@ -138,6 +137,7 @@ def test_distribute_product_details_shown(test_client, product):
     body = bs(distribute_page.data, "html.parser").find("body")
     label = body.find("label", {"for": "dist-input-field"})
     input_field = body.find("input", {"id": "dist-input-field"})
+    assert input_field
     title = body.find("h2", {"id": "site-title"})
 
     assert product.name in title.text

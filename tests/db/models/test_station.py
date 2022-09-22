@@ -1,7 +1,5 @@
-import datetime
-
 from ms.db import db_api
-from ms.db.models import Product, Station, StationHistory, Unit, db
+from ms.db.models import Station, StationHistory, db
 
 
 def test_adding_station(test_app):

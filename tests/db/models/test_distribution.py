@@ -5,7 +5,7 @@ def test_entry_got_generated(test_app):
 
     dist = Distribution.query.all()
     assert len(dist) == 1
-    assert dist[0].in_progress == False
+    assert dist[0].in_progress is False
 
     # cleanup
     db.session.delete(dist[0])
@@ -21,7 +21,7 @@ def test_distribution_model(test_app):
     db.session.commit()
 
     dist = Distribution.query.first()
-    assert dist.in_progress == False
+    assert dist.in_progress is False
     assert dist.created
     assert not dist.updated
 
@@ -29,12 +29,12 @@ def test_distribution_model(test_app):
     db.session.commit()
 
     dist = Distribution.query.first()
-    assert dist.in_progress == True
+    assert dist.in_progress is True
     assert dist.created
     assert dist.updated
 
     # cleanup
     dist.in_progress = False
     db.session.commit()
-    assert db.session.query(Distribution.in_progress == False).first()
+    assert db.session.query(Distribution.in_progress is False).first()
     assert len(Distribution.query.all()) == 1

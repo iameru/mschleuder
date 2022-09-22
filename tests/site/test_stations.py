@@ -1,7 +1,4 @@
-import json
-
 from bs4 import BeautifulSoup as bs
-from flask import url_for
 
 from ms.db.models import Station
 

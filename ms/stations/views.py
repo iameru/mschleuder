@@ -1,6 +1,5 @@
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 
-from ms.db import db_api
 from ms.db.forms import StationForm
 from ms.db.models import Station, db
 

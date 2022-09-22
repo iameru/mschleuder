@@ -1,7 +1,5 @@
 from bs4 import BeautifulSoup as bs
-from flask import url_for
 
-from ms.db import db_api
 from ms.db.models import Organisation, Unit, db
 from tests.db.models.test_organisation import organisation
 

@@ -2,7 +2,7 @@ from flask import Blueprint, abort, flash, redirect, render_template, request, u
 
 from ms.db import db_api
 from ms.db.forms import OrganisationForm, UnitForm
-from ms.db.models import Organisation, Unit, db
+from ms.db.models import Organisation, Unit
 
 settings = Blueprint("settings", __name__)
 

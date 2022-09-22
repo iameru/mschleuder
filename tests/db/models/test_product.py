@@ -1,7 +1,7 @@
-import datetime
+from sqlalchemy.exc import IntegrityError
 
 from ms.db import db_api
-from ms.db.models import Product, Station, Unit, db
+from ms.db.models import Product, Unit, db
 
 
 def test_adding_unit_product(test_app):
@@ -38,9 +38,6 @@ def test_adding_unit_product(test_app):
     assert p not in unit.products
     p = Product.query.get(3)
     assert p in unit.products
-
-
-from sqlalchemy.exc import IntegrityError
 
 
 def test_unique_product_names():

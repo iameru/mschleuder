@@ -1,7 +1,5 @@
-import datetime
-
 from ms.db import db_api
-from ms.db.models import Organisation, db
+from ms.db.models import Organisation
 
 organisation = dict(
     name="CSA-Runkelrübe",

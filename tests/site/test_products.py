@@ -1,5 +1,3 @@
-import json
-
 from bs4 import BeautifulSoup as bs
 
 from ms.db.models import Product, Unit

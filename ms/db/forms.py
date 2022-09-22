@@ -1,6 +1,6 @@
 from flask import session
 from wtforms.csrf.session import SessionCSRF
-from wtforms.fields import FieldList, FormField, SelectField, SelectMultipleField
+from wtforms.fields import SelectField
 from wtforms_alchemy import ModelForm
 from wtforms_alchemy.fields import QuerySelectMultipleField
 

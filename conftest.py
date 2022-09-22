@@ -25,12 +25,7 @@ def test_app():
 
         db.create_all()
         first_run()
-        # dirty for migrate to SQL
-        kg = Unit(shortname="kg", by_piece=False, longname="Kilogramm")
-        st = Unit(shortname="st", by_piece=True, longname="Stück")
-        db.session.add(kg)
-        db.session.add(st)
-        db.session.commit()
+
         yield test_app
         db.drop_all()
 

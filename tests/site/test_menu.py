@@ -1,5 +1,4 @@
 from bs4 import BeautifulSoup as bs
-from pytest import mark
 
 from ms.db.models import Distribution, db
 

@@ -1,7 +1,5 @@
-import datetime
-
 from ms.db import db_api
-from ms.db.models import Product, Station, Unit, db
+from ms.db.models import Unit
 
 
 def test_adding_unique_unit_product(test_app):
