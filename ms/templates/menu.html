@@ -8,7 +8,7 @@
       {{ nav_link('history.history_view', 'History') }}
       {{ nav_link('settings.settings_view', 'Einstellungen') }}
     </ul>
-  {% if in_distribution %}
+  {% if distribution_in_progress %}
     <p class="menu-label">
       <a href="{{ url_for('distribution.overview') }}">Aktuelle Verteilung</a>
     </p>

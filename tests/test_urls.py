@@ -33,6 +33,12 @@ def test_template_and_url_for_history(test_client):
     url(test_client, "", "History")
 
 
-@mark.skip
 def test_template_and_url_for_distribute_overview(test_client):
-    url(test_client, "/distribute/overview", "Verteilung", longmode=False)
+
+    # special case as this might not be setup in the tests
+    response = test_client.get("/distribute/overview", follow_redirects=True)
+    assert response.status_code == 200
+    assert "<title>404 Not Found</title>" not in response.text
+    html = bs(response.data, "html.parser")
+    title = html.find("h2", {"class": "title is-2", "id": "site-title"})
+    assert title

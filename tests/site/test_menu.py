@@ -1,6 +1,8 @@
 from bs4 import BeautifulSoup as bs
 from pytest import mark
 
+from ms.db.models import Distribution, db
+
 
 def parse_menu(test_client, url: str, link_name: str, recursive=True):
 
@@ -57,33 +59,15 @@ def test_menu_links(test_client):
     parse_menu(test_client, "/settings/", "Einstellungen")
 
 
-@mark.skip
-def test_products_in_distribution(test_client):
-
-    html = test_client.get("/settings/")
-    menu = bs(html.data, "html.parser").find("aside", {"class": "menu"})
-    ##########    in_distribution = dev_data("in-distribution")
-
-    product_list = menu.find("ul", {"id": "products-in-distribution"})
-    assert product_list
-
-    for item in in_distribution:
-
-        menu_entry = product_list.find("a", {"id": f"distributed-product-{item['id']}"})
-
-        assert item["name"] in menu_entry.text
-        assert str(item["amount"]) in menu_entry.text
-        assert item["unit"] in menu_entry.text
-
-        url = menu_entry["href"]
-
-        assert str(item["id"]) in url
-
-
-@mark.skip
 def test_distribution_overview_link(test_client):
 
+    # setup - False case is tested in dist-tests
+    dist = Distribution.query.get(1)
+    dist.in_progress = True
+    db.session.commit()
+
     html = test_client.get("/")
+
     menu = bs(html.data, "html.parser").find("aside", {"class": "menu"})
 
     link = menu.find("a", string="Aktuelle Verteilung")
@@ -92,3 +76,7 @@ def test_distribution_overview_link(test_client):
 
     res = test_client.get(link["href"])
     assert res.status_code == 200
+
+    # cleanup
+    dist.in_progress = False
+    db.session.commit()
