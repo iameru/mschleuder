@@ -2,6 +2,7 @@ from random import choice
 
 import pytest
 from bs4 import BeautifulSoup as bs
+from flask import url_for
 
 from ms import create_app
 from ms.db.models import Product, Station, Unit, db
@@ -79,3 +80,17 @@ def stations():
 @pytest.fixture(scope="function")
 def station(stations):
     return choice(stations)
+
+
+@pytest.fixture(scope="function")
+def product_distribution(product, test_client, test_app):
+
+    unit = choice(product.units)
+
+    url = url_for(
+        "distribution.distribute",
+        p_unit_shortname=unit.shortname,
+        p_id=product.id,
+    )
+    # go to distribution
+    return test_client.get(url)

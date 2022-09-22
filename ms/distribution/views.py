@@ -49,7 +49,7 @@ def distribute(p_id: int, p_unit_shortname: str):
     if not product or not unit:
         abort(404)
 
-    stations = Station.query.all()
+    stations = Station.query.order_by(Station.delivery_order).all()
     station_sums = {
         "full": sum(station.members_full for station in stations),
         "half": sum(station.members_half for station in stations),

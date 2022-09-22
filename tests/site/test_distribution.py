@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup as bs
 from flask import request, url_for
 from pytest import mark
 
-from ms.db.models import Product, Unit
+from ms.db.models import Product, Station, Unit
 
 
 def test_distribution_site_throws_404_if_no_product(test_client):
@@ -163,3 +163,20 @@ def test_redirect_for_products_with_multiple_units(test_client):
     )
 
     assert button.parent["href"] == target_url
+
+
+def test_stations_in_correct_order(test_client, product_distribution):
+
+    ordered_stations = Station.query.order_by(Station.delivery_order).all()
+    response = product_distribution
+    html = bs(response.data, "html.parser")
+    station_boxes = html.find_all("div", {"class": "station-box"})
+    assert station_boxes
+
+    # loop through both lists and check correct order
+    for station, ordered_station in zip(station_boxes, ordered_stations):
+
+        # get station id from ID string
+        station_box_id = int(station["id"].split("-")[-1])
+
+        assert station_box_id == ordered_station.id
