@@ -5,7 +5,9 @@
     <p><small>sicher die verteilung abbrechen?</small></p>
   </div>
   <div class="column is-half has-text-centered">
-    <form id="form-stop-distribution" action="{{ url_for('distribution.trigger') }}">
+    <form id="form-stop-distribution"
+      method="POST"
+      action="{{ url_for('distribution.trigger') }}">
       <button id="stop-distribution"
       class="button is-warning"
       name="distribution"
