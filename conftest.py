@@ -93,4 +93,4 @@ def product_distribution(product, test_client, test_app):
         p_id=product.id,
     )
     # go to distribution
-    return test_client.get(url)
+    return test_client.get(url, follow_redirects=True)

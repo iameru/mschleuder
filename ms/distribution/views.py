@@ -13,6 +13,21 @@ from ms.db.models import Product, Station, Unit
 distribution = Blueprint("distribution", __name__)
 
 
+@distribution.before_request
+def check_distribution_in_progress():
+
+    # check if dist is in progress, else redirect to start it
+    in_progress = False
+    if not in_progress:
+        if not request.endpoint == "distribution.start":
+            return redirect(url_for("distribution.start"))
+
+
+@distribution.route("/start")
+def start():
+    return ""
+
+
 @distribution.route("/overview")
 def overview():
 

@@ -8,14 +8,24 @@
       {{ nav_link('history.history_view', 'History') }}
       {{ nav_link('settings.settings_view', 'Einstellungen') }}
     </ul>
+  {% if in_distribution %}
     <p class="menu-label">
       <a href="{{ url_for('distribution.overview') }}">Aktuelle Verteilung</a>
     </p>
     <ul class="menu-list" id="products-in-distribution">
-      {% for product in in_distribution %}
+  {% for product in in_distribution %}
       <li><a href="{{url_for('distribution.distribute_by_id', productid=product.id) }}"
              id="distributed-product-{{ product.id }}"
              >{{ product.name }} {{ product.amount }} {{ product.unit }}</a></li>
-      {% endfor %}
+  {% endfor %}
+  {% else %}
+    <p class="menu-label">
+      <a href="{{url_for('distribution.overview')}}">
+        <button class="button"
+                id="start-distribution"
+                >Verteilung starten</button>
+      </a>
+    </p>
+  {% endif %}
     </ul>
   </aside>

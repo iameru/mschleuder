@@ -7,6 +7,36 @@ from pytest import mark
 from ms.db.models import Product, Station, Unit
 
 
+def test_invitation_to_start_distribution(test_client, product_distribution):
+
+    response = test_client.get("/")
+    button = bs(response.data, "html.parser").find(
+        "button", {"id": "start-distribution"}
+    )
+    assert button
+    assert button.text == "Verteilung starten"
+
+
+def test_redirect_if_distribution_not_started(test_client):
+
+    # check a link of distribution blueprint
+    response = test_client.get("/distribute/999999999")
+    # it is redirected to start distribution
+    assert response.request.path != url_for("distribution.start")
+    assert response.status_code == 302
+
+    response = test_client.get("/distribute/999999999", follow_redirects=True)
+    # it is redirected to start distribution
+    assert response.request.path == url_for("distribution.start")
+    assert response.status_code == 200
+
+
+@mark.skip
+def test_starting_a_distribution(test_client):
+
+    assert False
+
+
 def test_distribution_site_throws_404_if_no_product(test_client):
 
     response = test_client.get("/distribute/999999999")
