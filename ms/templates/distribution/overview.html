@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 {% set title = 'Verteilung' %}
 {% block content %}
-<a href="{{ url_for('distribution.confirm_stop_modal') }}">
+  <a hx-get="{{ url_for('distribution.confirm_stop_modal') }}"
+      hx-target="body"
+      hx-swap="beforeend"
+      href="{{ url_for('distribution.confirm_stop_modal') }}">
   <button class="button is-small"
           id="stop-distribution-modal"
           >Verteilung stoppen</button>

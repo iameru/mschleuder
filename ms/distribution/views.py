@@ -2,6 +2,7 @@ from flask import (
     Blueprint,
     Response,
     abort,
+    flash,
     redirect,
     render_template,
     request,
@@ -48,6 +49,8 @@ def trigger():
             dist.in_progress = False
             db.session.add(dist)
             db.session.commit()
+
+            return redirect(url_for("stations.stations_view"), 302)
 
         return redirect(url_for("distribution.overview"), 302)
 
