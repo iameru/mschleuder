@@ -6,6 +6,7 @@ from flask import url_for
 
 from ms import create_app
 from ms.db.models import Product, Station, Unit, db
+from ms.first_run import first_run
 
 test_config = {
     "SECRET_KEY": "TEST_CONFIG",
@@ -23,6 +24,7 @@ def test_app():
     with test_app.app_context():
 
         db.create_all()
+        first_run()
         # dirty for migrate to SQL
         kg = Unit(shortname="kg", by_piece=False, longname="Kilogramm")
         st = Unit(shortname="st", by_piece=True, longname="Stück")

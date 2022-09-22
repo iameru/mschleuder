@@ -30,6 +30,7 @@ def create_app(test_config=None):
     from ms import context_processor
     from ms.db.models import Unit, db
     from ms.distribution.views import distribution
+    from ms.first_run import first_run
     from ms.history.views import history
     from ms.products.views import products
     from ms.settings.views import settings
@@ -42,9 +43,10 @@ def create_app(test_config=None):
     app.register_blueprint(distribution, url_prefix="/distribute", options=_tmplt)
 
     db.init_app(app)
+
     if not test_config:
         with app.app_context():
-            db.create_all()
+            first_run()
 
     app.context_processor(context_processor.inject)
 
