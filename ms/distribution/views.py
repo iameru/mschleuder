@@ -8,7 +8,7 @@ from flask import (
     url_for,
 )
 
-from ms.db.models import Product, Station, Unit
+from ms.db.models import Distribution, Product, Station, Unit, db
 
 distribution = Blueprint("distribution", __name__)
 
@@ -17,15 +17,19 @@ distribution = Blueprint("distribution", __name__)
 def check_distribution_in_progress():
 
     # check if dist is in progress, else redirect to start it
-    in_progress = False
+    in_progress = Distribution.query.filter_by(in_progress=True).first()
+
     if not in_progress:
+
         if not request.endpoint == "distribution.start":
+
             return redirect(url_for("distribution.start"))
 
 
-@distribution.route("/start")
+@distribution.route("/start", methods=["GET", "POST"])
 def start():
-    return ""
+
+    return render_template("distribution/start_distribution.html")
 
 
 @distribution.route("/overview")

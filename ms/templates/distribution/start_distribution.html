@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% set title = 'Verteilung starten' %}
+{% block content %}
+<div class="columns is-centered is-multiline is-mobile mt-4 mb-6">
+  <div class="column has-text-centered is-full">
+    <p>Verteilung starten?</p>
+    <p><small>Alle Stationen korrekt angegeben?</small></p>
+  </div>
+  <div class="column is-one-third has-text-centered mt-4">
+    <form id="form-start-distribution"
+          method="POST">
+      <button class="button is-large is-link"
+              id="start-distribution"
+              name="distribution"
+              type="submit"
+              value="start">Starten</button>
+    </form>
+  </div>
+  <div class="column is-one-third has-text-centered mt-4">
+    <a href="{{ url_for('stations.stations_view') }}">
+      <button class="button is-large is-link"
+              id="continue"
+              >Zurück</button>
+    </a>
+  </div>
+</div>
+{% endblock content %}

@@ -11,7 +11,7 @@ def test_invitation_to_start_distribution(test_client, product_distribution):
 
     response = test_client.get("/")
     button = bs(response.data, "html.parser").find(
-        "button", {"id": "start-distribution"}
+        "button", {"id": "start-distribution-menu"}
     )
     assert button
     assert button.text == "Verteilung starten"
@@ -31,7 +31,29 @@ def test_redirect_if_distribution_not_started(test_client):
     assert response.status_code == 200
 
 
-@mark.skip
+def test_start_distribution_view(test_client):
+
+    response = test_client.get(url_for("distribution.start"))
+
+    form = bs(response.data, "html.parser").find(
+        "form", {"id": "form-start-distribution"}
+    )
+    start_button = form.find("button", {"id": "start-distribution"})
+    continue_button = bs(response.data, "html.parser").find(
+        "button", {"id": "continue"}
+    )
+
+    assert start_button
+    assert start_button.text == "Starten"
+    assert start_button["name"] == "distribution"
+    assert start_button["type"] == "submit"
+    assert start_button["value"] == "start"
+
+    assert continue_button
+    assert continue_button.parent["href"] == url_for("stations.stations_view")
+    assert continue_button.text == "Zurück"
+
+
 def test_starting_a_distribution(test_client):
 
     assert False

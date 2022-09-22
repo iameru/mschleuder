@@ -106,3 +106,9 @@ class Organisation(db.Model):
 
     header = db.Column(db.String(128), unique=True, nullable=True)
     footer = db.Column(db.String(128), unique=True, nullable=True)
+
+
+class Distribution(TimestampMixin, db.Model):
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    in_progress = db.Column(db.Boolean, nullable=False)
