@@ -13,7 +13,7 @@ Flask-SQLAlchemy = "^2.5.1"
 WTForms-Alchemy = "^0.18.0"
 python-dotenv = "^0.21.0"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 python-testmark = "^1.0"
 bandit = "^1.7.4"
 pre-commit = "^2.17.0"
@@ -25,6 +25,7 @@ invoke = "^1.6.0"
 pytest-watch = "^4.2.0"
 bs4 = "^0.0.1"
 flake8 = "^5.0.4"
+selenium = "^4.4.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
