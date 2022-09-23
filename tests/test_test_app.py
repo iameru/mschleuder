@@ -1,4 +1,4 @@
-from conftest import BrowserTest, test_config
+from conftest import test_config
 
 
 def test_test_app(test_app):
@@ -22,9 +22,3 @@ def test_client_generated_from_app(test_app, test_client):
     with test_app.test_client() as test_app_client:
 
         assert test_app_client.application == test_client.application
-
-
-class TestSeleniumBaseClass(BrowserTest):
-    def test_driver_in_class(self):
-
-        assert self.driver
