@@ -91,3 +91,31 @@ def product_distribution(product, test_client, test_app):
     )
     # go to distribution
     return test_client.get(url, follow_redirects=True)
+
+
+@pytest.fixture(scope="class")
+def web_driver(request):
+
+    from selenium import webdriver
+    from selenium.webdriver.chrome.options import Options
+
+    # settings
+    options = Options()
+    options.headless = True
+    driver = webdriver.Chrome(options=options)
+    driver.maximize_window()
+
+    request.cls.driver = driver
+    yield driver
+    driver.close()
+
+
+# @pytest.mark.skip
+@pytest.mark.usefixtures("web_driver")
+class BrowserTest:
+    def get_url(flask_url_for_func):
+
+        url = "http://localhost:5000"
+        url += flask_url_for_func
+
+        return url

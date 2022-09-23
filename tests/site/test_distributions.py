@@ -3,6 +3,7 @@ from random import choice
 from bs4 import BeautifulSoup as bs
 from flask import url_for
 
+from conftest import BrowserTest
 from ms.db.models import Distribution, Product, Station, Unit, db
 
 
@@ -281,3 +282,20 @@ def test_stations_in_correct_order(test_client, product_distribution):
         station_box_id = int(station["id"].split("-")[-1])
 
         assert station_box_id == ordered_station.id
+
+
+class TestDistributionSite(BrowserTest):
+    @classmethod
+    def setup_class(self):
+        self.product = choice(Product.query.all())
+        self.dist_url = self.get_url(
+            url_for(
+                "distribution.distribute",
+                p_unit_shortname=self.product.units[0].shortname,
+                p_id=self.product.id,
+            )
+        )
+
+    def test_distribution(self, product_distribution):
+
+        assert self.dist_url
