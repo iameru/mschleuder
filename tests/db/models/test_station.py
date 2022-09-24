@@ -1,7 +1,7 @@
 from pytest import mark
 
 from ms.db import db_api
-from ms.db.models import Station, StationHistory, db
+from ms.db.models import Distribution, Station, StationHistory, db
 
 
 def test_adding_station(test_app):
@@ -102,7 +102,9 @@ def test_edit_station_change_and_timestamp(test_app):
 def test_archive_of_stations(test_app, station):
 
     # this shall archive into a table StationHistory
-    station.archive()
+    # needed is a Dist key
+    dist_id = Distribution.current().id
+    station.archive(dist_id)
 
     # Find archived Item in History
     result = StationHistory.query.filter_by(
@@ -112,14 +114,10 @@ def test_archive_of_stations(test_app, station):
     assert len(result) == 1
 
     # Do again
-    station.archive()
-    station.archive()
+    station.archive(dist_id)
+    station.archive(dist_id)
 
     # Find three Items in History
-    result = StationHistory.query.filter_by(
-        name=station.name, members_total=station.members_total
-    ).all()
+    result = StationHistory.query.filter_by(distribution_id=dist_id).all()
     assert result
     assert len(result) == 3
-    # With uneven timestamps for archiving
-    assert result[0].time_archived != result[1].time_archived != result[2].time_archived

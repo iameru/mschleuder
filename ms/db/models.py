@@ -79,12 +79,14 @@ class StationHistory(db.Model):
     created = db.Column(db.DateTime, nullable=False)
     updated = db.Column(db.DateTime, nullable=True)
 
+    distribution_id = db.Column(
+        db.Integer, db.ForeignKey("distribution.id"), nullable=False
+    )
 
-class Station(TimestampMixin, db.Model, Archive):
+
+class Station(TimestampMixin, db.Model):
 
     __tablename__ = "stations"
-
-    HistModel = StationHistory
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(128), unique=True, nullable=False)
@@ -93,6 +95,20 @@ class Station(TimestampMixin, db.Model, Archive):
     members_full = db.Column(db.Integer, nullable=False)
     members_half = db.Column(db.Integer, nullable=False)
     members_total = db.Column(db.Integer, Computed("members_full + members_half"))
+
+    def archive(self, dist_id):
+
+        # get non PK data into a dict and commit to History
+        table = self.__table__
+        non_pk_columns = [k for k in table.columns.keys() if k not in table.primary_key]
+        data = {c: getattr(self, c) for c in non_pk_columns}
+
+        # add corresponding DIST ID
+        data["distribution_id"] = dist_id
+
+        archive_obj = StationHistory(**data)
+        db.session.add(archive_obj)
+        db.session.commit()
 
 
 class Organisation(db.Model):
@@ -119,6 +135,7 @@ class Distribution(TimestampMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     in_progress = db.Column(db.Boolean, nullable=False)
     date_time = db.Column(db.DateTime, nullable=False, default=_datetime_now)
+    stations = db.relationship("StationHistory", backref="distribution", lazy=True)
 
     def current():
 

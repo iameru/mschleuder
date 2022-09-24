@@ -73,8 +73,23 @@ def test_starting_a_distribution(test_client):
 
     # find the trigger successfull
     assert response.status_code == 200
-    assert Distribution.current().in_progress is True
+    dist = Distribution.current()
+    assert dist.in_progress is True
     assert response.request.path == url_for("distribution.overview")
+
+    # find the stations archived
+    stations = Station.query.all()
+    stations_archived = StationHistory.query.filter_by(distribution_id=dist.id).all()
+
+    assert dist.stations
+    assert dist.stations == stations_archived
+    assert len(stations) == len(stations_archived)
+
+    for s, sa in zip(stations, stations_archived):
+        assert s.name == sa.name
+        assert s.members_full == sa.members_full
+        assert s.members_half == sa.members_half
+        assert s.members_total == sa.members_total
 
 
 def test_stop_distribution_prematurely(test_client):
@@ -115,6 +130,9 @@ def test_stop_distribution_prematurely(test_client):
     # cleanup
     dist.in_progress = True
     db.session.commit()
+
+    # test for stations removal and stuff
+    return False
 
 
 def test_distribution_site_throws_404_if_no_product(test_client):

@@ -33,6 +33,8 @@ def trigger():
             dist = Distribution(**dict(in_progress=True))
             db.session.add(dist)
             db.session.commit()
+            for station in Station.query.all():
+                station.archive(dist.id)
 
         elif distribute == "stop":
 
