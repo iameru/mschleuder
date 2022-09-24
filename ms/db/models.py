@@ -3,31 +3,16 @@ import datetime
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Computed, desc
 
+from ms.utils import datetime_now
+
 db = SQLAlchemy()
-
-
-class Archive:
-
-    # This class adds the archive function to a Model.
-    # The model **HAS** to have HistModel set to an appropriate counterpart
-
-    def archive(self):
-
-        # get non PK data into a dict and commit to History
-        table = self.__table__
-        non_pk_columns = [k for k in table.columns.keys() if k not in table.primary_key]
-        data = {c: getattr(self, c) for c in non_pk_columns}
-
-        archive_obj = self.HistModel(**data)
-        db.session.add(archive_obj)
-        db.session.commit()
 
 
 class TimestampMixin(object):
 
     # This Mixin generates TimeStamps
-    created = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
-    updated = db.Column(db.DateTime, nullable=True, onupdate=datetime.datetime.utcnow)
+    created = db.Column(db.DateTime, nullable=False, default=datetime_now)
+    updated = db.Column(db.DateTime, nullable=True, onupdate=datetime_now)
 
 
 class Unit(db.Model):
@@ -75,7 +60,7 @@ class StationHistory(db.Model):
     members_half = db.Column(db.Integer, nullable=False)
     members_total = db.Column(db.Integer, nullable=False)
 
-    time_archived = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    time_archived = db.Column(db.DateTime, default=datetime_now)
     created = db.Column(db.DateTime, nullable=False)
     updated = db.Column(db.DateTime, nullable=True)
 
@@ -124,17 +109,11 @@ class Organisation(db.Model):
     footer = db.Column(db.String(128), unique=True, nullable=True)
 
 
-def _datetime_now():
-
-    # remove seconds and  microseconds
-    return datetime.datetime.utcnow().replace(microsecond=0, second=0)
-
-
 class Distribution(TimestampMixin, db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     in_progress = db.Column(db.Boolean, nullable=False)
-    date_time = db.Column(db.DateTime, nullable=False, default=_datetime_now)
+    date_time = db.Column(db.DateTime, nullable=False, default=datetime_now)
     stations = db.relationship("StationHistory", backref="distribution", lazy=True)
 
     def current():
