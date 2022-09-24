@@ -1,7 +1,7 @@
-from flask import Blueprint, flash, redirect, render_template, request, url_for
+from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
 
 from ms.db.forms import StationForm
-from ms.db.models import Station, db
+from ms.db.models import Distribution, Station, db
 
 stations = Blueprint("stations", __name__)
 
@@ -15,6 +15,9 @@ def stations_view():
 
 @stations.route("/edit/<int:stationid>", methods=["POST"])
 def edit(stationid):
+
+    if Distribution.current().in_progress:
+        return abort(404)
 
     station = Station.query.get(stationid)
     form = StationForm(request.form, obj=station)
@@ -34,6 +37,9 @@ def edit(stationid):
 @stations.route("/stationsdetail/<int:stationid>")
 def detail_view(stationid):
 
+    if Distribution.current().in_progress:
+        return abort(404)
+
     station = Station.query.get(stationid)
     form = StationForm(request.form, station)
 
@@ -42,6 +48,9 @@ def detail_view(stationid):
 
 @stations.route("/new", methods=["GET", "POST"])
 def new_station():
+
+    if Distribution.current().in_progress:
+        return abort(404)
 
     station = Station()
     form = StationForm(request.form)

@@ -193,3 +193,29 @@ def test_stations_not_editable_in_distribution(test_client, in_distribution):
     info = html.find("p", {"id": "text-station-in-distribution"})
     assert info
     assert "Aktuell in Verteilung - Stationen nicht editierbar" == info.text
+
+
+def test_create_update_stations_routes_without_distribution(
+    test_client, not_in_distribution
+):
+
+    # to new -> csrf token -> creation
+    response = test_client.get(url_for("stations.new_station"))
+    assert response.status_code == 200
+
+    # to update -> csrf -> update
+    response = test_client.get(url_for("stations.detail_view", stationid=1))
+    assert response.status_code == 200
+
+
+def test_create_update_stations_not_possible_in_distribution(
+    test_client, in_distribution
+):
+
+    # no route to new -> no csrf token -> no creation
+    response = test_client.get(url_for("stations.new_station"))
+    assert response.status_code == 404
+
+    # no route to update -> no csrf -> no update
+    response = test_client.get(url_for("stations.detail_view", stationid=1))
+    assert response.status_code == 404
