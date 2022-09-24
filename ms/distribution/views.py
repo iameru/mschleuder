@@ -9,7 +9,7 @@ distribution = Blueprint("distribution", __name__)
 def check_distribution_in_progress():
 
     # check if dist is in progress, else redirect to start it
-    if not Distribution.query.get(1).in_progress:
+    if not Distribution.current().in_progress:
 
         if not request.endpoint == "distribution.trigger":
 
@@ -27,16 +27,16 @@ def trigger():
     if request.method == "POST":
 
         distribute = request.form["distribution"]
+
         if distribute == "start":
 
-            dist = Distribution.query.get(1)
-            dist.in_progress = True
+            dist = Distribution(**dict(in_progress=True))
             db.session.add(dist)
             db.session.commit()
 
         elif distribute == "stop":
 
-            dist = Distribution.query.get(1)
+            dist = Distribution.current()
             dist.in_progress = False
             db.session.add(dist)
             db.session.commit()

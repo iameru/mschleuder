@@ -1,7 +1,7 @@
 import datetime
 
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Computed
+from sqlalchemy import Computed, desc
 
 db = SQLAlchemy()
 
@@ -119,3 +119,7 @@ class Distribution(TimestampMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     in_progress = db.Column(db.Boolean, nullable=False)
     date_time = db.Column(db.DateTime, nullable=False, default=_datetime_now)
+
+    def current():
+
+        return Distribution.query.order_by(desc(Distribution.id)).first()

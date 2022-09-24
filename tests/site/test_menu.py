@@ -61,7 +61,7 @@ def test_menu_links(test_client):
 def test_distribution_overview_link(test_client):
 
     # setup - False case is tested in dist-tests
-    dist = Distribution.query.get(1)
+    dist = Distribution.current()
     dist.in_progress = True
     db.session.commit()
 

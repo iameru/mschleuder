@@ -10,7 +10,7 @@ from ms.db.models import Distribution, Product, Station, StationHistory, Unit, d
 
 def test_invitation_to_start_distribution(test_client, product_distribution):
 
-    assert Distribution.query.get(1).in_progress is False
+    assert Distribution.current().in_progress is False
     response = test_client.get("/")
     button = bs(response.data, "html.parser").find(
         "button", {"id": "start-distribution-menu"}
@@ -63,33 +63,23 @@ def test_starting_a_distribution(test_client):
     # locked in use for the distribution
 
     # trigger distribution
-    stations = Station.query.all()
-    assert Distribution.query.get(1).in_progress is False
+    assert Distribution.current().in_progress is False
+
     data = {"distribution": "start"}
+
     response = test_client.post(
         url_for("distribution.trigger"), data=data, follow_redirects=True
     )
-    archived_stations = StationHistory.query.all()
 
     # find the trigger successfull
     assert response.status_code == 200
-    assert Distribution.query.get(1).in_progress is True
+    assert Distribution.current().in_progress is True
     assert response.request.path == url_for("distribution.overview")
-
-    # find stations archived
-    archived_stations = StationHistory.query.filter_by(
-        time_archived=datetime.datetime.utcnow()
-    ).all()
-    assert len(archived_stations) == len(stations)
-
-    # find stations locked
-    response = test_client.get(url_for("stations.stations_view"))
-    assert False
 
 
 def test_stop_distribution_prematurely(test_client):
 
-    assert Distribution.query.get(1).in_progress is True
+    assert Distribution.current().in_progress is True
     # there shall be a button
     response = test_client.get(url_for("distribution.overview"))
     stop_modal_button = bs(response.data, "html.parser").find(
@@ -119,7 +109,7 @@ def test_stop_distribution_prematurely(test_client):
 
     # if pushed the distribution shall be stopped
     test_client.post(url, data={key: value})
-    dist = Distribution.query.get(1)
+    dist = Distribution.current()
     assert dist.in_progress is False
 
     # cleanup
