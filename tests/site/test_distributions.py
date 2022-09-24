@@ -140,6 +140,30 @@ def test_stop_distribution(test_client):
     db.session.commit()
 
 
+def test_404_start_when_dist_already_started(test_client, in_distribution):
+
+    assert Distribution.current().in_progress
+    data = {"distribution": "start"}
+
+    response = test_client.post(
+        url_for("distribution.trigger"), data=data, follow_redirects=True
+    )
+
+    assert response.status_code == 404
+
+
+def test_404_stop_when_dist_already_stopped(test_client, not_in_distribution):
+
+    assert not Distribution.current().in_progress
+    data = {"distribution": "stop"}
+
+    response = test_client.post(
+        url_for("distribution.trigger"), data=data, follow_redirects=True
+    )
+
+    assert response.status_code == 404
+
+
 def test_distribution_site_throws_404_if_no_product(test_client):
 
     response = test_client.get("/distribute/999999999")

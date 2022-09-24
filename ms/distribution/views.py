@@ -26,16 +26,19 @@ def trigger():
 
     if request.method == "POST":
 
+        dist = Distribution.current()
         distribute = request.form["distribution"]
 
-        if distribute == "start":
+        if distribute == "start" and not dist.in_progress:
 
             dist = Distribution(**dict(in_progress=True))
             db.session.add(dist)
             db.session.commit()
             Station.archive_all(dist.id)
 
-        elif distribute == "stop":
+            return redirect(url_for("distribution.overview"), 302)
+
+        elif distribute == "stop" and dist.in_progress:
 
             dist = Distribution.current()
             stations = StationHistory.query.filter_by(distribution_id=dist.id).all()
@@ -46,7 +49,7 @@ def trigger():
 
             return redirect(url_for("stations.stations_view"), 302)
 
-        return redirect(url_for("distribution.overview"), 302)
+        return abort(404)
 
     return render_template("distribution/start_distribution.html")
 
