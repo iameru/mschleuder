@@ -1,7 +1,6 @@
-import datetime
-
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Computed, desc
+from sqlalchemy.types import Float
 
 from ms.utils import datetime_now
 
@@ -130,3 +129,28 @@ class Distribution(TimestampMixin, db.Model):
     def current():
 
         return Distribution.query.order_by(desc(Distribution.id)).first()
+
+
+class Share(TimestampMixin, db.Model):
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    product_id = db.Column(db.Integer, db.ForeignKey("products.id"), nullable=False)
+    stationhistory_id = db.Column(
+        db.Integer, db.ForeignKey("stationshistory.id"), nullable=False
+    )
+    distribution_id = db.Column(
+        db.Integer, db.ForeignKey("distribution.id"), nullable=False
+    )
+    unit_id = db.Column(db.Integer, db.ForeignKey("units.id"), nullable=False)
+    single_full = db.Column(
+        Float(asdecimal=True, precision=8, decimal_return_scale=None)
+    )
+    single_half = db.Column(
+        Float(asdecimal=True, precision=8, decimal_return_scale=None)
+    )
+    single_total = db.Column(
+        Float(asdecimal=True, precision=8, decimal_return_scale=None)
+    )
+    sum_full = db.Column(Float(asdecimal=True, precision=8, decimal_return_scale=None))
+    sum_half = db.Column(Float(asdecimal=True, precision=8, decimal_return_scale=None))
+    sum_total = db.Column(Float(asdecimal=True, precision=8, decimal_return_scale=None))

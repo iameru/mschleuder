@@ -2,7 +2,7 @@ from datetime import datetime
 
 from sqlalchemy import desc
 
-from ms.db.models import Distribution, db
+from ms.db.models import Distribution, StationHistory, db
 
 
 def test_entry_got_generated_via_test_setup(test_app):
