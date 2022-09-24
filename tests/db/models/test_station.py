@@ -121,3 +121,6 @@ def test_archive_of_stations(test_app, station):
     result = StationHistory.query.filter_by(distribution_id=dist_id).all()
     assert result
     assert len(result) == 3
+
+    # find these in station itself.
+    assert station.history == result

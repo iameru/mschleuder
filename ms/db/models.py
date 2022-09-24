@@ -69,6 +69,7 @@ class StationHistory(db.Model):
     distribution_id = db.Column(
         db.Integer, db.ForeignKey("distribution.id"), nullable=False
     )
+    station_id = db.Column(db.Integer, db.ForeignKey("stations.id"), nullable=False)
 
 
 class Station(TimestampMixin, db.Model):
@@ -82,6 +83,7 @@ class Station(TimestampMixin, db.Model):
     members_full = db.Column(db.Integer, nullable=False)
     members_half = db.Column(db.Integer, nullable=False)
     members_total = db.Column(db.Integer, Computed("members_full + members_half"))
+    history = db.relationship("StationHistory", backref="current", lazy=True)
 
     def archive_all(dist_id):
 
@@ -99,6 +101,7 @@ class Station(TimestampMixin, db.Model):
 
         # add corresponding DIST ID
         data["distribution_id"] = dist_id
+        data["station_id"] = self.id
 
         if archive_time:
             data["time_archived"] = archive_time
