@@ -1,6 +1,6 @@
 from flask import Blueprint, abort, redirect, render_template, request, url_for
 
-from ms.db.models import Distribution, Product, Station, Unit, db
+from ms.db.models import Distribution, Product, Station, StationHistory, Unit, db
 
 distribution = Blueprint("distribution", __name__)
 
@@ -38,8 +38,10 @@ def trigger():
         elif distribute == "stop":
 
             dist = Distribution.current()
+            stations = StationHistory.query.filter_by(distribution_id=dist.id).all()
             dist.in_progress = False
             db.session.add(dist)
+            [db.session.delete(station) for station in stations]
             db.session.commit()
 
             return redirect(url_for("stations.stations_view"), 302)

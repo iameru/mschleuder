@@ -92,9 +92,13 @@ def test_starting_a_distribution(test_client):
         assert s.members_total == sa.members_total
 
 
-def test_stop_distribution_prematurely(test_client):
+def test_stop_distribution(test_client):
 
-    assert Distribution.current().in_progress is True
+    # setup
+    dist = Distribution.current()
+    stations_archived = dist.stations
+    assert dist.in_progress is True
+
     # there shall be a button
     response = test_client.get(url_for("distribution.overview"))
     stop_modal_button = bs(response.data, "html.parser").find(
@@ -127,12 +131,13 @@ def test_stop_distribution_prematurely(test_client):
     dist = Distribution.current()
     assert dist.in_progress is False
 
+    # and the stations deleted again
+    assert stations_archived != dist.stations
+    assert not dist.stations
+
     # cleanup
     dist.in_progress = True
     db.session.commit()
-
-    # test for stations removal and stuff
-    return False
 
 
 def test_distribution_site_throws_404_if_no_product(test_client):
