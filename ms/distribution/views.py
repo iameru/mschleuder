@@ -1,6 +1,6 @@
 from flask import Blueprint, abort, redirect, render_template, request, url_for
 
-from ms.db.models import Distribution, Product, Station, StationHistory, Unit, db
+from ms.db.models import Distribution, Product, Share, Station, StationHistory, Unit, db
 
 distribution = Blueprint("distribution", __name__)
 
@@ -105,5 +105,16 @@ def distribute(p_id: int, p_unit_shortname: str):
 
 @distribution.route("/save", methods=["POST"])
 def save():
+
+    if request.content_type == "application/json":
+
+        for data in request.json:
+
+            share = Share(**data)
+            db.session.add(share)
+
+        db.session.commit()
+
+        return redirect(url_for("distribution.overview"), 302)
 
     return abort(404)

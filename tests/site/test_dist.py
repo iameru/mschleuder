@@ -1,9 +1,10 @@
-from random import choice
+import json
+from random import choice, randint
 
 import pytest
 from flask import url_for
 
-from ms.db.models import Distribution, Product, Station, StationHistory, db
+from ms.db.models import Distribution, Product, Share, Station, StationHistory, db
 
 
 @pytest.fixture(autouse=True, scope="module")
@@ -18,6 +19,7 @@ def distribute():
 
     # teardown
     stations = StationHistory.query.filter_by(distribution_id=dist.id).all()
+    [db.session.delete(share) for share in dist.shares]
     [db.session.delete(station) for station in stations]
     db.session.delete(dist)
     db.session.commit()
@@ -27,3 +29,65 @@ def test_post_nonvalid_data_to_save_distribution(test_client):
 
     response = test_client.post(url_for("distribution.save"), data={"stuff": "wrong"})
     assert response.status_code == 404
+
+
+def test_saving_of_a_distribution(test_client):
+
+    # have to pretend a bit as the generation is in javascript
+
+    # we have a product we want to share for this distribution, in a unit, with infos of a station at that time.
+    # we would have to do this for each station
+    product = choice(Product.query.all())
+    unit = choice(product.units)
+    dist = Distribution.current()
+    post_data = []
+    # we generate the data to post
+    for station in dist.stations:
+
+        # we have values we want to be saved (given from frontend)
+        # single members each get
+        single_full = randint(2, 44)
+        single_half = int(single_full / 2)
+        single_total = single_full + single_half
+
+        # the whole station gets
+        sum_full = single_full * station.members_full
+        sum_half = single_half * station.members_half
+        sum_total = sum_full + sum_half
+
+        # we build the keys
+        keys = dict(
+            product_id=product.id,
+            stationhistory_id=station.id,
+            distribution_id=dist.id,
+            unit_id=unit.id,
+        )
+        # we build the data
+        data = dict(
+            single_full=single_full,
+            single_half=single_half,
+            single_total=single_total,
+            sum_full=sum_full,
+            sum_half=sum_half,
+            sum_total=sum_total,
+        )
+        data.update(keys)
+
+        post_data.append(data)
+
+    data = json.dumps(post_data)
+    # we send the request
+    response = test_client.post(
+        url_for("distribution.save"),
+        data=data,
+        content_type="application/json",
+        follow_redirects=True,
+    )
+    assert response.status_code == 200
+    assert response.request.path == url_for("distribution.overview")
+
+    # we expect all entries to be saved to database
+    for data in post_data:
+
+        share = Share.query.filter_by(**data).first()
+        assert share
