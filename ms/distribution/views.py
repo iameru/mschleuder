@@ -101,3 +101,9 @@ def distribute(p_id: int, p_unit_shortname: str):
         stations=stations,
         station_sums=station_sums,
     )
+
+
+@distribution.route("/save", methods=["POST"])
+def save():
+
+    return abort(404)
