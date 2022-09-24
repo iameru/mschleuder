@@ -37,6 +37,7 @@ def test_saving_of_a_distribution(test_client):
 
     # we have a product we want to share for this distribution, in a unit, with infos of a station at that time.
     # we would have to do this for each station
+    # dist.id gets added in view
     product = choice(Product.query.all())
     unit = choice(product.units)
     dist = Distribution.current()
@@ -59,7 +60,6 @@ def test_saving_of_a_distribution(test_client):
         keys = dict(
             product_id=product.id,
             stationhistory_id=station.id,
-            distribution_id=dist.id,
             unit_id=unit.id,
         )
         # we build the data

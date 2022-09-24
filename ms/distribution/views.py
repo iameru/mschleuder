@@ -42,6 +42,7 @@ def trigger():
             stations = StationHistory.query.filter_by(distribution_id=dist.id).all()
             dist.in_progress = False
             db.session.add(dist)
+            [db.session.delete(share) for share in dist.shares]
             [db.session.delete(station) for station in stations]
             db.session.commit()
 
@@ -108,7 +109,10 @@ def save():
 
     if request.content_type == "application/json":
 
-        for data in request.json:
+        for json_data in request.json:
+
+            data = dict(distribution_id=Distribution.current().id)
+            data.update(json_data)
 
             share = Share(**data)
             db.session.add(share)

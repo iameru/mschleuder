@@ -15,6 +15,7 @@ single_half_field = document.getElementById("dist-station-single-half-{{ station
 
 stations["{{ station.id }}"] = {
     "name": "{{station.name}}",
+    "id": {{ station.id }},
     "total_field" : document.getElementById("dist-station-total-{{ station.id }}"),
     "full_field"  : document.getElementById("dist-station-full-{{ station.id }}"),
     "half_field"  : document.getElementById("dist-station-half-{{ station.id }}"),
@@ -172,4 +173,57 @@ function get_accuracy() {
   return parseFloat(input_field.value) - sum_d
 }
 
+function save_data() {
+
+    let data = build_save_data()
+	let post_data = JSON.stringify(data)
+	let dataReceived = ""
+
+    fetch("{{ url_for('distribution.save') }}", {
+        method:"post",
+        headers:{"Content-Type":"application/json"},
+        body: post_data
+        }
+    ).then(resp => {
+			  if (resp.status === 200) {
+				  return resp.json()
+			  } else {
+				  console.log("Status: " + resp.status)
+				  return Promise.reject("server")
+			  }
+		  })
+		  .then(dataJson => {
+			  dataReceived = JSON.parse(dataJson)
+		  })
+		  .catch(err => {
+			  if (err === "server") return
+			  console.log(err)
+		  });
+    alert("done");
+}
+function build_save_data() {
+
+  var post_data = []
+  Object.values(stations).forEach(station => {
+
+    let data = {}
+
+    data.product_id = {{ product.id }}
+    data.unit_id = {{ unit.id }}
+    data.stationhistory_id = station.id
+
+    data.single_full = +station.single_full_field.textContent
+    data.single_half = +station.single_half_field.textContent
+    data.single_total = data.single_full + data.single_half
+
+    data.sum_full = data.single_full * station.members_full
+    data.sum_half = data.single_half * station.members_half
+    data.sum_total = data.sum_full + data.sum_half
+
+    post_data.push(data)
+  })
+
+  return post_data
+
+}
 </script>
