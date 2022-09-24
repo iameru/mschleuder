@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup as bs
+from flask import url_for
 
-from ms.db.models import Station
+from ms.db.models import Distribution, Station, db
 
 
 def test_station_on_site(test_client, station):
@@ -172,3 +173,31 @@ def test_values_in_edit_station(test_client, station):
     assert station.delivery_order == int(delivery_order["value"])
     assert str(station.members_full) == members_full["value"]
     assert str(station.members_half) == members_half["value"]
+
+
+def test_stations_not_editable_in_distribution(test_client):
+
+    # setup
+    db.session.add(Distribution(**dict(in_progress=True)))
+
+    response = test_client.get(url_for("stations.stations_view"))
+    html = bs(response.data, "html.parser")
+
+    for station in Station.query.all():
+        # dont find edit box
+        edit_box = html.find("a", {"id": f"station-edit-view-{station.id}"})
+        assert not edit_box
+        # dont find create station link
+        assert not html.find("button", {"hx-get": url_for("stations.new_station")})
+
+    # but find reminder that its an ongoing distribution
+    info = html.find("p", {"id": "text-station-in-distribution"})
+    assert info
+    assert "Aktuell in Verteilung - Stationen nicht editierbar" == info.text
+
+    # Also check for routes to create and update stations
+
+    # cleanup
+    d = Distribution.current()
+    db.session.delete(d)
+    db.session.commit()

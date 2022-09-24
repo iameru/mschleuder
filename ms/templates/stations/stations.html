@@ -10,10 +10,14 @@
  <h3 class="title">Aktuell:</h3>
  </div>
  <div class="level-right">
+      {% if distribution_in_progress %}
+        <p class="p-3" id="text-station-in-distribution">Aktuell in Verteilung - Stationen <i>nicht</i> editierbar</p>
+      {% else %}
          <button class="button is-link"
                  hx-get="{{ url_for('stations.new_station') }}"
                  hx-target="body"
                  hx-swap="beforeend">neue station</button>
+      {% endif %}
 </div>
 </div>
 
@@ -29,12 +33,15 @@
         </h2>
       </div>
       <div class="column is-2">
+      {% if distribution_in_progress %}
+      {% else %}
         <a id="station-edit-view-{{station.id}}"
            hx-get="{{ url_for('stations.detail_view', stationid=station.id) }}"
            hx-target="body"
            hx-swap="beforeend">
           <img src="{{url_for('static', filename='icons/edit.svg')}}" width=24 />
         </a>
+      {% endif %}
       </div>
     </div>
      <p>
