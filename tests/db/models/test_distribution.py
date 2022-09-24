@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from ms.db.models import Distribution, db
 
 
@@ -5,10 +7,12 @@ def test_entry_got_generated(test_app):
 
     dist = Distribution.query.all()
     assert len(dist) == 1
-    assert dist[0].in_progress is False
+    dist = dist[0]
+    assert dist.in_progress is False
+    assert dist.date_time == datetime.utcnow().replace(microsecond=0, second=0)
 
     # cleanup
-    db.session.delete(dist[0])
+    db.session.delete(dist)
     db.session.commit()
 
 

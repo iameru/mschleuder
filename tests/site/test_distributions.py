@@ -1,9 +1,11 @@
+import datetime
 from random import choice
 
 from bs4 import BeautifulSoup as bs
 from flask import url_for
+from pytest import mark
 
-from ms.db.models import Distribution, Product, Station, Unit, db
+from ms.db.models import Distribution, Product, Station, StationHistory, Unit, db
 
 
 def test_invitation_to_start_distribution(test_client, product_distribution):
@@ -56,15 +58,33 @@ def test_start_distribution_view(test_client):
 
 def test_starting_a_distribution(test_client):
 
+    # when starting a distribution
+    # a trigger shall fire and all stations shall be
+    # locked in use for the distribution
+
+    # trigger distribution
+    stations = Station.query.all()
     assert Distribution.query.get(1).in_progress is False
     data = {"distribution": "start"}
     response = test_client.post(
         url_for("distribution.trigger"), data=data, follow_redirects=True
     )
+    archived_stations = StationHistory.query.all()
 
+    # find the trigger successfull
     assert response.status_code == 200
     assert Distribution.query.get(1).in_progress is True
     assert response.request.path == url_for("distribution.overview")
+
+    # find stations archived
+    archived_stations = StationHistory.query.filter_by(
+        time_archived=datetime.datetime.utcnow()
+    ).all()
+    assert len(archived_stations) == len(stations)
+
+    # find stations locked
+    response = test_client.get(url_for("stations.stations_view"))
+    assert False
 
 
 def test_stop_distribution_prematurely(test_client):

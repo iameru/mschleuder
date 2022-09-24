@@ -108,7 +108,14 @@ class Organisation(db.Model):
     footer = db.Column(db.String(128), unique=True, nullable=True)
 
 
+def _datetime_now():
+
+    # remove seconds and  microseconds
+    return datetime.datetime.utcnow().replace(microsecond=0, second=0)
+
+
 class Distribution(TimestampMixin, db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     in_progress = db.Column(db.Boolean, nullable=False)
+    date_time = db.Column(db.DateTime, nullable=False, default=_datetime_now)

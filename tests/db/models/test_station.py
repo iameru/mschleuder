@@ -1,3 +1,5 @@
+from pytest import mark
+
 from ms.db import db_api
 from ms.db.models import Station, StationHistory, db
 
