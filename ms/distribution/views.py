@@ -7,18 +7,16 @@ distribution = Blueprint("distribution", __name__)
 
 @distribution.before_request
 def check_distribution_in_progress():
-
     # check if dist is in progress, else redirect to start it
     if not Distribution.current().in_progress:
-
         if not request.endpoint == "distribution.trigger":
-
             return redirect(url_for("distribution.trigger"))
 
 
-@distribution.route("/stop")
-def confirm_stop_modal():
-    return render_template("distribution/confirm_stop_modal.html")
+@distribution.route("/overview")
+def overview():
+
+    return render_template("distribution/overview.html")
 
 
 @distribution.route("/start", methods=["GET", "POST"])
@@ -54,13 +52,12 @@ def trigger():
     return render_template("distribution/start_distribution.html")
 
 
-@distribution.route("/overview")
-def overview():
+@distribution.route("/stop")
+def confirm_stop_modal():
+    return render_template("distribution/confirm_stop_modal.html")
 
-    return render_template("distribution/overview.html")
 
-
-@distribution.route("/p_<int:p_id>", methods=["GET"])
+@distribution.route("/<int:p_id>", methods=["GET"])
 def product(p_id):
 
     product = Product.query.get_or_404(p_id)
@@ -101,28 +98,6 @@ def distribute(p_id: int, p_unit_shortname: str):
         "distribution/distribute.html",
         product=product,
         unit=unit,
-        stations=stations,
-        station_sums=station_sums,
-    )
-
-
-@distribution.route("/<int:productid>")
-def distribute_by_id(productid):
-
-    product = Product.query.get(productid)
-    if not product:
-        abort(404)
-
-    stations = Station.query.all()
-    station_sums = {
-        "full": sum(station.members_full for station in stations),
-        "half": sum(station.members_half for station in stations),
-    }
-    station_sums["total"] = station_sums["full"] + station_sums["half"]
-
-    return render_template(
-        "distribution/distribute.html",
-        product=product,
         stations=stations,
         station_sums=station_sums,
     )
