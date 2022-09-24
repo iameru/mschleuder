@@ -81,7 +81,14 @@ class Station(TimestampMixin, db.Model):
     members_half = db.Column(db.Integer, nullable=False)
     members_total = db.Column(db.Integer, Computed("members_full + members_half"))
 
-    def archive(self, dist_id):
+    def archive_all(dist_id):
+
+        archive_time = datetime_now()
+
+        for station in Station.query.all():
+            station.archive(dist_id, archive_time)
+
+    def archive(self, dist_id, archive_time=None):
 
         # get non PK data into a dict and commit to History
         table = self.__table__
@@ -91,7 +98,11 @@ class Station(TimestampMixin, db.Model):
         # add corresponding DIST ID
         data["distribution_id"] = dist_id
 
+        if archive_time:
+            data["time_archived"] = archive_time
+
         archive_obj = StationHistory(**data)
+
         db.session.add(archive_obj)
         db.session.commit()
 
