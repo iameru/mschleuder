@@ -22,6 +22,7 @@ class Unit(db.Model):
     by_piece = db.Column(db.Boolean, nullable=False)
     shortname = db.Column(db.String(128), unique=True, nullable=False)
     longname = db.Column(db.String(128), unique=True, nullable=False)
+    shares = db.relationship("Share", backref="unit", lazy=True)
 
 
 product_units = db.Table(
@@ -45,6 +46,7 @@ class Product(TimestampMixin, db.Model):
         lazy="subquery",
         backref=db.backref("products", lazy="subquery"),
     )
+    shares = db.relationship("Share", backref="product", lazy=True)
 
 
 class StationHistory(db.Model):
@@ -62,6 +64,7 @@ class StationHistory(db.Model):
     time_archived = db.Column(db.DateTime, default=datetime_now)
     created = db.Column(db.DateTime, nullable=False)
     updated = db.Column(db.DateTime, nullable=True)
+    shares = db.relationship("Share", backref="stationhistory", lazy=True)
 
     distribution_id = db.Column(
         db.Integer, db.ForeignKey("distribution.id"), nullable=False
@@ -125,6 +128,7 @@ class Distribution(TimestampMixin, db.Model):
     in_progress = db.Column(db.Boolean, nullable=False)
     date_time = db.Column(db.DateTime, nullable=False, default=datetime_now)
     stations = db.relationship("StationHistory", backref="distribution", lazy=True)
+    shares = db.relationship("Share", backref="dist", lazy=True)
 
     def current():
 
