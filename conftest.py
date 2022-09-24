@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup as bs
 from flask import url_for
 
 from ms import create_app
-from ms.db.models import Product, Station, Unit, db
+from ms.db.models import Distribution, Product, Station, StationHistory, Unit, db
 from ms.first_run import first_run
 
 test_config = {
@@ -91,3 +91,39 @@ def product_distribution(product, test_client, test_app):
     )
     # go to distribution
     return test_client.get(url, follow_redirects=True)
+
+
+@pytest.fixture(scope="function")
+def not_in_distribution():
+
+    # setup
+    dist = Distribution(**dict(in_progress=False))
+    db.session.add(dist)
+    db.session.commit()
+    Station.archive_all(dist.id)
+
+    yield not dist.in_progress
+
+    # teardown
+    stations = StationHistory.query.filter_by(distribution_id=dist.id).all()
+    [db.session.delete(station) for station in stations]
+    db.session.delete(dist)
+    db.session.commit()
+
+
+@pytest.fixture(scope="function")
+def in_distribution():
+
+    # setup
+    dist = Distribution(**dict(in_progress=True))
+    db.session.add(dist)
+    db.session.commit()
+    Station.archive_all(dist.id)
+
+    yield dist.in_progress
+
+    # teardown
+    stations = StationHistory.query.filter_by(distribution_id=dist.id).all()
+    [db.session.delete(station) for station in stations]
+    db.session.delete(dist)
+    db.session.commit()

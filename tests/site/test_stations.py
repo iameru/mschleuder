@@ -175,10 +175,9 @@ def test_values_in_edit_station(test_client, station):
     assert str(station.members_half) == members_half["value"]
 
 
-def test_stations_not_editable_in_distribution(test_client):
+def test_stations_not_editable_in_distribution(test_client, in_distribution):
 
-    # setup
-    db.session.add(Distribution(**dict(in_progress=True)))
+    assert in_distribution
 
     response = test_client.get(url_for("stations.stations_view"))
     html = bs(response.data, "html.parser")
@@ -194,10 +193,3 @@ def test_stations_not_editable_in_distribution(test_client):
     info = html.find("p", {"id": "text-station-in-distribution"})
     assert info
     assert "Aktuell in Verteilung - Stationen nicht editierbar" == info.text
-
-    # Also check for routes to create and update stations
-
-    # cleanup
-    d = Distribution.current()
-    db.session.delete(d)
-    db.session.commit()
