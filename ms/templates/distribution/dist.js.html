@@ -6,6 +6,9 @@ const input_field = document.getElementById("dist-input-field")
 const stations = {}
 const error_div = document.getElementById("dist-error-div")
 const error_field = document.getElementById("dist-error-field")
+const message_div = document.getElementById("dist-message-div")
+const message_field = document.getElementById("dist-message-field")
+const save_button = document.getElementById("save-button")
 var distribution_started = false
 
 {% for station in stations %}
@@ -84,8 +87,11 @@ function change_station(station_id, type, x) {
 
 function distribute (option) {
     input = parseFloat(input_field.value)
-    if (!input) { return send_error("Keine Ernte angegeben?!") }
+    if (!input) {
+    save_button.disabled = true
+    return send_error("Keine Ernte angegeben?!") }
 
+    save_button.disabled = false
     toggle_buttons(option)
 
     if (option == "even") {divisor = 1}
@@ -199,7 +205,16 @@ function save_data() {
 			  if (err === "server") return
 			  console.log(err)
 		  });
-    alert("done");
+    send_message("Gespeichert");
+}
+function send_message(message) {
+      save_button.disabled = true
+      message_field.textContent = message
+      message_div.classList.toggle("expand")
+      setTimeout(() => {
+        save_button.disabled = false
+        message_div.classList.toggle("expand")
+        }, 2000)
 }
 function build_save_data() {
 

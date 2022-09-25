@@ -29,10 +29,15 @@
     </div>
   </div>
 
-  {# error message for dist.js script #}
+  {# error and message for dist.js script #}
   <div class="column expand" id="dist-error-div">
     <div class="columns is-centered">
       <div class="column is-half bordered has-text-centered has-background-danger has-text-black" id="dist-error-field"></div>
+    </div>
+  </div>
+  <div class="column expand" id="dist-message-div">
+    <div class="columns is-centered">
+      <div class="column is-half bordered has-text-centered has-background-light has-text-black" id="dist-message-field"></div>
     </div>
   </div>
 
@@ -97,8 +102,10 @@
 
     <div class="columns">
       <div class="column">
-        <button class="button is-primary"
-                onclick="save_data()">Speichern</button>
+      <button class="button is-primary"
+              id="save-button"
+              onclick="save_data()"
+              disabled>Speichern</button>
       </div>
     </div>
 
