@@ -31,14 +31,11 @@ def test_post_nonvalid_data_to_save_distribution(test_client):
     assert response.status_code == 404
 
 
-def test_saving_of_a_distribution(test_client):
-
-    # have to pretend a bit as the generation is in javascript
+def _save_product(test_client, product: Product):
 
     # we have a product we want to share for this distribution, in a unit, with infos of a station at that time.
     # we would have to do this for each station
     # dist.id gets added in view
-    product = choice(Product.query.all())
     unit = choice(product.units)
     dist = Distribution.current()
     post_data = []
@@ -47,7 +44,7 @@ def test_saving_of_a_distribution(test_client):
 
         # we have values we want to be saved (given from frontend)
         # single members each get
-        single_full = randint(2, 44)
+        single_full = randint(2, 100)
         single_half = int(single_full / 2)
         single_total = single_full + single_half
 
@@ -76,6 +73,7 @@ def test_saving_of_a_distribution(test_client):
         post_data.append(data)
 
     data = json.dumps(post_data)
+
     # we send the request
     response = test_client.post(
         url_for("distribution.save"),
@@ -83,6 +81,19 @@ def test_saving_of_a_distribution(test_client):
         content_type="application/json",
         follow_redirects=True,
     )
+
+    # we return the response for tests
+    return dict(response=response, post_data=post_data)
+
+
+def test_saving_of_a_distribution(test_client, product):
+
+    # have to pretend a bit as the generation is in javascript
+    # see test in function _save_product
+
+    result = _save_product(test_client, product)
+    response = result.get("response")
+    post_data = result.get("post_data")
     assert response.status_code == 200
     assert response.request.path == url_for("distribution.overview")
 
@@ -91,3 +102,12 @@ def test_saving_of_a_distribution(test_client):
 
         share = Share.query.filter_by(**data).first()
         assert share
+
+
+# def test_saving_no_duplicates(test_client, product):
+
+#     result = _save_product(test_client, product)
+#     response = result.get("response")
+#     post_data = result.get("post_data")
+#     assert response.status_code == 200
+#     assert response.request.path == url_for("distribution.overview")
