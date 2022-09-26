@@ -86,11 +86,12 @@ def _save_product(test_client, product: Product):
     return dict(response=response, post_data=post_data)
 
 
-def test_saving_of_a_distribution(test_client, product):
+def test_saving_of_a_distribution(test_client):
 
     # have to pretend a bit as the generation is in javascript
     # see test in function _save_product
 
+    product = Product.query.get(1)
     result = _save_product(test_client, product)
     response = result.get("response")
     post_data = result.get("post_data")
@@ -104,10 +105,26 @@ def test_saving_of_a_distribution(test_client, product):
         assert share
 
 
-# def test_saving_no_duplicates(test_client, product):
+def test_saving_no_duplicates(test_client, product):
 
-#     result = _save_product(test_client, product)
-#     response = result.get("response")
-#     post_data = result.get("post_data")
-#     assert response.status_code == 200
-#     assert response.request.path == url_for("distribution.overview")
+    # save a product 5 times
+    product = Product.query.get(2)
+    for _ in range(5):
+        result = _save_product(test_client, product)
+        post_data = result.get("post_data")
+
+    # expect only one, not 5, entries for this
+    query = dict(
+        product_id=product.id,
+        distribution_id=Distribution.current().id,
+        stationhistory_id=post_data[0].get("stationhistory_id"),
+        unit_id=post_data[0].get("unit_id"),
+    )
+    share = Share.query.filter_by(**query).all()
+    assert len(share) != 5
+    assert len(share) == 1
+
+    # expect the last post request to be in database
+    share = share[0]
+    for key, value in post_data[0].items():
+        assert share.__dict__[key] == value

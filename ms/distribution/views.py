@@ -111,11 +111,23 @@ def save():
 
         for json_data in request.json:
 
-            data = dict(distribution_id=Distribution.current().id)
+            dist = Distribution.current()
+            data = dict(distribution_id=dist.id)
             data.update(json_data)
 
-            share = Share(**data)
-            db.session.add(share)
+            # get previously saved entry
+            query = dict(
+                product_id=data.get("product_id"),
+                distribution_id=dist.id,
+                stationhistory_id=data.get("stationhistory_id"),
+                unit_id=data.get("unit_id"),
+            )
+            # assure only one save per prod/unit/station/dist key combination
+            if Share.query.filter_by(**query).first():
+                share = Share.query.filter_by(**query).update(data)
+            else:
+                share = Share(**data)
+                db.session.add(share)
 
         db.session.commit()
 
