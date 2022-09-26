@@ -1,10 +1,31 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Computed, desc
+from sqlalchemy.orm.exc import DetachedInstanceError
 from sqlalchemy.types import Float
 
 from ms.utils import datetime_now
 
 db = SQLAlchemy()
+
+
+class ReprMixin(object):
+    def __repr__(self):
+        return self._repr(id=self.id)
+
+    def _repr(self, **fields):
+
+        field_strings = []
+        at_least_one_attached_attribute = False
+        for key, field in fields.items():
+            try:
+                field_strings.append(f"{key}={field!r}")
+            except DetachedInstanceError:
+                field_string.append(f"{key}=DetachedInstanceError")
+            else:
+                at_least_one_attached_attribute = True
+        if at_least_one_attached_attribute:
+            return f"<{self.__class__.__name__}({','.join(field_strings)})>"
+        return f"<{self.__class__.__name__} {id(self)}>"
 
 
 class TimestampMixin(object):
@@ -14,7 +35,7 @@ class TimestampMixin(object):
     updated = db.Column(db.DateTime, nullable=True, onupdate=datetime_now)
 
 
-class Unit(db.Model):
+class Unit(db.Model, ReprMixin):
 
     __tablename__ = "units"
 
@@ -24,6 +45,9 @@ class Unit(db.Model):
     longname = db.Column(db.String(128), unique=True, nullable=False)
     shares = db.relationship("Share", backref="unit", lazy=True)
 
+    def __repr__(self):
+        return self._repr(id=self.id, shortname=self.shortname, by_piece=self.by_piece)
+
 
 product_units = db.Table(
     "product_units",
@@ -32,7 +56,7 @@ product_units = db.Table(
 )
 
 
-class Product(TimestampMixin, db.Model):
+class Product(TimestampMixin, db.Model, ReprMixin):
 
     __tablename__ = "products"
 
@@ -48,8 +72,11 @@ class Product(TimestampMixin, db.Model):
     )
     shares = db.relationship("Share", backref="product", lazy=True)
 
+    def __repr__(self):
+        return self._repr(id=self.id, name=self.name)
 
-class StationHistory(db.Model):
+
+class StationHistory(db.Model, ReprMixin):
 
     __tablename__ = "stationshistory"
 
@@ -71,8 +98,11 @@ class StationHistory(db.Model):
     )
     station_id = db.Column(db.Integer, db.ForeignKey("stations.id"), nullable=False)
 
+    def __repr__(self):
+        return self._repr(id=self.id, name=self.name, members_total=self.members_total)
 
-class Station(TimestampMixin, db.Model):
+
+class Station(TimestampMixin, db.Model, ReprMixin):
 
     __tablename__ = "stations"
 
@@ -111,8 +141,11 @@ class Station(TimestampMixin, db.Model):
         db.session.add(archive_obj)
         db.session.commit()
 
+    def __repr__(self):
+        return self._repr(id=self.id, name=self.name, members_total=self.members_total)
 
-class Organisation(db.Model):
+
+class Organisation(db.Model, ReprMixin):
 
     __tablename__ = "settings"
 
@@ -124,8 +157,11 @@ class Organisation(db.Model):
     header = db.Column(db.String(128), unique=True, nullable=True)
     footer = db.Column(db.String(128), unique=True, nullable=True)
 
+    def __repr__(self):
+        return self._repr(id=self.id, name=self.name)
 
-class Distribution(TimestampMixin, db.Model):
+
+class Distribution(TimestampMixin, db.Model, ReprMixin):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     in_progress = db.Column(db.Boolean, nullable=False)
@@ -137,8 +173,11 @@ class Distribution(TimestampMixin, db.Model):
 
         return Distribution.query.order_by(desc(Distribution.id)).first()
 
+    def __repr__(self):
+        return self._repr(id=self.id, in_progress=self.in_progress)
 
-class Share(TimestampMixin, db.Model):
+
+class Share(TimestampMixin, db.Model, ReprMixin):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     product_id = db.Column(db.Integer, db.ForeignKey("products.id"), nullable=False)
@@ -161,3 +200,13 @@ class Share(TimestampMixin, db.Model):
     sum_full = db.Column(Float(asdecimal=True, precision=8, decimal_return_scale=None))
     sum_half = db.Column(Float(asdecimal=True, precision=8, decimal_return_scale=None))
     sum_total = db.Column(Float(asdecimal=True, precision=8, decimal_return_scale=None))
+
+    def __repr__(self):
+        return self._repr(
+            id=self.id,
+            distribution_id=self.distribution_id,
+            sum_total=self.sum_total,
+            product_id=self.product_id,
+            unit_id=self.unit_id,
+            stationhistory_id=self.stationhistory_id,
+        )

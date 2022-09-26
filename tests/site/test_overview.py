@@ -52,7 +52,6 @@ def test_shares_in_overview(test_client, distribution):
     started = html.find("p", {"id": "info-dist-started"})
     assert distribution.created == datetime.datetime.fromisoformat(started.text)
 
-    breakpoint()
     for product in products:
 
         # find rows
