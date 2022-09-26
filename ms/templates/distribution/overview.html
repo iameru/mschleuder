@@ -1,12 +1,32 @@
 {% extends 'base.html' %}
 {% set title = 'Verteilung' %}
 {% block content %}
-  <a hx-get="{{ url_for('distribution.confirm_stop_modal') }}"
-      hx-target="body"
-      hx-swap="beforeend"
-      href="{{ url_for('distribution.confirm_stop_modal') }}">
+
+<p>gestartet:</p><p id="info-dist-started"><small>{{ dist.created }}</small></p>
+
+<div class="columns">
+
+  <div class="column is-10">
+    <table class="table">
+    {% for product in products %}
+      <tr id="overview-{{product.id}}">
+        <td>{{product.name}}</td>
+      </tr>
+    {% endfor %}
+    </table>
+  </div>
+
+</div>
+
+
+
+
+<a hx-get="{{ url_for('distribution.confirm_stop_modal') }}"
+    hx-target="body"
+    hx-swap="beforeend"
+    href="{{ url_for('distribution.confirm_stop_modal') }}">
   <button class="button is-small"
-          id="stop-distribution-modal"
-          >Verteilung stoppen</button>
+        id="stop-distribution-modal"
+        >Verteilung stoppen</button>
 </a>
 {% endblock content%}

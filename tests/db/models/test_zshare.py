@@ -60,8 +60,11 @@ def test_creation_and_linkage_of_Share_model(in_distribution):
     assert share.sum_half == sum_half
     assert share.sum_total == sum_total
 
-    # also the other models shall land in here
+    # also the other models should have references
     assert share.product == product
     assert share.unit == unit
     assert share.stationhistory == station
     assert share.dist == dist
+
+    # also the distribution should have stations referenced
+    assert station in dist.stations

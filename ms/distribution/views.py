@@ -16,7 +16,14 @@ def check_distribution_in_progress():
 @distribution.route("/overview")
 def overview():
 
-    return render_template("distribution/overview.html")
+    # get all products distributed
+    dist = Distribution.current()
+    products = []
+    for share in Share.query.filter_by(distribution_id=dist.id).all():
+        products.append(Product.query.get(share.product_id))
+    products = [p for p in set(products)]
+
+    return render_template("distribution/overview.html", dist=dist, products=products)
 
 
 @distribution.route("/start", methods=["GET", "POST"])

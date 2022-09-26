@@ -97,7 +97,7 @@ def product_distribution(product, test_client, test_app):
 def not_in_distribution():
 
     # setup
-    dist = Distribution(**dict(in_progress=False))
+    dist = Distribution(in_progress=False)
     db.session.add(dist)
     db.session.commit()
     Station.archive_all(dist.id)
@@ -115,7 +115,7 @@ def not_in_distribution():
 def in_distribution():
 
     # setup
-    dist = Distribution(**dict(in_progress=True))
+    dist = Distribution(in_progress=True)
     db.session.add(dist)
     db.session.commit()
     Station.archive_all(dist.id)

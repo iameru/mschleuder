@@ -10,7 +10,7 @@ from ms.db.models import Distribution, Product, Share, Station, StationHistory, 
 @pytest.fixture(autouse=True, scope="module")
 def distribute():
     # setup
-    dist = Distribution(**dict(in_progress=True))
+    dist = Distribution(in_progress=True)
     db.session.add(dist)
     db.session.commit()
     Station.archive_all(dist.id)
