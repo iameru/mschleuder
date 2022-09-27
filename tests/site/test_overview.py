@@ -20,7 +20,7 @@ def distribution(test_client):
 
     # create products
     for product in Product.query.all():
-        x = _save_product(test_client, product)
+        _save_product(test_client, product)
 
     yield dist
 
@@ -37,16 +37,25 @@ def test_shares_in_db(distribution):
     assert len(distribution.shares) != 0
 
 
+def _print(q):
+    import pprint
+
+    for product, share, station, dist in q:
+        print(product, share, station, dist)
+        print("--")
+
+
 def test_shares_in_overview(test_client, distribution):
 
     response = test_client.get(url_for("distribution.overview"))
     html = bs(response.data, "html.parser")
 
-    # get all products distributed
-    products = []
-    for share in Share.query.filter_by(distribution_id=distribution.id).all():
-        products.append(Product.query.get(share.product_id))
-    products = [p for p in set(products)]
+    products = (
+        Product.query.join(Share)
+        .filter(Share.distribution_id == distribution.id)
+        .filter(Share.product_id == Product.id)
+        .all()
+    )
 
     # We will find all the information about the distribution
     started = html.find("p", {"id": "info-dist-started"})

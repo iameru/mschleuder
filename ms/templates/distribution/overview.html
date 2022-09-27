@@ -7,11 +7,22 @@
 <div class="columns">
 
   <div class="column is-10">
-    <table class="table">
-    {% for product in products %}
-      <tr id="overview-{{product.id}}">
-        <td>{{product.name}}</td>
+    <table class="table is-hoverable is-fullwidth">
+      <thead>
+        <td>name</td>
+        <td>verteilt</td>
+        <td>einzeln ganz</td>
+        <td>einzeln halb</td>
+      </thead>
+
+    {% for entry in data %}
+      <tr id="overview-{{entry.id}}">
+        <td>{{entry.name}}</td>
+        <td>{{entry.total_sum|round(2,"floor")}}</td>
+        <td>{{entry.single_full_average}}</td>
+        <td>{{entry.single_half_average}}</td>
       </tr>
+
     {% endfor %}
     </table>
   </div>
