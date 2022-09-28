@@ -25,12 +25,14 @@ def product_details(distribution_id, product_id):
         Product.name.label("product_name"),
         func.sum(Share.sum_total).label("total_sum"),
         Share,
+        Unit.longname.label("unit_name"),
     )
-    joins = fields.join(Product).join(StationHistory)
+    joins = fields.join(Product).join(StationHistory).join(Unit)
     groups = joins.group_by(Share.stationhistory_id, StationHistory.id)
     filters = groups.filter(
         Share.distribution_id == distribution_id,
         Share.product_id == product_id,
+        Share.unit_id == Unit.id,
     )
 
     return [dict(item) for item in filters.all()]

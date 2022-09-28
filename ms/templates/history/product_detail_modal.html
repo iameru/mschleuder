@@ -1,6 +1,23 @@
 {% extends 'modal.html' %}
 {% block modal_content %}
-<div>
-{{ data }}
-</div>
+  <div class="columns is-centered is-multiline">
+    <div class="column is-full has-text-centered">
+      <p class="is-size-3">{{ product.name }}</p>
+    </div>
+    <div class="column is-full has-text-centered">
+      <p class="is-size-7">{{ distribution.date_time }} | in {{ data[0].unit_name }}</p>
+    </div>
+
+    {% for detail in data %}
+      <div class="column is-half">
+        <p>Station: {{ detail.Share.stationhistory.name }}</p>
+        <p>gesamt: {{ detail.Share.total_sum }}</p>
+        <p>ganze gesamt: {{ detail.Share.sum_full }}</p>
+        <p>halbe gesamt: {{ detail.Share.sum_half }}</p>
+        <p>ganze einzeln: {{ detail.Share.single_full }}</p>
+        <p>halbe einzeln: {{ detail.Share.single_half }}</p>
+    </div>
+    {% endfor %}
+  </div>
+
 {% endblock modal_content %}
