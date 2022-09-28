@@ -10,12 +10,12 @@
 
     {% for detail in data %}
       <div class="column is-half">
-        <p>Station: {{ detail.Share.stationhistory.name }}</p>
-        <p>gesamt: {{ detail.Share.total_sum }}</p>
-        <p>ganze gesamt: {{ detail.Share.sum_full }}</p>
-        <p>halbe gesamt: {{ detail.Share.sum_half }}</p>
-        <p>ganze einzeln: {{ detail.Share.single_full }}</p>
-        <p>halbe einzeln: {{ detail.Share.single_half }}</p>
+      <p class="is-size-4">Station: {{ detail.Share.stationhistory.name }}</p>
+        <p>gesamt: {{ detail.Share.sum_total|round(2,"floor" )}}</p>
+        <p>ganze gesamt: {{ detail.Share.sum_full|round(2,"floor" ) }}</p>
+        <p>halbe gesamt: {{ detail.Share.sum_half|round(2,"floor" ) }}</p>
+        <p>ganze einzeln: {{ detail.Share.single_full|round(2,"floor" ) }}</p>
+        <p>halbe einzeln: {{ detail.Share.single_half|round(2,"floor" ) }}</p>
     </div>
     {% endfor %}
   </div>

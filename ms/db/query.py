@@ -10,16 +10,19 @@ def distribution_overview(distribution: Distribution):
         Product.id,
         func.avg(Share.single_full).label("single_full_average"),
         func.avg(Share.single_half).label("single_half_average"),
+        Unit.longname.label("unit_name"),
+        Unit.id.label("unit_id"),
     )
-    joins = fields.join(Product)
-    groups = joins.group_by(Share.product_id)
+    joins = fields.join(Product).join(Unit)
+    groups = joins.group_by(Share.product_id, Share.unit_id)
     filters = groups.filter(
         Share.distribution_id == distribution.id,
+        Share.unit_id == Unit.id,
     )
     return [dict(item) for item in filters.all()]
 
 
-def product_details(distribution_id, product_id):
+def product_details(distribution_id, product_id, unit_id):
 
     fields = db.session.query(
         Product.name.label("product_name"),
@@ -32,7 +35,7 @@ def product_details(distribution_id, product_id):
     filters = groups.filter(
         Share.distribution_id == distribution_id,
         Share.product_id == product_id,
-        Share.unit_id == Unit.id,
+        Share.unit_id == unit_id,
     )
 
     return [dict(item) for item in filters.all()]

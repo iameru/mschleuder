@@ -12,12 +12,12 @@ def history_view():
     return render_template("history/history.html")
 
 
-@history.route("/detail/<int:distribution_id>/<int:product_id>")
-def product_detail_view(distribution_id, product_id):
+@history.route("/detail/<int:distribution_id>/<int:product_id>/<int:unit_id>")
+def product_detail_view(distribution_id, product_id, unit_id):
 
     product = Product.query.get(product_id)
     distribution = Distribution.query.get(distribution_id)
-    data = query.product_details(distribution_id, product_id)
+    data = query.product_details(distribution_id, product_id, unit_id)
 
     return render_template(
         "history/product_detail_modal.html",

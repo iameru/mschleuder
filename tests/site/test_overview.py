@@ -95,6 +95,7 @@ def test_detail_view(test_client, distribution):
         "history.product_detail_view",
         product_id=product_id,
         distribution_id=distribution.id,
+        unit_id=share.unit_id,
     )
     html = bs(response.data, "html.parser")
 
