@@ -1,4 +1,4 @@
-{% from 'macros.html' import nav_link with context %}
+{% from 'macros.html' import nav_link, modal with context %}
 
   <aside class="menu">
     <p class="menu-label">Menu</p>
@@ -14,9 +14,15 @@
     </p>
     <ul class="menu-list" id="products-in-distribution">
   {% for product in in_distribution %}
-      <li><a href="{{url_for('distribution.distribute_by_id', productid=product.id) }}"
-             id="distributed-product-{{ product.id }}"
-             >{{ product.name }} {{ product.amount }} {{ product.unit }}</a></li>
+
+    <a {{ modal(url_for('history.product_detail_view',
+                distribution_id=product.dist_id,
+                product_id=product.product_id,
+                unit_id=product.unit_id )) }}>
+
+      <li>{{ product.total_sum|round(2,"floor") }} <small>{{product.unit_shortname}}</small> {{product.name}}</li>
+    </a>
+
   {% endfor %}
   {% else %}
     <p class="menu-label">

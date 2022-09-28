@@ -7,13 +7,15 @@ def distribution_overview(distribution: Distribution):
     fields = db.session.query(
         func.sum(Share.sum_total).label("total_sum"),
         Product.name,
-        Product.id,
+        Product.id.label("product_id"),
+        Distribution.id.label("dist_id"),
         func.avg(Share.single_full).label("single_full_average"),
         func.avg(Share.single_half).label("single_half_average"),
         Unit.longname.label("unit_name"),
+        Unit.shortname.label("unit_shortname"),
         Unit.id.label("unit_id"),
     )
-    joins = fields.join(Product).join(Unit)
+    joins = fields.join(Product).join(Unit).join(Distribution)
     groups = joins.group_by(Share.product_id, Share.unit_id)
     filters = groups.filter(
         Share.distribution_id == distribution.id,
