@@ -1,6 +1,6 @@
 from flask import Blueprint, abort, redirect, render_template, request, url_for
-from sqlalchemy import func
 
+from ms.db import query
 from ms.db.models import Distribution, Product, Share, Station, StationHistory, Unit, db
 
 distribution = Blueprint("distribution", __name__)
@@ -18,19 +18,7 @@ def check_distribution_in_progress():
 def overview():
 
     dist = Distribution.current()
-    fields = db.session.query(
-        func.sum(Share.sum_total).label("total_sum"),
-        Product.name,
-        Product.id,
-        func.avg(Share.single_full).label("single_full_average"),
-        func.avg(Share.single_half).label("single_half_average"),
-    )
-    joins = fields.join(Product)
-    groups = joins.group_by(Share.product_id)
-    filters = groups.filter(
-        Share.distribution_id == dist.id,
-    )
-    data = [dict(item) for item in filters.all()]
+    data = query.distribution_overview(dist)
 
     return render_template("distribution/overview.html", data=data, dist=dist)
 

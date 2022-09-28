@@ -7,6 +7,9 @@ from sqlalchemy import func
 
 from ms.db.models import Distribution, Product, Share, Station, StationHistory, Unit, db
 
+## These are/were explorative tests to get a hang and insights on how queries are formed.
+# might be deleted, dont take this too seriously
+
 
 def _save_product(test_client, product_id, single_full, stations):
 
@@ -62,9 +65,9 @@ def distribution(test_client):
     Station.archive_all(dist.id)
 
     # create products
-    _save_product(test_client, 1, 50, [1, 3])
-    _save_product(test_client, 2, 44, [1, 2, 3])
-    _save_product(test_client, 3, 33, [1, 2, 3, 4])
+    _save_product(test_client, 1, 50, [4, 6])
+    _save_product(test_client, 2, 44, [4, 5, 6])
+    _save_product(test_client, 3, 33, [4, 5])
 
     yield dist
 
@@ -76,56 +79,54 @@ def distribution(test_client):
     db.session.commit()
 
 
-def test_query(distribution):
+def test_query_current_distribution_sum_and_averages_for_products(distribution):
 
-    assert len(distribution.stations) != 0
-
-    dist = Distribution.current().id
+    # build a query by choosing the fields we want
     fields = db.session.query(
+        Product.name.label("product_name"),
+        Product.id.label("product_id"),
         func.sum(Share.sum_total).label("total_sum"),
-        Product.name,
+        func.avg(Share.single_full).label("single_full_average"),
+        func.avg(Share.single_half).label("single_half_average"),
+        Share.single_full.label("single_full"),
     )
+    # the tables to join for it
     joins = fields.join(Product)
-
+    # the grouping
     groups = joins.group_by(Share.product_id)
-
+    # and some filters
     filters = groups.filter(
-        Share.distribution_id == dist,
+        Share.distribution_id == distribution.id,
+    )
+    data = [dict(item) for item in filters.all()]
+
+    # assert some of the data from _save_product call above inside
+    for idx, entry in enumerate(data):
+        assert entry.get("product_id") == idx + 1
+        assert entry.get("single_full") in [50, 44, 33]
+
+
+def test_query_for_a_distribution_product_details(distribution):
+
+    # variables
+    product_id = 1
+    distribution_id = distribution.id
+
+    # test for all stations
+    fields = db.session.query(
+        Product.name.label("product_name"),
+        func.sum(Share.sum_total).label("total_sum"),
+        Share,
+    )
+
+    joins = fields.join(Product).join(StationHistory)
+    groups = joins.group_by(Share.stationhistory_id, StationHistory.id)
+    filters = groups.filter(
+        Share.distribution_id == distribution_id,
+        Share.product_id == product_id,
     )
 
     result = filters.all()
 
-    # query = all_relevant_shares.filter(Share.distribution_id == distribution.id)
-
-    products = (
-        Product.query.join(Share).filter(Share.distribution_id == distribution.id).all()
-    )
-    # breakpoint()
-    # # get all products distributed
-    # # products = []
-    # # for share in Share.query.filter_by(distribution_id=distribution.id).all():
-    # #     products.append(Product.query.get(share.product_id))
-    # # products = [p for p in set(products)]
-
-    # # query = db.session.query(
-    # #         Product, Share, StationHistory, Distribution
-    # #     ).filter( Share.distribution_id == distribution.id,
-    # #     ).filter( Share.stationhistory_id == StationHistory.id,
-    # #     ).filter( Share.distribution_id == StationHistory.distribution_id,
-    # #     ).filter( Share.product_id == Product.id,
-    # #     ).filter( Share.distribution_id == Distribution.id,
-    # # ).all()
-    # # example = query[0]
-    # query = db.session.query(
-    #         Product
-    #     ).join( Share
-    #     ).join( StationHistory
-    #     ).join( Distribution
-    #     ).filter( Share.distribution_id == distribution.id,
-    #     ).filter( Share.stationhistory_id == StationHistory.id,
-    #     ).filter( Share.distribution_id == StationHistory.distribution_id,
-    #     ).filter( Share.product_id == Product.id,
-    #     ).filter( Share.distribution_id == Distribution.id,
-    #     ).all()
-    # example = query[0]
-    # breakpoint()
+    data = [dict(item) for item in result]
+    from pprint import pprint
