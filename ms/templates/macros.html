@@ -29,3 +29,10 @@ hx-swap="beforeend"
        class="label">{{ label }}</label>
 </div>
 {% endmacro %}
+
+
+{% macro modal(url) %}
+hx-get="{{url}}"
+hx-target="body"
+hx-swap="beforeend"
+{% endmacro %}

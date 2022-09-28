@@ -1,4 +1,5 @@
 import datetime
+from random import choice
 
 import pytest
 from bs4 import BeautifulSoup as bs
@@ -68,4 +69,33 @@ def test_shares_in_overview(test_client, distribution):
         assert row
         assert product.name in row.text
 
-        # to be continued
+
+def test_detail_view(test_client, distribution):
+
+    share = choice(distribution.shares)
+    product_id = share.product_id
+    product = Product.query.get(product_id)
+
+    response = test_client.get(url_for("distribution.overview"))
+    html = bs(response.data, "html.parser")
+
+    row = html.find("tr", {"id": f"overview-{product_id}"})
+
+    detail_view_button = row.find("button", {"id": "detail_view"})
+    assert detail_view_button
+
+    detail_view_url = detail_view_button.get("hx-get")
+    assert detail_view_url
+
+    # get detail view
+    response = test_client.get(detail_view_url)
+    assert response.status_code == 200
+
+    assert response.request.path == url_for(
+        "history.product_detail_view",
+        product_id=product_id,
+        distribution_id=distribution.id,
+    )
+    html = bs(response.data, "html.parser")
+
+    assert product.name in html.text
