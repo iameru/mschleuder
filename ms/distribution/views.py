@@ -104,25 +104,35 @@ def save():
 
     if request.content_type == "application/json":
 
+        dist = Distribution.current()
+        product_id = request.json[0].get("product_id")
+        unit_id = request.json[0].get("unit_id")
+
+        poll_shares = Share.query.filter(
+            Share.product_id == product_id,
+            Share.distribution_id == dist.id,
+            Share.unit_id == unit_id,
+        )
+        exclude_from_deletion = []
+
         for json_data in request.json:
 
-            dist = Distribution.current()
             data = dict(distribution_id=dist.id)
             data.update(json_data)
 
-            # get previously saved entry
-            query = dict(
-                product_id=data.get("product_id"),
-                distribution_id=dist.id,
-                stationhistory_id=data.get("stationhistory_id"),
-                unit_id=data.get("unit_id"),
-            )
-            # assure only one save per prod/unit/station/dist key combination
-            if Share.query.filter_by(**query).first():
-                share = Share.query.filter_by(**query).update(data)
+            _s_id = data.get("stationhistory_id")
+            exclude_from_deletion.append(_s_id)
+
+            result = poll_shares.filter(Share.stationhistory_id == _s_id)
+            if result.one_or_none():
+                result.update(data)
             else:
                 share = Share(**data)
                 db.session.add(share)
+
+        poll_shares.filter(
+            Share.stationhistory_id.notin_(exclude_from_deletion)
+        ).delete()
 
         db.session.commit()
 
