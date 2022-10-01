@@ -85,6 +85,38 @@ function change_station(station_id, type, x) {
 }
 
 
+function calculate_station_sums(chosen_stations) {
+
+    let station_sums = {"full": 0, "half": 0, "total": 0}
+
+    Object.values(chosen_stations).forEach(station => {
+
+      station_sums.full += station.members_full
+      station_sums.half += station.members_half
+      station_sums.total += station.members_total
+
+      })
+
+    return station_sums
+}
+
+function get_unchosen_stations() {
+
+    unchosen_stations = []
+    opt_out = document.getElementsByClassName("opt-out")
+    for (var i=0; i<opt_out.length; i++){
+      unchosen_stations.push(opt_out[i].id)
+      }
+
+
+    return unchosen_stations
+
+}
+function set_station_to_zero(station) {
+    station.total_field.textContent = "x"
+    station.single_full_field.textContent = "x"
+    station.single_half_field.textContent = "x"
+}
 function distribute (option) {
     input = parseFloat(input_field.value)
     if (!input) {
@@ -100,9 +132,31 @@ function distribute (option) {
 
     by_piece = {% if unit.by_piece %}true{% else %}false{% endif %}
 
-    members_total = {{ station_sums.total }}
-    members_full = {{ station_sums.full }}
-    members_half = {{ station_sums.half }}
+
+    unchosen_stations = get_unchosen_stations()
+
+    chosen_stations = {}
+
+    for (let key in stations) {
+    <!-- if the station is to be distributed to, it gets added to chosen_stations -->
+      if (!unchosen_stations.includes(key)) {
+        chosen_stations[key] = stations[key]
+    <!-- if the station is not to be distributed, it's values get set to 0 -->
+      } else {
+        set_station_to_zero(stations[key])
+      }
+    }
+
+    if (Object.entries(chosen_stations).length == 0) {
+      save_button.disabled = true
+      return send_error("Keine Station ausgewählt")
+    }
+
+
+    let station_sums = calculate_station_sums(chosen_stations)
+    let members_total = station_sums.total
+    let members_full = station_sums.full
+    let members_half = station_sums.half
 
 
 
@@ -124,7 +178,7 @@ function dist_by_piece (input, m_full, m_half, divisor) {
 
     rest = input - ( (single_value * m_full) + (half_value * m_half) )
 
-    Object.values(stations).forEach(station => {
+    Object.values(chosen_stations).forEach(station => {
 
       station_full = single_value * station.members_full
       station_half = half_value * station.members_half
@@ -149,7 +203,7 @@ function dist_by_weight (input, m_full, m_half, divisor ) {
     let half_value = round(single_value*divisor, round_int)
 
 
-    Object.values(stations).forEach(station => {
+    Object.values(chosen_stations).forEach(station => {
 
       station_full = round(single_value * station.members_full, round_int)
       station_half = round(single_value * station.members_half * divisor, round_int)
@@ -174,7 +228,7 @@ function round(value, decimals) {
 
 function get_accuracy() {
   let sum_d = 0
-  Object.values(stations).forEach(station => { sum_d += parseFloat(station.total_field.textContent) })
+  Object.values(chosen_stations).forEach(station => { sum_d += parseFloat(station.total_field.textContent) })
   sum_d = round(sum_d, 5)
   return parseFloat(input_field.value) - sum_d
 }
@@ -205,7 +259,9 @@ function save_data() {
 			  if (err === "server") return
 			  console.log(err)
 		  });
-    send_message("Gespeichert");
+    save_button.disabled = true
+    message_field.textContent = "gespeichert!"
+    message_div.classList.toggle("expand")
 }
 function send_message(message) {
       save_button.disabled = true
@@ -219,7 +275,7 @@ function send_message(message) {
 function build_save_data() {
 
   var post_data = []
-  Object.values(stations).forEach(station => {
+  Object.values(chosen_stations).forEach(station => {
 
     let data = {}
 

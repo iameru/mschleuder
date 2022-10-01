@@ -93,18 +93,9 @@ def distribute(p_id: int, p_unit_shortname: str):
         abort(404)
 
     stations = Station.query.order_by(Station.delivery_order).all()
-    station_sums = {
-        "full": sum(station.members_full for station in stations),
-        "half": sum(station.members_half for station in stations),
-        "total": sum(station.members_total for station in stations),
-    }
 
     return render_template(
-        "distribution/distribute.html",
-        product=product,
-        unit=unit,
-        stations=stations,
-        station_sums=station_sums,
+        "distribution/distribute.html", product=product, unit=unit, stations=stations
     )
 
 
