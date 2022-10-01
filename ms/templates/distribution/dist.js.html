@@ -305,6 +305,7 @@ function trigger_station_opt_out(elem) {
   buttons.forEach(button => {
     button.toggleAttribute("disabled");
   })
-}
+  set_station_to_zero(stations[box.id])
 
+}
 </script>
