@@ -241,4 +241,14 @@ function build_save_data() {
   return post_data
 
 }
+
+function trigger_station_opt_out(elem) {
+  let box = elem.parentElement
+  box.classList.toggle("opt-out")
+  let buttons = box.querySelectorAll(".dist-control-button");
+  buttons.forEach(button => {
+    button.toggleAttribute("disabled");
+  })
+}
+
 </script>

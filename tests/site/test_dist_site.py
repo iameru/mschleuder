@@ -220,7 +220,7 @@ def test_distribution_page_change_by_units(test_client):
     body = bs(test_client.get(url).data, "html.parser").find("body")
     accuracy_field = body.find("p", {"id": "dist-accuracy-field"})
     rest_field = body.find("p", {"id": "dist-rest-field"})
-    add_piece_field = body.find("button", {"class": "level-item button is-link"})
+    add_piece_field = body.find("button", class_="button")
     # assert fields for the product in Pieces
     assert not accuracy_field
     assert rest_field
@@ -338,3 +338,17 @@ def test_stations_in_correct_order(test_client, product_distribution):
         station_box_id = int(station["id"].split("-")[-1])
 
         assert station_box_id == ordered_station.id
+
+
+def test_stations_can_be_opt_out(test_client, product_distribution):
+
+    response = product_distribution
+    html = bs(response.data, "html.parser")
+
+    station_boxes = html.find_all("div", {"class": "station-box"})
+    for box in station_boxes:
+
+        opt_out_button = box.find("button", {"class": "opt-out-of-distribution"})
+        assert opt_out_button
+        assert opt_out_button["onclick"]
+        assert opt_out_button["onclick"] == "trigger_station_opt_out(this);"

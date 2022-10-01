@@ -1,7 +1,10 @@
 <div class="column is-one-third station-box"
        id="dist-station-{{station.id}}">
-  <div class="box ">
+  <div class="box">
 
+    <button class="button is-small is-light opt-out-of-distribution"
+          onclick="trigger_station_opt_out(this);"
+          >X</button>
     <p class="has-text-centered has-text-weight-medium is-size-3">{{ station.name }}</p>
 
     <table class="distribution-table is-fullwidth">
@@ -35,25 +38,25 @@
       {% if unit.by_piece %}
       <tr>
         <td>
-           <button class="level-item button is-link"
+           <button class="level-item button is-link dist-control-button"
                    id="dist-button-full-add-{{station.id}}"
                    onclick="change_station({{station.id}}, type='full', x='add')"
                    >+</button>
         </td>
         <td style="padding-right:0.5em;">
-           <button class="level-item button is-link"
+           <button class="level-item button is-link dist-control-button"
                    id="dist-button-full-remove-{{station.id}}"
                    onclick="change_station({{station.id}}, type='full', x='remove')"
                    >-</button>
         </td>
         <td>
-           <button class="level-item button is-link"
+           <button class="level-item button is-link dist-control-button"
                    id="dist-button-half-add-{{station.id}}"
                    onclick="change_station({{station.id}}, type='half', x='add')"
                    >+</button>
         </td>
         <td>
-           <button class="level-item button is-link"
+           <button class="level-item button is-link dist-control-button"
                    id="dist-button-half-remove-{{station.id}}"
                    onclick="change_station({{station.id}}, type='half', x='remove')"
                    >-</button>

@@ -4,6 +4,12 @@
 @media screen and (max-width: 500px) {
   #products-in-distribution > li { display: none; }
 }
+.opt-out {
+        background-color: rgba(0,0,0,0.1) !important;
+        animation-name: fadeIn;
+        animation-duration:150ms;
+        animation-timing-function: ease;
+}
 .expand {
     display:none !important;
     }
