@@ -14,17 +14,19 @@
         <td></td>
         <td></td>
       </thead>
+        {% if unit.by_piece %}
       <tfoot>
-        <td></td>
+        <th></th>
         <th>👥{{ station.members_full + station.members_half }}</th>
         <th>● {{ station.members_full }}</th>
         <th>◑ {{station.members_half }}</th>
       </tfoot>
+        {% endif %}
       <tbody>
         <tr>
-          <td class="expand has-text-weight-light" id="dist-station-full-{{ station.id }}"></p>0</td>
-          <td class="expand has-text-weight-light" id="dist-station-half-{{ station.id }}"></p>0</td>
-          <td class="has-text-weight-medium is-size-2" id="dist-station-total-{{ station.id }}">0</p></td>
+          <td class="expand has-text-weight-light" id="dist-station-full-{{ station.id }}">0</td>
+          <td class="expand has-text-weight-light" id="dist-station-half-{{ station.id }}">0</td>
+          <td class="has-text-weight-medium is-size-2" id="dist-station-total-{{ station.id }}">0</td>
           <td>{{ unit.shortname }}</td>
         </tr>
       </tbody>
