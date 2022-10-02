@@ -7,6 +7,7 @@ repos:
     -   id: trailing-whitespace
     -   id: check-symlinks
     -   id: detect-private-key
+    -   id: check-ast
 -   repo: https://github.com/psf/black
     rev: 22.8.0
     hooks:
@@ -17,6 +18,10 @@ repos:
       - id: isort
         name: isort (python)
         args: ["--profile", "black", "--filter-files"]
+-   repo: https://github.com/asottile/dead
+    rev: v1.5.0
+    hooks:
+    -   id: dead
 -   repo: local
     hooks:
       - id: python-bandit-vulnerability-check
@@ -25,6 +30,10 @@ repos:
         language: system
         files: ''
         name: bandit
+-   repo: https://github.com/thibaudcolas/curlylint
+    rev: "v0.13.1"
+    hooks:
+      - id: curlylint
 -   repo: https://github.com/python-poetry/poetry
     rev: ""
 #     rev: "1.2.0b3"
