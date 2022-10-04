@@ -29,16 +29,20 @@
       <div class="column mt-4"> {# CONTENT DIV #}
         <h2 class="title is-2"
               id="site-title">{{ title }}</h2>
-        {% with messages = get_flashed_messages() %}{% if messages %}
-        <div class="notification is-danger is-light">
-          {{ messages[0] }}
-          <button class="delete"></button>
+
+        <div class="row">
+          <div class="columns is-centered">
+            <div class="column is-8">
+              {% include 'message_flash.html' %}
+            </div>
+          </div>
         </div>
-        {% endif %}{% endwith %}
+
+
         {% if not csa %}
         <div class="notification is-danger" id="setup-warning">
           <p>Noch nicht eingerichtet!</p>
-          <p>Bitte <a href="{{url_for("settings.settings_view")}}">Infos zur SoLaWi angeben!</a>
+          <p>Bitte <a href="{{url_for("settings.settings_view")}}">Infos zur SoLaWi angeben!</a></p>
         </div>
         {% endif %}
         {% block content %}{% endblock %}

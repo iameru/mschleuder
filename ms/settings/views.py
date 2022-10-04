@@ -16,17 +16,17 @@ def add_organisation():
 
         # this method is only allowed if no entry is there
         if Organisation.query.get(1):
-            flash("setup already made")
+            flash("setup already made", category="warning")
             abort(404)
 
         data = form.data
         del data["csrf_token"]
         db_api.add_org(data)
 
-        flash("done!")
+        flash("done!", category="primary")
         return redirect(url_for("settings.settings_view"), 302)
 
-    flash("setup already made")
+    flash("setup already made", category="warning")
     return redirect(url_for("settings.settings_view"), 302)
 
 

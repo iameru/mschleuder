@@ -30,7 +30,7 @@ def edit(stationid):
 
         return redirect(url_for("stations.stations_view"), 302)
 
-    flash("something went wrong...")
+    flash("something went wrong...", category="warning")
     return redirect(url_for("stations.stations_view"), 302)
 
 
