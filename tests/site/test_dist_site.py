@@ -266,8 +266,9 @@ def test_stations_in_dist(test_client, product, stations):
             "div", {"id": f"dist-station-{station.id}"}
         )
         assert station.name in station_element.text
-        assert str(station.members_full) in station_element.text
-        assert str(station.members_half) in station_element.text
+        if unit.by_piece:
+            assert str(station.members_full) in station_element.text
+            assert str(station.members_half) in station_element.text
 
 
 def test_redirect_for_products_without_multiple_units(test_app, test_client):

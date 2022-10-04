@@ -32,10 +32,8 @@ def test_creation_and_linkage_of_Share_model(in_distribution):
     data = dict(
         single_full=8,
         single_half=4,
-        single_total=12,
         sum_full=sum_full,
         sum_half=sum_half,
-        sum_total=sum_total,
     )
 
     data.update(keys)

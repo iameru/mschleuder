@@ -1,4 +1,8 @@
+from decimal import Decimal
+from typing import Union
+
 from flask_sqlalchemy import SQLAlchemy
+from pydantic import BaseModel
 from sqlalchemy import Computed, desc
 from sqlalchemy.orm.exc import DetachedInstanceError
 from sqlalchemy.types import Float
@@ -194,12 +198,10 @@ class Share(TimestampMixin, db.Model, ReprMixin):
     single_half = db.Column(
         Float(asdecimal=True, precision=8, decimal_return_scale=None)
     )
-    single_total = db.Column(
-        Float(asdecimal=True, precision=8, decimal_return_scale=None)
-    )
+    single_total = db.Column(db.Float, Computed("single_full + single_half"))
     sum_full = db.Column(Float(asdecimal=True, precision=8, decimal_return_scale=None))
     sum_half = db.Column(Float(asdecimal=True, precision=8, decimal_return_scale=None))
-    sum_total = db.Column(Float(asdecimal=True, precision=8, decimal_return_scale=None))
+    sum_total = db.Column(db.Float, Computed("sum_full + sum_half"))
 
     def __repr__(self):
         return self._repr(
@@ -210,3 +212,11 @@ class Share(TimestampMixin, db.Model, ReprMixin):
             unit_id=self.unit_id,
             stationhistory_id=self.stationhistory_id,
         )
+
+
+class ShareModel(BaseModel):
+
+    single_full: Decimal
+    single_half: Decimal
+    sum_full: Decimal
+    sum_half: Decimal

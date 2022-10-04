@@ -2,9 +2,10 @@ import json
 from random import choice, randint
 
 import pytest
+from bs4 import BeautifulSoup as bs
 from flask import url_for
 
-from ms.db.models import Distribution, Product, Share, Station, StationHistory, db
+from ms.db.models import Distribution, Product, Share, Station, StationHistory, Unit, db
 
 
 @pytest.fixture(autouse=True, scope="module")
@@ -46,12 +47,10 @@ def _save_product(test_client, product: Product):
         # single members each get
         single_full = randint(2, 100)
         single_half = int(single_full / 2)
-        single_total = single_full + single_half
 
         # the whole station gets
         sum_full = single_full * station.members_full
         sum_half = single_half * station.members_half
-        sum_total = sum_full + sum_half
 
         # we build the keys
         keys = dict(
@@ -63,10 +62,8 @@ def _save_product(test_client, product: Product):
         data = dict(
             single_full=single_full,
             single_half=single_half,
-            single_total=single_total,
             sum_full=sum_full,
             sum_half=sum_half,
-            sum_total=sum_total,
         )
         data.update(keys)
 

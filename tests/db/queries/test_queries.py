@@ -35,10 +35,8 @@ def _save_product(test_client, product_id, single_full, stations):
         data = dict(
             single_full=single_full,
             single_half=single_half,
-            single_total=single_total,
             sum_full=sum_full,
             sum_half=sum_half,
-            sum_total=sum_total,
         )
         data.update(keys)
         post_data.append(data)

@@ -62,26 +62,62 @@
 
       {# buttons #}
       <div class="column is-one-third-desktop is-full-mobile">
-        <div class="field is-grouped is-grouped-centered">
-          <div class="control">
-            <button class="button is-link dist-button-toggle"
-                    id="dist-button-even"
-                    onclick="distribute('even')"
-                    >gleich</button>
+
+        {# add or overwrite buttons #}
+        {% if already_distributed %}
+        <div class="row">
+          <div class="column is-full">
+            <p>{{ product.name }} wurde schon verteilt!</p>
+            <p>Zusätzlich verteilen oder komplett überschreiben?</p>
           </div>
-          <div class="control">
-            <button class="button is-link dist-button-toggle"
-                    id="dist-button-half"
-                    onclick="distribute('half')"
-                    >halbe halb</button>
-          </div>
-          <div class="control">
-            <button class="button is-link dist-button-toggle"
-                    id="dist-button-none"
-                    onclick="distribute('none')"
-                    >halbe nix</button>
+          <div class="field is-grouped is-grouped-centered mb-2">
+            <div class="control">
+              <label class="radio button">
+                <input type="radio"
+                       name="additional_distribution"
+                       id="overwrite-distribution-input"
+                       value="false"
+                       >
+                  überschreiben
+              </label>
+              <label class="radio button">
+                <input type="radio"
+                       name="additional_distribution"
+                       id="additional-distribution-input"
+                       value="true"
+                       checked
+                       >
+                  zusätzlich
+              </label>
+            </div>
           </div>
         </div>
+        {% endif %}
+
+        {# distribute buttons #}
+        <div class="row">
+          <div class="field is-grouped is-grouped-centered">
+            <div class="control">
+              <button class="button is-link dist-button-toggle"
+                      id="dist-button-even"
+                      onclick="distribute('even')"
+                      >gleich</button>
+            </div>
+            <div class="control">
+              <button class="button is-link dist-button-toggle"
+                      id="dist-button-half"
+                      onclick="distribute('half')"
+                      >halbe halb</button>
+            </div>
+            <div class="control">
+              <button class="button is-link dist-button-toggle"
+                      id="dist-button-none"
+                      onclick="distribute('none')"
+                      >halbe nix</button>
+            </div>
+          </div>
+        </div>
+
       </div>
 
       {# rest #}

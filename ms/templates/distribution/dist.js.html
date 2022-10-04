@@ -275,6 +275,14 @@ function send_message(message) {
 function build_save_data() {
 
   var post_data = []
+
+  additional_distribution = false
+  try {
+      checkmark = document.getElementById("additional-distribution-input").checked
+      additional_distribution = checkmark
+  } catch (TypeError) {
+  }
+
   Object.values(chosen_stations).forEach(station => {
 
     let data = {}
@@ -285,12 +293,11 @@ function build_save_data() {
 
     data.single_full = +station.single_full_field.textContent
     data.single_half = +station.single_half_field.textContent
-    data.single_total = data.single_full + data.single_half
 
     data.sum_full = data.single_full * station.members_full
     data.sum_half = data.single_half * station.members_half
-    data.sum_total = data.sum_full + data.sum_half
 
+    data.additional_distribution = additional_distribution
     post_data.push(data)
   })
 

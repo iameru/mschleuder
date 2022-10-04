@@ -1,7 +1,16 @@
-from flask import Blueprint, abort, redirect, render_template, request, url_for
+from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
 
 from ms.db import query
-from ms.db.models import Distribution, Product, Share, Station, StationHistory, Unit, db
+from ms.db.models import (
+    Distribution,
+    Product,
+    Share,
+    ShareModel,
+    Station,
+    StationHistory,
+    Unit,
+    db,
+)
 
 distribution = Blueprint("distribution", __name__)
 
@@ -92,10 +101,33 @@ def distribute(p_id: int, p_unit_shortname: str):
     if not product or not unit:
         abort(404)
 
+    dist = Distribution.current()
+
+    # query if existing -> ask how to proceed
+    already_distributed = False
+    if (
+        db.session.query(Share)
+        .filter(
+            Share.distribution_id == dist.id,
+            Share.product_id == product.id,
+            Share.unit_id == unit.id,
+        )
+        .first()
+    ):
+        already_distributed = True
+        flash(
+            "Schon verteilt! Hier kannst du nun neu verteilen oder zusätzlich verteilen",
+            category="info",
+        )
+
     stations = Station.query.order_by(Station.delivery_order).all()
 
     return render_template(
-        "distribution/distribute.html", product=product, unit=unit, stations=stations
+        "distribution/distribute.html",
+        product=product,
+        unit=unit,
+        stations=stations,
+        already_distributed=already_distributed,
     )
 
 
@@ -104,35 +136,54 @@ def save():
 
     if request.content_type == "application/json":
 
+        request_data: list = request.json
         dist = Distribution.current()
-        product_id = request.json[0].get("product_id")
-        unit_id = request.json[0].get("unit_id")
+        product_id = request_data[0].get("product_id")
+        unit_id = request_data[0].get("unit_id")
 
         poll_shares = Share.query.filter(
             Share.product_id == product_id,
             Share.distribution_id == dist.id,
             Share.unit_id == unit_id,
         )
+
         exclude_from_deletion = []
 
-        for json_data in request.json:
+        for json_data in request_data:
+
+            additional_distribution = json_data.pop("additional_distribution", None)
 
             data = dict(distribution_id=dist.id)
             data.update(json_data)
 
-            _s_id = data.get("stationhistory_id")
-            exclude_from_deletion.append(_s_id)
+            _stationhistory_id = data.get("stationhistory_id")
+            exclude_from_deletion.append(_stationhistory_id)
+            result = poll_shares.filter(Share.stationhistory_id == _stationhistory_id)
 
-            result = poll_shares.filter(Share.stationhistory_id == _s_id)
+            update_data = ShareModel(**data)
+
             if result.one_or_none():
-                result.update(data)
+
+                if additional_distribution:
+
+                    entry = result.one()
+                    entry.sum_full += update_data.sum_full
+                    entry.sum_half += update_data.sum_half
+                    entry.single_full += update_data.single_full
+                    entry.single_half += update_data.single_half
+
+                else:
+
+                    result.update(update_data.dict())
+
             else:
                 share = Share(**data)
                 db.session.add(share)
 
-        poll_shares.filter(
-            Share.stationhistory_id.notin_(exclude_from_deletion)
-        ).delete()
+        if not additional_distribution:
+            poll_shares.filter(
+                Share.stationhistory_id.notin_(exclude_from_deletion)
+            ).delete()
 
         db.session.commit()
 
