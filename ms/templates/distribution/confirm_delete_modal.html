@@ -1,0 +1,32 @@
+{% extends 'modal.html' %}
+{% block modal_content %}
+<div class="columns is-centered is-multiline">
+  <div class="column is-full has-text-centered">
+    <p><small>sicher {{ product.name }} aus dieser verteilung löschen?</small></p>
+  </div>
+  <div class="column is-half has-text-centered">
+    <form method="POST"
+          action="{{url_for('distribution.delete_from_distribution', product_id=product.id, unit_shortname=unit.shortname) }}"
+          id="confirm-deletion-form"
+          >
+      <input type="hidden"
+             name="delete"
+             value="1"
+             />
+      <input type="hidden"
+             name="unit_id"
+             value="{{unit.id}}"
+             />
+      <input type="hidden"
+             name="product_id"
+             value="{{product.id}}"
+             />
+      <button id="confirm-deletion-button"
+              class="button is-warning"
+              type="submit"
+              >{{product.name}} löschen</button>
+    </form>
+  </div>
+</div>
+
+{% endblock modal_content %}

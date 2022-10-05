@@ -15,10 +15,11 @@
         <td>durchschnitt einzeln ganz</td>
         <td>durchschnitt einzeln halb</td>
         <td>details</td>
+        <td>löschen</td>
       </thead>
 
     {% for product in data %}
-      <tr id="overview-{{product.product_id}}">
+      <tr id="overview-{{product.product_id}}-{{product.unit_name}}">
         <td>{{product.name}} <small>in {{product.unit_name}}</small></td>
         <td>{{product.total_sum|round(2,"floor")}}</td>
         <td>{{product.single_full_average}}</td>
@@ -27,6 +28,12 @@
             id="detail_view"
             {{ modal(url_for('history.product_detail_view', distribution_id=dist.id, product_id=product.product_id, unit_id=product.unit_id )) }}
           >detail</button></td>
+        <td>
+          <button class="button"
+                  id="delete-from-distribution-{{product.product_id}}-{{product.unit_name}}"
+                  {{ modal(url_for('distribution.delete_from_distribution', product_id = product.product_id, unit_shortname = product.unit_shortname)) }}
+                  >löschen</button>
+        </td>
       </tr>
     {% endfor %}
     </table>

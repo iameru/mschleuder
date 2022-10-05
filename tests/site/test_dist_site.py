@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup as bs
 from flask import url_for
 from pytest import mark
 
-from ms.db.models import Distribution, Product, Station, StationHistory, Unit, db
+from ms.db.models import Distribution, Product, Share, Station, StationHistory, Unit, db
 
 
 def test_invitation_to_start_distribution(test_client, product_distribution):
@@ -341,8 +341,9 @@ def test_stations_in_correct_order(test_client, product_distribution):
         assert station_box_id == ordered_station.id
 
 
-def test_stations_can_be_opt_out(test_client, product_distribution):
+def test_stations_can_be_opt_out_visually(test_client, product_distribution):
 
+    # not well tested - JS
     response = product_distribution
     html = bs(response.data, "html.parser")
 

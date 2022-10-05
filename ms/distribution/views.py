@@ -190,3 +190,38 @@ def save():
         return redirect(url_for("distribution.overview"), 302)
 
     return abort(404)
+
+
+@distribution.route(
+    "/delete/<int:product_id>/<unit_shortname>", methods=["GET", "POST"]
+)
+def delete_from_distribution(product_id, unit_shortname):
+
+    product = Product.query.get_or_404(product_id)
+    unit = Unit.query.filter(Unit.shortname == unit_shortname).one_or_none()
+    dist = Distribution.current()
+
+    if request.method == "POST":
+
+        delete_product = request.form.get("delete")
+        form_product = int(request.form.get("product_id", 0))
+        form_unit = int(request.form.get("unit_id", 0))
+
+        if delete_product and (form_product == product.id) and (form_unit == unit.id):
+
+            product_shares = Share.query.filter(
+                Share.product_id == product.id,
+                Share.unit_id == unit.id,
+                Share.distribution_id == dist.id,
+            )
+            product_shares.delete()
+            db.session.commit()
+
+            flash(f"{product.name} gelöscht", category="info")
+            return redirect(url_for("distribution.overview"))
+
+        return abort(404)
+
+    return render_template(
+        "distribution/confirm_delete_modal.html", product=product, unit=unit
+    )

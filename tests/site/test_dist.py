@@ -125,3 +125,85 @@ def test_saving_no_duplicates(test_client, product):
     share = share[0]
     for key, value in post_data[0].items():
         assert share.__dict__[key] == value
+
+
+def test_delete_a_distribution_from_overview(test_client):
+
+    # get a product which was distributed
+    dist = Distribution.current()
+    query = (
+        db.session.query(
+            Share.product_id.label("product_id"), Share.unit_id.label("unit_id")
+        )
+        .filter(Share.distribution_id == dist.id)
+        .first()
+    )
+    product_id = query.product_id
+    unit_id = query.unit_id
+    assert product_id
+    assert unit_id
+    product = Product.query.get(product_id)
+    unit = Unit.query.get(unit_id)
+
+    all_shares_of_product = Share.query.filter(
+        Share.product_id == product.id, Share.unit_id == unit.id
+    ).all()
+    assert all_shares_of_product
+
+    # get site
+    response = test_client.get(url_for("distribution.overview"))
+    html = bs(response.data, "html.parser")
+    row = html.find("tr", {"id": f"overview-{product.id}-{unit.longname}"})
+    delete_button = row.find(
+        "button", {"id": f"delete-from-distribution-{product.id}-{unit.longname}"}
+    )
+    assert delete_button
+    link = delete_button["hx-get"]
+    assert link == url_for(
+        "distribution.delete_from_distribution",
+        product_id=product.id,
+        unit_shortname=unit.shortname,
+    )
+
+    # follow modal link
+    response = test_client.get(link)
+    assert response.status_code == 200
+    deletion_button = bs(response.data, "html.parser").find(
+        "button", {"id": "confirm-deletion-button"}
+    )
+    assert deletion_button
+    form = bs(response.data, "html.parser").find(
+        "form", {"id": "confirm-deletion-form"}
+    )
+    assert form
+
+    for key, value in {
+        "delete": "1",
+        "product_id": str(product.id),
+        "unit_id": str(unit.id),
+    }.items():
+        input = form.find("input", {"name": key})
+        assert value == input["value"]
+    link = form["action"]
+    assert link
+
+    # follow confirmation link
+    response = test_client.post(
+        link,
+        data={"delete": True, "product_id": product.id, "unit_id": unit.id},
+        follow_redirects=True,
+    )
+    assert response.status_code == 200
+    assert response.request.path == url_for("distribution.overview")
+
+    # expect message for user that deletion was successfull
+    messages = bs(response.data, "html.parser").find("div", class_="message")
+    assert messages
+    assert product.name in messages.text
+    assert "gelöscht" in messages.text
+
+    # deletion was successfull
+    all_shares_of_product = Share.query.filter(
+        Share.product_id == product.id, Share.unit_id == unit.id
+    ).all()
+    assert not all_shares_of_product
