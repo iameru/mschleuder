@@ -1,0 +1,30 @@
+{% extends 'modal.html' %}
+{% block modal_content %}
+<div class="columns is-centered is-multiline">
+  <div class="column is-full has-text-centered">
+    <p>Diese Verteilung so abschließen?</p>
+    <div class="column is-three-quarters has-text-left content">
+      <p><small>Danach nicht mehr änderbar. Abgeschlossene Verteilungen werden</small></p>
+      <ul>
+        <li>archiviert</li>
+        <li>lieferscheine werden generiert</li>
+        <li>statistiken erstellt</li>
+      </ul>
+    </div>
+    <p>Sind Sie sicher dass alles verteilt wurde?</p>
+  </div>
+
+  <form id="confirm-finalization-form"
+        action="{{ url_for('distribution.finalize') }}"
+        method="POST"
+        >
+    <input type="hidden"
+           name="finalization"
+      value="{{ dist_id }}"/>
+    <button id="confirm-finalization-button"
+            class="button is-primary"
+            type="submit">
+    Verteilung fertigstellen</button>
+  </form>
+</div>
+{% endblock modal_content %}

@@ -169,6 +169,7 @@ class Distribution(TimestampMixin, db.Model, ReprMixin):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     in_progress = db.Column(db.Boolean, nullable=False)
+    finalized = db.Column(db.Boolean, default=False)
     date_time = db.Column(db.DateTime, nullable=False, default=datetime_now)
     stations = db.relationship("StationHistory", backref="distribution", lazy=True)
     shares = db.relationship("Share", backref="dist", lazy=True)

@@ -207,3 +207,53 @@ def test_delete_a_distribution_from_overview(test_client):
         Share.product_id == product.id, Share.unit_id == unit.id
     ).all()
     assert not all_shares_of_product
+
+
+def test_finalization_of_distribution_in_db_and_interface(test_client):
+
+    dist: Distribution = Distribution.current()
+    assert dist.in_progress
+    assert dist.finalized == False
+
+    # find finalize button on overview site
+    response = test_client.get(url_for("distribution.overview"))
+    html = bs(response.data, "html.parser")
+
+    button = html.find("button", {"id": "finalize-distribution-modal"})
+    assert button
+    href = button.parent["href"]
+    link = button.parent["hx-get"]
+    assert href
+    assert link
+    assert href == link == url_for("distribution.finalize")
+
+    # open modal
+    response = test_client.get(link)
+    assert response
+    assert response.status_code == 200
+    html = bs(response.data, "html.parser")
+    confirmation_button = html.find("button", {"id": "confirm-finalization-button"})
+    assert confirmation_button
+    form = html.find("form", {"id": "confirm-finalization-form"})
+    assert form
+    input = form.find("input", {"name": "finalization"})
+    assert input["value"] == str(dist.id)
+    link = form["action"]
+    assert link
+    assert link == url_for("distribution.finalize")
+    assert form["method"] == "POST"
+
+    # send this data
+    response = test_client.post(
+        link, data={input["name"]: input["value"]}, follow_redirects=True
+    )
+    assert response.status_code == 200
+    assert response.request.path == "/"
+
+    # expect message for user that finalization was successfull
+    messages = bs(response.data, "html.parser").find("div", class_="message")
+    assert messages
+    assert "Verteilung abgeschlossen!" in messages.text
+
+    assert not dist.in_progress
+    assert dist.finalized == True

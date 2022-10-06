@@ -225,3 +225,28 @@ def delete_from_distribution(product_id, unit_shortname):
     return render_template(
         "distribution/confirm_delete_modal.html", product=product, unit=unit
     )
+
+
+@distribution.route("/finalize", methods=["GET", "POST"])
+def finalize():
+
+    dist: Distribution = Distribution.current()
+
+    if request.method == "POST":
+
+        finalize = request.form.get("finalization", False)
+
+        if finalize and (int(finalize) == dist.id):
+
+            dist.in_progress = False
+            dist.finalized = True
+            db.session.commit()
+
+            flash("Verteilung abgeschlossen!", category="info")
+            return redirect(url_for("history.history_view"), 302)
+
+        return abort(404)
+
+    return render_template(
+        "distribution/confirm_finalization_modal.html", dist_id=dist.id
+    )

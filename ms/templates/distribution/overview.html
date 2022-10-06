@@ -44,10 +44,19 @@
 
 
 
+{# stop and delete distribution #}
 <a {{ modal(url_for('distribution.confirm_stop_modal') ) }}
     href="{{ url_for('distribution.confirm_stop_modal') }}">
   <button class="button is-small"
         id="stop-distribution-modal"
         >Verteilung stoppen</button>
+</a>
+
+{# finalize distribution #}
+<a {{ modal(url_for('distribution.finalize') ) }}
+    href="{{ url_for('distribution.finalize') }}">
+  <button class="button"
+        id="finalize-distribution-modal"
+        >Verteilung fertigstellen</button>
 </a>
 {% endblock content%}
