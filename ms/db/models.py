@@ -3,7 +3,7 @@ from typing import Union
 
 from flask_sqlalchemy import SQLAlchemy
 from pydantic import BaseModel
-from sqlalchemy import Computed, desc
+from sqlalchemy import Computed, MetaData, desc
 from sqlalchemy.orm.exc import DetachedInstanceError
 from sqlalchemy.types import Float
 

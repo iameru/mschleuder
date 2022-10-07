@@ -1,8 +1,12 @@
 import os
 
 from flask import Flask, render_template
+from flask_migrate import Migrate
 
 from ms.config import Config
+from ms.db.models import db
+
+migrate = Migrate()
 
 
 def create_app(test_config=None):
@@ -43,6 +47,8 @@ def create_app(test_config=None):
     app.register_blueprint(distribution, url_prefix="/distribute", options=_tmplt)
 
     db.init_app(app)
+
+    migrate.init_app(app, db)
 
     if not test_config:
         with app.app_context():
