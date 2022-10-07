@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template
+from flask import Flask
 
 from ms.config import Config
 
@@ -35,6 +35,7 @@ def create_app(test_config=None):
     from ms.products.views import products
     from ms.settings.views import settings
     from ms.stations.views import stations
+    from ms.utils import page_not_found
 
     app.register_blueprint(stations, url_prefix="/stations", options=_tmplt)
     app.register_blueprint(products, url_prefix="/products", options=_tmplt)
@@ -53,7 +54,3 @@ def create_app(test_config=None):
     app.register_error_handler(404, page_not_found)
 
     return app
-
-
-def page_not_found(e):
-    return render_template("404.html"), 404
