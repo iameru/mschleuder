@@ -240,6 +240,20 @@ def finalize():
 
             dist.in_progress = False
             dist.finalized = True
+            db.session.flush()
+
+            for product in (
+                db.session.query(Product)
+                .filter(
+                    Product.id
+                    == db.session.query(Share.product_id)
+                    .filter(Share.distribution_id == dist.id)
+                    .scalar_subquery()
+                )
+                .all()
+            ):
+                product.last_distribution = dist.updated
+
             db.session.commit()
 
             flash("Verteilung abgeschlossen!", category="info")

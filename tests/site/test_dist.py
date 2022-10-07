@@ -257,3 +257,20 @@ def test_finalization_of_distribution_in_db_and_interface(test_client):
 
     assert not dist.in_progress
     assert dist.finalized == True
+
+
+def test_expect_values_changed_after_finalisation(test_client):
+
+    dist: Distribution = Distribution.current()
+    assert not dist.in_progress
+    assert dist.finalized == True
+
+    # get products in this distribution
+    shares = Share.query.filter(Share.distribution_id == dist.id).all()
+    products_ids = []
+    for share in shares:
+        products_ids.append(share.product_id)
+    products = [Product.query.get(_id) for _id in products_ids]
+
+    for product in products:
+        assert product.last_distribution == dist.updated

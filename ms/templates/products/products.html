@@ -80,7 +80,7 @@
               >{% for unit in  product.units %}{{ unit.shortname }} {% endfor %}</td>
           <td class="clickable has-text-centered"
               onclick="javascript:location.href='{{ url_for("distribution.product", p_id=product.id) }}'"
-              >{{ product.recent_distribution }}</td>
+              >{{ product.last_distribution }}</td>
           <td class="clickable"
               onclick="javascript:location.href='{{ url_for("distribution.product", p_id=product.id) }}'"
               >{{ product.info }}</td>
