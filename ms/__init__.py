@@ -51,9 +51,9 @@ def create_app(test_config=None):
 
     migrate.init_app(app, db)
 
-    if not test_config:
-        with app.app_context():
-            first_run()
+    # if not test_config:
+    #     with app.app_context():
+    #         first_run()
 
     app.context_processor(context_processor.inject)
 
