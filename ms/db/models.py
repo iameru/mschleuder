@@ -64,6 +64,7 @@ class Product(TimestampMixin, db.Model, ReprMixin):
 
     __tablename__ = "products"
 
+    unnecessary_field_to_try_out_migrations = db.Column(db.Integer)
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(128), unique=True, nullable=False)
     info = db.Column(db.String(128))
