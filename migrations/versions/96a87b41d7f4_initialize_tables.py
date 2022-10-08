@@ -1,4 +1,4 @@
-"""empty message
+"""initialize tables
 
 Revision ID: 96a87b41d7f4
 Revises:

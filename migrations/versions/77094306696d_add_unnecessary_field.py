@@ -1,4 +1,4 @@
-"""empty message
+"""add_unnecessary_field
 
 Revision ID: 77094306696d
 Revises: 96a87b41d7f4
