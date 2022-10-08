@@ -49,7 +49,7 @@ def create_app(test_config=None):
 
     db.init_app(app)
 
-    migrate.init_app(app, db)
+    migrate.init_app(app, db, render_as_batch=True)
 
     # if not test_config:
     #     with app.app_context():
