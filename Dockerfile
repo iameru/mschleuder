@@ -22,4 +22,4 @@ ENV FLASK_RUN_HOST 0.0.0.0
 EXPOSE 80
 
 # Run Flask command
-CMD flask db upgrade ; gunicorn -w 4 -b 0.0.0.0:80 ms:create_app()
+CMD flask db upgrade ; gunicorn -w 4 -b 0.0.0.0:80 "ms:create_app()"
