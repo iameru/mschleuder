@@ -22,4 +22,4 @@ ENV FLASK_RUN_HOST 0.0.0.0
 EXPOSE 80
 
 # Run Flask command
-CMD ["/entrypoint.sh"]
+entrypoint ["/entrypoint.sh"]
