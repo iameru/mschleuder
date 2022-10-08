@@ -9,4 +9,4 @@ class Config:
     CSRF_SECRET_KEY = env.get("CSRF_SECRET_KEY").encode()
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = "sqlite:///../instance/database.sqlite"
+    SQLALCHEMY_DATABASE_URI = env.get("DATABASE_URL")
