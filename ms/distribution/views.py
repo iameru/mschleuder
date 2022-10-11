@@ -191,7 +191,7 @@ def save():
 
         db.session.commit()
 
-        return redirect(url_for("distribution.overview"), 302)
+        return ("", 200)
 
     return abort(404)
 

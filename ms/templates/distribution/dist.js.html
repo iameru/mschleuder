@@ -113,6 +113,7 @@ function get_unchosen_stations() {
 
 }
 function set_station_to_zero(station) {
+    save_button.disabled = true
     station.total_field.textContent = "x"
     station.single_full_field.textContent = "x"
     station.single_half_field.textContent = "x"
@@ -167,6 +168,7 @@ function distribute (option) {
     }
 
     distribution_started = true
+    save_button.disabled = false
     return true
 }
 
@@ -245,23 +247,18 @@ function save_data() {
         body: post_data
         }
     ).then(resp => {
-			  if (resp.status === 200) {
-				  return resp.json()
-			  } else {
-				  console.log("Status: " + resp.status)
-				  return Promise.reject("server")
-			  }
-		  })
-		  .then(dataJson => {
-			  dataReceived = JSON.parse(dataJson)
-		  })
-		  .catch(err => {
-			  if (err === "server") return
-			  console.log(err)
-		  });
-    save_button.disabled = true
-    message_field.textContent = "gespeichert!"
-    message_div.classList.toggle("expand")
+        if (resp.status === 200) {
+          save_button.disabled = true
+          message_field.textContent = "gespeichert!"
+          message_div.classList.toggle("expand")
+        } else {
+          console.log("Status: " + resp.status)
+        }
+})
+.catch(err => {
+        if (err === "server") return
+        console.log(err)
+});
 }
 function send_message(message) {
       save_button.disabled = true

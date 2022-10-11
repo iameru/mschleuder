@@ -86,7 +86,7 @@ def test_saving_of_a_distribution(test_client):
     response = result.get("response")
     post_data = result.get("post_data")
     assert response.status_code == 200
-    assert response.request.path == url_for("distribution.overview")
+    assert response.text == ""
 
     # we expect all entries to be saved to database
     for data in post_data:
