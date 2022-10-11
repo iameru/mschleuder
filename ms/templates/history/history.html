@@ -1,5 +1,72 @@
+{% from 'macros.html' import modal with context %}
+
 {% extends 'base.html' %}
+
 {% set title = 'History' %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css"
+      href="{{ url_for('static', filename='assets/jquery.dataTables.css') }}">
+{% endblock styles %}
+
+{% block scripts %}
+<script type="text/javascript" charset="utf8"
+        src="{{ url_for('static', filename='assets/jquery-3.6.0.min.js') }}"></script>
+<script type="text/javascript" charset="utf8"
+        src="{{ url_for('static', filename='assets/jquery.dataTables.js') }}"></script>
+<script>
+ $(document).ready(function() {
+    $('#history-overview-table').DataTable({
+        paging: false,
+        responsive: true,
+        order: [[0, 'desc'], [1, 'desc']],
+        columns: [
+        null,
+        null,
+        {orderable: false, searchable: true},
+        ]
+    });
+  });
+</script>
+{% endblock scripts %}
+
 {% block content %}
-  stagin in the makin
+
+  <table class="table is-hoverable is-fullwidth is-narrow"
+           id="history-overview-table">
+    <col style="width:15%">
+    <col style="width:15%">
+    <col style="width:70%">
+    <thead>
+      <tr>
+        <th>Jahr</th>
+        <th>Verteilung</th>
+        <th>Stationen</th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <th>Jahr</th>
+        <th>Verteilung</th>
+        <th>Stationen</th>
+      </tr>
+    </tfoot>
+    <tbody>
+    {% for dist in distributions %}
+      <tr>
+        <td>{{ dist.date_time.strftime("%Y")}}</td>
+        <td>{{ dist.date_time.strftime("%d.%B  %-H:%M") }}</td>
+        <td>
+          <div class="is-capitalized">
+        {% for station in dist.stations %}
+            <a {{modal(url_for('history.station_distribution_details', station_id=station.id))}}
+               class="p-1 m-3 has-text-link-dark">{{ station.name }}</a>
+        {% endfor %}
+          </div>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
 {% endblock %}

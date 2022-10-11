@@ -9,7 +9,11 @@ history = Blueprint("history", __name__)
 @history.route("/")
 def overview():
 
-    return render_template("history/history.html")
+    distributions = Distribution.query.filter(
+        Distribution.in_progress == False, Distribution.finalized == True
+    ).all()
+
+    return render_template("history/history.html", distributions=distributions)
 
 
 @history.route("/detail/<int:distribution_id>/<int:product_id>/<int:unit_id>")

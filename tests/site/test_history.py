@@ -5,6 +5,26 @@ from flask import url_for
 from ms.db.models import Distribution, Share, StationHistory
 
 
+def test_history_overview(test_client):
+
+    distributions = Distribution.query.filter(
+        Distribution.in_progress == False, Distribution.finalized == True
+    ).all()
+
+    response = test_client.get(url_for("history.overview"))
+    assert response.status_code == 200
+
+    txt = response.data.decode()
+
+    for dist in distributions:
+
+        assert str(dist.date_time) in txt
+
+        for station in dist.stations:
+
+            assert station.name in txt
+
+
 def test_details_of_distribution_for_stations(test_client):
 
     dist = Distribution.query.filter(
