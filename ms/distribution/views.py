@@ -242,12 +242,7 @@ def finalize():
 
         if finalize and (int(finalize) == dist.id):
 
-            dist.in_progress = False
-            dist.finalized = True
-            db.session.flush()
-            dist.date_time = dist.updated
-
-            for product in (
+            products = (
                 db.session.query(Product)
                 .filter(
                     Product.id
@@ -256,7 +251,16 @@ def finalize():
                     .scalar_subquery()
                 )
                 .all()
-            ):
+            )
+            if not products:
+                flash("Leere Verteilung kann nicht gespeichert werden.", "danger")
+                return redirect(url_for("distribution.overview"))
+            dist.in_progress = False
+            dist.finalized = True
+            db.session.flush()
+            dist.date_time = dist.updated
+
+            for product in products:
                 product.last_distribution = dist.updated
 
             db.session.commit()
