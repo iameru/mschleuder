@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, url_for
 
 from ms.db import query
 from ms.db.models import Distribution, Product
@@ -24,4 +24,18 @@ def product_detail_view(distribution_id, product_id, unit_id):
         data=data,
         product=product,
         distribution=distribution,
+    )
+
+
+from ms.db.models import Share, StationHistory
+
+
+@history.route("/stationdetails/<int:station_id>")
+def station_distribution_details(station_id):
+
+    station = StationHistory.query.get_or_404(station_id)
+    shares = Share.query.filter(Share.stationhistory_id == station.id).all()
+
+    return render_template(
+        "history/station_details_modal.html", station=station, shares=shares
     )

@@ -1,0 +1,20 @@
+{% extends 'modal.html' %}
+{% block modal_content %}
+
+<div>
+{{ station.name }}
+{{ station.members_total }}
+{{ station.members_full }}
+{{ station.members_half }}
+</div>
+
+{% for share in shares %}
+<div>
+  {{ share.product.name }}
+  {{ share.unit.shortname }}
+  {{ share.single_full }}
+  {{ share.single_half }}
+</div>
+{% endfor %}
+
+{% endblock modal_content %}

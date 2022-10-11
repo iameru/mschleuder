@@ -18,13 +18,6 @@ def distribute():
 
     yield dist.in_progress
 
-    # teardown
-    stations = StationHistory.query.filter_by(distribution_id=dist.id).all()
-    [db.session.delete(share) for share in dist.shares]
-    [db.session.delete(station) for station in stations]
-    db.session.delete(dist)
-    db.session.commit()
-
 
 def test_post_nonvalid_data_to_save_distribution(test_client):
 
