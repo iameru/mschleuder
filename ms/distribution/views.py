@@ -245,6 +245,7 @@ def finalize():
             dist.in_progress = False
             dist.finalized = True
             db.session.flush()
+            dist.date_time = dist.updated
 
             for product in (
                 db.session.query(Product)

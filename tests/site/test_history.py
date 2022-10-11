@@ -22,7 +22,7 @@ def test_history_overview(test_client):
     for dist in distributions:
 
         year = dist.date_time.strftime("%Y")
-        date_and_day = dist.date_time.strftime("%d.%B %-H:%M")
+        date_and_day = dist.date_time.strftime("%d. %B %-H:%M")
 
         row = table.find("tr", {"id": f"distribution-{dist.id}"})
         assert row
