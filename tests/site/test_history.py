@@ -1,5 +1,6 @@
 from random import choice
 
+from bs4 import BeautifulSoup as bs
 from flask import url_for
 
 from ms.db.models import Distribution, Share, StationHistory
@@ -14,15 +15,28 @@ def test_history_overview(test_client):
     response = test_client.get(url_for("history.overview"))
     assert response.status_code == 200
 
-    txt = response.data.decode()
+    table = bs(response.data, "html.parser").find(
+        "table", {"id": "history-overview-table"}
+    )
 
     for dist in distributions:
 
-        assert str(dist.date_time) in txt
+        year = dist.date_time.strftime("%Y")
+        date_and_day = dist.date_time.strftime("%d.%B %-H:%M")
+
+        row = table.find("tr", {"id": f"distribution-{dist.id}"})
+        assert row
+
+        assert year in row.text
+        assert date_and_day in row.text
 
         for station in dist.stations:
 
-            assert station.name in txt
+            link = row.find("a", string=station.name)
+            assert link
+            assert link["hx-get"] == url_for(
+                "history.station_distribution_details", station_id=station.id
+            )
 
 
 def test_details_of_distribution_for_stations(test_client):

@@ -53,9 +53,9 @@
     </tfoot>
     <tbody>
     {% for dist in distributions %}
-      <tr>
+      <tr id="distribution-{{dist.id}}">
         <td>{{ dist.date_time.strftime("%Y")}}</td>
-        <td>{{ dist.date_time.strftime("%d.%B  %-H:%M") }}</td>
+        <td>{{ dist.date_time.strftime("%d.%B %-H:%M") }}</td>
         <td>
           <div class="is-capitalized">
         {% for station in dist.stations %}
