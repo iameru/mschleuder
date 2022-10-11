@@ -120,7 +120,11 @@ def distribute(p_id: int, p_unit_shortname: str):
             category="info",
         )
 
-    stations = Station.query.order_by(Station.delivery_order).all()
+    stations = (
+        StationHistory.query.filter(StationHistory.distribution_id == dist.id)
+        .order_by(StationHistory.delivery_order)
+        .all()
+    )
 
     return render_template(
         "distribution/distribute.html",

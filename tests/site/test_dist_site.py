@@ -92,54 +92,6 @@ def test_starting_a_distribution(test_client):
         assert s.members_total == sa.members_total
 
 
-def test_stop_distribution(test_client):
-
-    # setup
-    dist = Distribution.current()
-    stations_archived = dist.stations
-    assert dist.in_progress is True
-
-    # there shall be a button
-    response = test_client.get(url_for("distribution.overview"))
-    stop_modal_button = bs(response.data, "html.parser").find(
-        "button", {"id": "stop-distribution-modal"}
-    )
-    assert stop_modal_button
-    link = stop_modal_button.parent["href"]
-    assert stop_modal_button.text == "Verteilung stoppen"
-    assert link == url_for("distribution.confirm_stop_modal")
-
-    # opening up a modal with a form and button
-    response = test_client.get(link)
-    form = bs(response.data, "html.parser").find(
-        "form", {"id": "form-stop-distribution"}
-    )
-    stop_button = form.find("button", {"id": "stop-distribution"})
-
-    assert stop_button
-    assert stop_button.text == "Verteilung stoppen"
-    assert stop_button["type"] == "submit"
-    key = stop_button["name"]
-    assert key == "distribution"
-    value = stop_button["value"]
-    assert value == "stop"
-    url = form["action"]
-    assert url == url_for("distribution.trigger")
-
-    # if pushed the distribution shall be stopped
-    test_client.post(url, data={key: value})
-    dist = Distribution.current()
-    assert dist.in_progress is False
-
-    # and the stations deleted again
-    assert stations_archived != dist.stations
-    assert not dist.stations
-
-    # cleanup
-    dist.in_progress = True
-    db.session.commit()
-
-
 def test_404_start_when_dist_already_started(test_client, in_distribution):
 
     assert Distribution.current().in_progress
@@ -245,7 +197,7 @@ def test_distribution_page_change_by_units(test_client):
     assert not add_piece_field
 
 
-def test_stations_in_dist(test_client, product, stations):
+def test_stations_in_dist(test_client, product):
 
     unit = choice(product.units)
     url = url_for(
@@ -259,6 +211,11 @@ def test_stations_in_dist(test_client, product, stations):
     stations_element = body.find("div", {"id": "dist-stations-area"})
 
     assert stations_element
+
+    dist = Distribution.current()
+    stations = StationHistory.query.filter(
+        StationHistory.distribution_id == dist.id
+    ).all()
 
     for station in stations:
 
@@ -326,7 +283,12 @@ def test_redirect_for_products_with_multiple_units(test_client):
 
 def test_stations_in_correct_order(test_client, product_distribution):
 
-    ordered_stations = Station.query.order_by(Station.delivery_order).all()
+    dist = Distribution.current()
+    ordered_stations = (
+        StationHistory.query.filter(StationHistory.distribution_id == dist.id)
+        .order_by(StationHistory.delivery_order)
+        .all()
+    )
     response = product_distribution
     html = bs(response.data, "html.parser")
     station_boxes = html.find_all("div", class_="station-box")
@@ -354,3 +316,51 @@ def test_stations_can_be_opt_out_visually(test_client, product_distribution):
         assert opt_out_button
         assert opt_out_button["onclick"]
         assert opt_out_button["onclick"] == "trigger_station_opt_out(this);"
+
+
+def test_stop_distribution(test_client):
+
+    # setup
+    dist = Distribution.current()
+    stations_archived = dist.stations
+    assert dist.in_progress is True
+
+    # there shall be a button
+    response = test_client.get(url_for("distribution.overview"))
+    stop_modal_button = bs(response.data, "html.parser").find(
+        "button", {"id": "stop-distribution-modal"}
+    )
+    assert stop_modal_button
+    link = stop_modal_button.parent["href"]
+    assert stop_modal_button.text == "Verteilung stoppen"
+    assert link == url_for("distribution.confirm_stop_modal")
+
+    # opening up a modal with a form and button
+    response = test_client.get(link)
+    form = bs(response.data, "html.parser").find(
+        "form", {"id": "form-stop-distribution"}
+    )
+    stop_button = form.find("button", {"id": "stop-distribution"})
+
+    assert stop_button
+    assert stop_button.text == "Verteilung stoppen"
+    assert stop_button["type"] == "submit"
+    key = stop_button["name"]
+    assert key == "distribution"
+    value = stop_button["value"]
+    assert value == "stop"
+    url = form["action"]
+    assert url == url_for("distribution.trigger")
+
+    # if pushed the distribution shall be stopped
+    test_client.post(url, data={key: value})
+    dist = Distribution.current()
+    assert dist.in_progress is False
+
+    # and the stations deleted again
+    assert stations_archived != dist.stations
+    assert not dist.stations
+
+    # cleanup
+    dist.in_progress = True
+    db.session.commit()
