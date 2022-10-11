@@ -5,7 +5,7 @@
     <ul class="menu-list">
       {{ nav_link('stations.stations_view', 'Stationen') }}
       {{ nav_link('products.products_view', 'Gemüse') }}
-      {{ nav_link('history.history_view', 'History') }}
+      {{ nav_link('history.overview', 'History') }}
       {{ nav_link('settings.settings_view', 'Einstellungen') }}
     </ul>
   {% if distribution_in_progress %}
@@ -13,17 +13,15 @@
       <a href="{{ url_for('distribution.overview') }}">Aktuelle Verteilung</a>
     </p>
     <ul class="menu-list" id="products-in-distribution">
-  {% for product in in_distribution %}
+    {% for product in in_distribution %}
+      <a {{ modal(url_for('history.product_detail_view',
+                  distribution_id=product.dist_id,
+                  product_id=product.product_id,
+                  unit_id=product.unit_id )) }}>
 
-    <a {{ modal(url_for('history.product_detail_view',
-                distribution_id=product.dist_id,
-                product_id=product.product_id,
-                unit_id=product.unit_id )) }}>
-
-      <li>{{ product.total_sum|round(2,"floor") }} <small>{{product.unit_shortname}}</small> {{product.name}}</li>
-    </a>
-
-  {% endfor %}
+        <li>{{ product.total_sum|round(2,"floor") }} <small>{{product.unit_shortname}}</small> {{product.name}}</li>
+      </a>
+    {% endfor %}
   {% else %}
     <p class="menu-label">
       <a href="{{url_for('distribution.overview')}}">

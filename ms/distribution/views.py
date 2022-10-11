@@ -257,7 +257,7 @@ def finalize():
             db.session.commit()
 
             flash("Verteilung abgeschlossen!", category="info")
-            return redirect(url_for("history.history_view"), 302)
+            return redirect(url_for("history.overview"), 302)
 
         return abort(404)
 

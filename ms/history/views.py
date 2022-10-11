@@ -7,7 +7,7 @@ history = Blueprint("history", __name__)
 
 
 @history.route("/")
-def history_view():
+def overview():
 
     return render_template("history/history.html")
 
