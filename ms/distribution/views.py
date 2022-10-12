@@ -135,6 +135,43 @@ def distribute(p_id: int, p_unit_shortname: str):
     )
 
 
+@distribution.route(
+    "/add_product_info/<product_id>/<int:unit_id>", methods=["GET", "POST"]
+)
+def add_product_info(product_id, unit_id):
+
+    product = Product.query.get_or_404(product_id)
+    unit = Unit.query.get_or_404(unit_id)
+
+    if request.method == "POST":
+
+        info = request.form.get("product-info")
+
+        dist = Distribution.current()
+        shares = Share.query.filter(
+            Share.distribution_id == dist.id,
+            Share.product_id == product.id,
+            Share.unit_id == unit.id,
+        )
+
+        res = shares.update(dict(information=info))
+        if res == 0:
+            flash("error in add_product_info - tell your admin")
+            return abort(404)
+        db.session.commit()
+
+        return render_template(
+            "distribution/add_product_info_button.hx.html",
+            product_id=product.id,
+            unit_id=unit.id,
+            info=info,
+        )
+
+    return render_template(
+        "distribution/add_product_info.hx.html", product=product, unit=unit
+    )
+
+
 @distribution.route("/save", methods=["POST"])
 def save():
 

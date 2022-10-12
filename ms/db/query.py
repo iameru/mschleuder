@@ -14,6 +14,7 @@ def distribution_overview(distribution: Distribution):
         Unit.longname.label("unit_name"),
         Unit.shortname.label("unit_shortname"),
         Unit.id.label("unit_id"),
+        Share.information.label("info"),
     )
     joins = fields.join(Product).join(Unit).join(Distribution)
     groups = joins.group_by(Share.product_id, Share.unit_id)

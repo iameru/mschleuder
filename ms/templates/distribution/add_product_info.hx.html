@@ -1,0 +1,33 @@
+<form id="add-info-form"
+      method="POST"
+      action="{{ url_for('distribution.add_product_info', product_id=product.id, unit_id=unit.id) }}">
+
+  <div class="field has-addons">
+    <div class="control">
+      <input  name="product-info"
+              type="text"
+              placeholder="info für diese verteilung"
+              class="input"
+              id="input-add-info"/>
+    </div>
+    <div class="control">
+      <button class="button is-info"
+              id="save-info"
+              type="submit"
+              hx-post="{{url_for('distribution.add_product_info', product_id=product.id, unit_id=unit.id) }}"
+              hx-target="#info-div-{{product.id}}-{{unit.id}}"
+              hx-swap="innerHTML"
+              >info speichern</button>
+    </div>
+    <div class="control">
+      <a class="button is-info is-light"
+              id="save-info"
+              type="submit"
+              hx-params="not product-info"
+              hx-post="{{url_for('distribution.add_product_info', product_id=product.id, unit_id=unit.id) }}"
+              hx-target="#info-div-{{product.id}}-{{unit.id}}"
+              hx-swap="innerHTML"
+              >x</a>
+    </div>
+  </div>
+</form>

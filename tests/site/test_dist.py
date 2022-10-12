@@ -120,6 +120,67 @@ def test_saving_no_duplicates(test_client, product):
         assert share.__dict__[key] == value
 
 
+def test_info_can_be_given_for_a_product_in_overview(test_client):
+
+    # we want to add a comment to a product in distribution
+    response = test_client.get(url_for("distribution.overview"))
+    html = bs(response.data, "html.parser")
+    # so we look for the product
+    # we know this from earlier when we inserted
+    row = html.find("tr", class_="product-row")
+    assert row
+    _string_magic = row["id"].split("-")
+    product = Product.query.get(int(_string_magic[-2]))
+    unit = Unit.query.filter(Unit.longname == _string_magic[-1]).first()
+
+    # we find a button with a link
+    add_info_button = row.find("button", {"id": "add-info"})
+    assert add_info_button
+    assert add_info_button["hx-get"] == url_for(
+        "distribution.add_product_info", product_id=product.id, unit_id=unit.id
+    )
+    assert add_info_button.text == "+Info"
+
+    # we follow the link
+    response = test_client.get(add_info_button["hx-get"])
+    assert response.status_code == 200
+
+    # and find a text and an input field and a button to save
+    # the information for this distribution
+    hx_html = bs(response.data, "html.parser")
+
+    form = hx_html.find("form", {"id": "add-info-form"})
+    assert form
+    assert form["method"] == "POST"
+    form_action = form["action"]
+    assert form_action == url_for(
+        "distribution.add_product_info", product_id=product.id, unit_id=unit.id
+    )
+
+    save_info_button = form.find("button", {"id": "save-info"})
+    assert save_info_button
+    assert save_info_button.text == "info speichern"
+
+    input_field = form.find("input", {"id": "input-add-info"})
+    assert input_field
+    submit_name = input_field["name"]
+    assert submit_name == "product-info"
+
+    # we submit the form
+    response = test_client.post(
+        form_action, data={submit_name: "Sehr gute Informationen"}
+    )
+    assert response.status_code == 200
+
+    # we expect the info now be displayed in the page
+    response = test_client.get(url_for("distribution.overview"))
+    info_field = bs(response.data, "html.parser").find(
+        "div", {"id": f"info-div-{product.id}-{unit.id}"}
+    )
+    assert info_field
+    assert "Sehr gute Informationen" in info_field.text
+
+
 def test_delete_a_distribution_from_overview(test_client):
 
     # get a product which was distributed

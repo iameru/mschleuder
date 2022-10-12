@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup as bs
 from flask import url_for
 from pytest import mark
 
+from conftest import in_distribution
 from ms.db.models import Distribution, Product, Share, Station, StationHistory, Unit, db
 
 

@@ -8,22 +8,26 @@
 <div class="columns">
 
   <div class="column is-10">
-    <table class="table is-hoverable is-fullwidth">
+    <table class="table is-fullwidth">
       <thead>
         <td>name</td>
         <td>verteilt</td>
         <td>durchschnitt einzeln ganz</td>
         <td>durchschnitt einzeln halb</td>
+        <td>info</td>
         <td>details</td>
         <td>löschen</td>
       </thead>
 
     {% for product in data %}
-      <tr id="overview-{{product.product_id}}-{{product.unit_name}}">
+      <tr class="product-row" id="overview-{{product.product_id}}-{{product.unit_name}}">
         <td>{{product.name}} <small>in {{product.unit_name}}</small></td>
         <td>{{product.total_sum|round(2,"floor")}}</td>
         <td>{{product.single_full_average}}</td>
         <td>{{product.single_half_average}}</td>
+
+        <td><div id="info-div-{{product.product_id}}-{{product.unit_id}}">{% include "distribution/add_product_info_button.hx.html" %}</div></td>
+
         <td><button class="button"
             id="detail_view"
             {{ modal(url_for('history.product_detail_view', distribution_id=dist.id, product_id=product.product_id, unit_id=product.unit_id )) }}

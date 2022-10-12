@@ -1,0 +1,21 @@
+{# some parsing as overview has a weird query working right now
+    and this template is working in multiple places #}
+
+{% if product %}
+  {% if product.product_id %}
+    {% set product_id = product.product_id %}
+  {% endif %}
+  {% if product.unit_id %}
+    {% set unit_id = product.unit_id %}
+  {% endif %}
+  {% if product.info %}
+    {% set info = product.info %}
+  {% endif %}
+{% endif %}
+
+{% if info %}{{ info }}{% endif %}
+<button class="button is-small is-link is-light"
+        hx-get="{{url_for('distribution.add_product_info', product_id=product_id, unit_id=unit_id ) }}"
+        hx-target="#info-div-{{product_id}}-{{unit_id}}"
+        hx-swap="innerHTML"
+        id="add-info">+Info</button>
