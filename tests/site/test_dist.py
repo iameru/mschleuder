@@ -139,7 +139,7 @@ def test_info_can_be_given_for_a_product_in_overview(test_client):
     assert add_info_button["hx-get"] == url_for(
         "distribution.add_product_info", product_id=product.id, unit_id=unit.id
     )
-    assert add_info_button.text == "+Info"
+    assert add_info_button.text == "Info bearbeiten"
 
     # we follow the link
     response = test_client.get(add_info_button["hx-get"])

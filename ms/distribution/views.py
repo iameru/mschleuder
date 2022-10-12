@@ -142,17 +142,17 @@ def add_product_info(product_id, unit_id):
 
     product = Product.query.get_or_404(product_id)
     unit = Unit.query.get_or_404(unit_id)
+    dist = Distribution.current()
+    shares = Share.query.filter(
+        Share.distribution_id == dist.id,
+        Share.product_id == product.id,
+        Share.unit_id == unit.id,
+    )
+    info = shares[0].information
 
     if request.method == "POST":
 
         info = request.form.get("product-info")
-
-        dist = Distribution.current()
-        shares = Share.query.filter(
-            Share.distribution_id == dist.id,
-            Share.product_id == product.id,
-            Share.unit_id == unit.id,
-        )
 
         res = shares.update(dict(information=info))
         if res == 0:
@@ -168,7 +168,7 @@ def add_product_info(product_id, unit_id):
         )
 
     return render_template(
-        "distribution/add_product_info.hx.html", product=product, unit=unit
+        "distribution/add_product_info.hx.html", product=product, unit=unit, info=info
     )
 
 

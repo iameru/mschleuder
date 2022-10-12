@@ -3,37 +3,39 @@
 {% set title = 'Verteilung' %}
 {% block content %}
 
-<p>gestartet:</p><p id="info-dist-started"><small>{{ dist.created }}</small></p>
 
-<div class="columns">
+<div class="columns is-centered is-multiline">
 
-  <div class="column is-10">
+  <div class="column is-full has-text-centered">
+    <p>gestartet:</p><p id="info-dist-started"><small>{{ dist.created }}</small></p>
+  </div>
+
+  <div class="column is-11">
     <table class="table is-fullwidth">
-      <thead>
-        <td>name</td>
-        <td>verteilt</td>
-        <td>durchschnitt einzeln ganz</td>
-        <td>durchschnitt einzeln halb</td>
-        <td>info</td>
-        <td>details</td>
-        <td>löschen</td>
+      <col style="width:15%">
+      <col style="width:10%">
+      <col style="width:55%">
+      <col style="width:10%">
+      <col style="width:10%">
+      <thead class="has-text-centered">
+        <td>Name</td>
+        <td>Verteilt</td>
+        <td>Info an die Mitglieder</td>
       </thead>
 
     {% for product in data %}
-      <tr class="product-row" id="overview-{{product.product_id}}-{{product.unit_name}}">
-        <td>{{product.name}} <small>in {{product.unit_name}}</small></td>
+      <tr class="product-row has-text-centered" id="overview-{{product.product_id}}-{{product.unit_name}}">
+        <td class="has-text-left ml-5">{{product.name}} <small>in {{product.unit_name}}</small></td>
         <td>{{product.total_sum|round(2,"floor")}}</td>
-        <td>{{product.single_full_average}}</td>
-        <td>{{product.single_half_average}}</td>
-
-        <td><div id="info-div-{{product.product_id}}-{{product.unit_id}}">{% include "distribution/add_product_info_button.hx.html" %}</div></td>
-
-        <td><button class="button"
+        <td class="has-text-right"><div id="info-div-{{product.product_id}}-{{product.unit_id}}">{% include "distribution/add_product_info_button.hx.html" %}</div></td>
+        <td class="has-text-centered">
+          <button class="button is-light is-link is-small"
             id="detail_view"
             {{ modal(url_for('history.product_detail_view', distribution_id=dist.id, product_id=product.product_id, unit_id=product.unit_id )) }}
-          >detail</button></td>
-        <td>
-          <button class="button"
+            >detail</button>
+        </td>
+        <td class="has-text-centered">
+          <button class="button is-light is-link is-small"
                   id="delete-from-distribution-{{product.product_id}}-{{product.unit_name}}"
                   {{ modal(url_for('distribution.delete_from_distribution', product_id = product.product_id, unit_shortname = product.unit_shortname)) }}
                   >löschen</button>
@@ -43,24 +45,35 @@
     </table>
   </div>
 
+
+
 </div>
+<div class="columns is-centered">
+  <div class="column is-10">
+    <div class="level">
+      <div class="level-left">
+        <div class="level-item">
+          <a {{ modal(url_for('distribution.confirm_stop_modal') ) }}
+              href="{{ url_for('distribution.confirm_stop_modal') }}">
+            <button class="button is-link is-light"
+                  id="stop-distribution-modal"
+                  >Verteilung stoppen</button>
+          </a>
+        </div>
+      </div>
 
+      <div class="level-right">
+        <div class="level-item">
+          <a {{ modal(url_for('distribution.finalize') ) }}
+              href="{{ url_for('distribution.finalize') }}">
+            <button class="button is-link is-light"
+                  id="finalize-distribution-modal"
+                  >Verteilung fertigstellen</button>
+          </a>
+        </div>
+      </div>
+    </div>
 
-
-
-{# stop and delete distribution #}
-<a {{ modal(url_for('distribution.confirm_stop_modal') ) }}
-    href="{{ url_for('distribution.confirm_stop_modal') }}">
-  <button class="button is-small"
-        id="stop-distribution-modal"
-        >Verteilung stoppen</button>
-</a>
-
-{# finalize distribution #}
-<a {{ modal(url_for('distribution.finalize') ) }}
-    href="{{ url_for('distribution.finalize') }}">
-  <button class="button"
-        id="finalize-distribution-modal"
-        >Verteilung fertigstellen</button>
-</a>
+  </div>
+</div>
 {% endblock content%}

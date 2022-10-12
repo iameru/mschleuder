@@ -8,6 +8,9 @@
               type="text"
               placeholder="info für diese verteilung"
               class="input"
+              {%- if info -%}
+              value="{{info}}"
+              {%- endif -%}
               id="input-add-info"/>
     </div>
     <div class="control">

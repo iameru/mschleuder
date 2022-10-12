@@ -13,9 +13,18 @@
   {% endif %}
 {% endif %}
 
-{% if info %}{{ info }}{% endif %}
-<button class="button is-small is-link is-light"
-        hx-get="{{url_for('distribution.add_product_info', product_id=product_id, unit_id=unit_id ) }}"
-        hx-target="#info-div-{{product_id}}-{{unit_id}}"
-        hx-swap="innerHTML"
-        id="add-info">+Info</button>
+<div class="columns">
+  <div class="column has-text-left is-italic">
+    {% if info %}
+    {{ info }}
+  {% endif %}
+  </div>
+
+  <div class="column is-4 has-text-right">
+      <button class="button is-small is-link is-light"
+              hx-get="{{url_for('distribution.add_product_info', product_id=product_id, unit_id=unit_id ) }}"
+              hx-target="#info-div-{{product_id}}-{{unit_id}}"
+              hx-swap="innerHTML"
+              id="add-info">Info bearbeiten</button>
+  </div>
+</div>

@@ -9,8 +9,6 @@ def distribution_overview(distribution: Distribution):
         Product.name,
         Product.id.label("product_id"),
         Distribution.id.label("dist_id"),
-        func.avg(Share.single_full).label("single_full_average"),
-        func.avg(Share.single_half).label("single_half_average"),
         Unit.longname.label("unit_name"),
         Unit.shortname.label("unit_shortname"),
         Unit.id.label("unit_id"),
