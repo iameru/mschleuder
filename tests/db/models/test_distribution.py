@@ -72,3 +72,15 @@ def test_Model_function_to_get_latest_dist(test_app):
     saved_dist = Distribution.current()
 
     assert dist == saved_dist
+
+
+def test_adding_information_field():
+
+    dist = Distribution.current()
+    assert not dist.information
+    dist.information = "Nächste Woche ist großes Kino"
+    db.session.commit()
+
+    dist = Distribution.current()
+    assert dist.information
+    assert dist.information == "Nächste Woche ist großes Kino"

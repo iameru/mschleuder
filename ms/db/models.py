@@ -171,6 +171,7 @@ class Distribution(TimestampMixin, db.Model, ReprMixin):
     in_progress = db.Column(db.Boolean, nullable=False)
     finalized = db.Column(db.Boolean, default=False)
     date_time = db.Column(db.DateTime, nullable=False, default=datetime_now)
+    information = db.Column(db.String)
     stations = db.relationship("StationHistory", backref="distribution", lazy=True)
     shares = db.relationship("Share", backref="dist", lazy=True)
 
@@ -200,6 +201,7 @@ class Share(TimestampMixin, db.Model, ReprMixin):
         Float(asdecimal=True, precision=8, decimal_return_scale=None)
     )
     single_total = db.Column(db.Float, Computed("single_full + single_half"))
+    information = db.Column(db.String)
     sum_full = db.Column(Float(asdecimal=True, precision=8, decimal_return_scale=None))
     sum_half = db.Column(Float(asdecimal=True, precision=8, decimal_return_scale=None))
     sum_total = db.Column(db.Float, Computed("sum_full + sum_half"))

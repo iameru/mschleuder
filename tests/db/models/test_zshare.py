@@ -66,3 +66,11 @@ def test_creation_and_linkage_of_Share_model(in_distribution):
 
     # also the distribution should have stations referenced
     assert station in dist.stations
+
+    # add info to share
+    share = Share.query.first()
+    assert not share.information
+    share.information = "Bitte verteilt es gut"
+    db.session.commit()
+    share = Share.query.first()
+    assert share.information == "Bitte verteilt es gut"
