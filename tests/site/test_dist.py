@@ -375,3 +375,29 @@ def test_expect_values_changed_after_finalisation(test_client):
 
     for product in products:
         assert product.last_distribution == dist.updated
+
+
+def test_generation_of_station_pdfs(test_client):
+
+    dist: Distribution = Distribution.current()
+
+    for station in dist.stations:
+
+        response = test_client.get(
+            url_for(
+                "history.station_distribution_details",
+                station_id=station.id,
+                pdf_station_name=station.name,
+            )
+        )
+        assert response.status_code == 200
+        assert response.content_type == response.mimetype == "application/pdf"
+
+
+@pytest.mark.skip
+def test_generation_of_bulked_pdf(test_client):
+
+    dist: Distribution = Distribution.current()
+
+    response = test_client.get(url_for("history.bulk_pdf", distribution_id=dist.id))
+    assert response.status_code == 200

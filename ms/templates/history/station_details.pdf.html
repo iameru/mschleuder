@@ -1,0 +1,63 @@
+<div class="rows">
+  <div class="row">
+    <div class="level">
+      <div class="level-left">
+        <div class="level-item">
+          <p class="title is-size-1">{{ station.name }}</p>
+        </div>
+      </div>
+      <div class="level-right">
+        <div class="level-item">
+          <p class="is-size-1">LOGO</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <p class="subtitle">{{ station.distribution.date_time }}</p>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <table class="table is-fullwidth">
+      <thead>
+        <td>Erzeugniss</td>
+        <td>Einheit</td>
+        <td>Ganzer Anteil</td>
+        <td>Halber Anteil</td>
+      </thead>
+    {% for share in shares %}
+      <tr>
+        <td>{{ share.product.name }}</td>
+        <td>{{ share.unit.shortname }}</td>
+        <td>{{ share.single_full }}</td>
+        <td>{{ share.single_half }}</td>
+      </tr>
+      {% if share.information %}
+      <tr>
+        <td colspan=4><p class="ml-5 is-italic">{{ share.information }}</p></td>
+      </tr>
+      {% endif %}
+    {% endfor %}
+    </table>
+  </div>
+
+  <hr>
+
+  {% if station.distribution.information %}
+  <div class="row">
+    <p class="has-text-centered">Info</p>
+    <p class="is-size-6 has-text-centered is-italic">{{ station.distribution.information }}</p>
+  </div>
+  {% endif %}
+
+  <div class="row">
+    <p class="is-size-5">Mitglieder in dieser Station: <small>{{ station.members_total }}</small> ganze:   <small>{{ station.members_full }}</small> halbe:   <small>{{ station.members_half }}</small></p>
+  </div>
+
+  <div class="row mt-5 has-text-right is-italic">
+    lasst euch das Gemüse schmecken - Die Ackerillas
+  </div>
+
+</div>
