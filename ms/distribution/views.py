@@ -316,19 +316,22 @@ def finalize():
 
         if finalize and (int(finalize) == dist.id):
 
-            products = (
-                db.session.query(Product)
-                .filter(
-                    Product.id
-                    == db.session.query(Share.product_id)
+            product_ids = set(
+                [
+                    result[0]
+                    for result in db.session.query(Share.product_id)
                     .filter(Share.distribution_id == dist.id)
-                    .scalar_subquery()
-                )
-                .all()
+                    .all()
+                ]
             )
+            products = (
+                db.session.query(Product).filter(Product.id.in_(product_ids)).all()
+            )
+
             if not products:
                 flash("Leere Verteilung kann nicht gespeichert werden.", "danger")
                 return redirect(url_for("distribution.overview"))
+
             dist.in_progress = False
             dist.finalized = True
             db.session.flush()
