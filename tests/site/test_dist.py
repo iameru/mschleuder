@@ -120,6 +120,53 @@ def test_saving_no_duplicates(test_client, product):
         assert share.__dict__[key] == value
 
 
+def test_info_can_be_given_for_distribution_in_overview(test_client):
+
+    # we want to add a comment to a distribution in progress
+    response = test_client.get(url_for("distribution.overview"))
+    html = bs(response.data, "html.parser")
+
+    # there should be a containre and a button for it
+    container = html.find("div", {"id": "add-distribution-info"})
+    assert container
+    assert "Die allerbeste Info der Welt!" not in container.text
+    button = container.find("button", {"id": "add-distribution-info-button"})
+    assert button
+    assert button["hx-get"] == url_for("distribution.add_distribution_info")
+    assert button["hx-target"] == "#add-distribution-info"
+    assert button["hx-swap"] == "innerHTML"
+
+    # we "push" the button and expect a form to edit the commentary
+    response = test_client.get(button["hx-get"])
+    html = bs(response.data, "html.parser")
+
+    form = html.find("form", {"id": "add-distribution-info-form"})
+    assert form
+    assert form["method"] == "POST"
+    assert form["action"] == url_for("distribution.add_distribution_info")
+
+    input_field = form.find("input", {"id": "add-distribution-info-input"})
+    assert input_field
+    assert input_field["name"] == "info"
+
+    submit_button = form.find("button", {"id": "add-distribution-info-submit-button"})
+    assert submit_button
+
+    assert html.find("a", {"id": "add-distribution-info-abort-button"})
+
+    # we submit the form
+    response = test_client.post(
+        form["action"], data={input_field["name"]: "Die allerbeste Info der Welt!"}
+    )
+    assert response.status_code == 200
+
+    # we expect the info now be displayed in the page
+    response = test_client.get(url_for("distribution.overview"))
+    html = bs(response.data, "html.parser")
+    container = html.find("div", {"id": "add-distribution-info"})
+    assert "Die allerbeste Info der Welt!" in container.text
+
+
 def test_info_can_be_given_for_a_product_in_overview(test_client):
 
     # we want to add a comment to a product in distribution

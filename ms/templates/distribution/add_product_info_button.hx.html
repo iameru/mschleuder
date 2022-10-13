@@ -1,6 +1,7 @@
 {# some parsing as overview has a weird query working right now
     and this template is working in multiple places #}
 
+
 {% if product %}
   {% if product.product_id %}
     {% set product_id = product.product_id %}
@@ -9,15 +10,13 @@
     {% set unit_id = product.unit_id %}
   {% endif %}
   {% if product.info %}
-    {% set info = product.info %}
+    {% set product_info = product.info %}
   {% endif %}
 {% endif %}
 
 <div class="columns">
   <div class="column has-text-left is-italic">
-    {% if info %}
-    {{ info }}
-  {% endif %}
+    {{ product_info }}
   </div>
 
   <div class="column is-4 has-text-right">

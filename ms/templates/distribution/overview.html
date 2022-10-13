@@ -44,11 +44,15 @@
     {% endfor %}
     </table>
   </div>
-
-
-
 </div>
-<div class="columns is-centered">
+
+
+<div class="columns is-centered is-multiline">
+  <div class="column is-10">
+    <div id="add-distribution-info" class="has-text-right">
+      {% include "distribution/add_distribution_info_button.hx.html" %}
+    </div>
+  </div>
   <div class="column is-10">
     <div class="level">
       <div class="level-left">
@@ -63,6 +67,7 @@
       </div>
 
       <div class="level-right">
+
         <div class="level-item">
           <a {{ modal(url_for('distribution.finalize') ) }}
               href="{{ url_for('distribution.finalize') }}">

@@ -29,7 +29,9 @@ def overview():
     dist = Distribution.current()
     data = query.distribution_overview(dist)
 
-    return render_template("distribution/overview.html", data=data, dist=dist)
+    return render_template(
+        "distribution/overview.html", data=data, dist=dist, dist_info=dist.information
+    )
 
 
 @distribution.route("/start", methods=["GET", "POST"])
@@ -135,6 +137,33 @@ def distribute(p_id: int, p_unit_shortname: str):
     )
 
 
+@distribution.route("/add_distribution_info", methods=["GET", "POST"])
+def add_distribution_info():
+
+    dist = Distribution.current()
+
+    if request.method == "POST":
+
+        if request.form.get("clear"):
+
+            return render_template(
+                "distribution/add_distribution_info_button.hx.html",
+                dist_info=dist.information,
+            )
+
+        dist.information = request.form.get("info")
+        db.session.commit()
+
+        return render_template(
+            "distribution/add_distribution_info_button.hx.html",
+            dist_info=dist.information,
+        )
+
+    return render_template(
+        "distribution/add_distribution_info.hx.html", dist_info=dist.information
+    )
+
+
 @distribution.route(
     "/add_product_info/<product_id>/<int:unit_id>", methods=["GET", "POST"]
 )
@@ -152,23 +181,31 @@ def add_product_info(product_id, unit_id):
 
     if request.method == "POST":
 
-        info = request.form.get("product-info")
+        if request.form.get("clear"):
 
-        res = shares.update(dict(information=info))
-        if res == 0:
-            flash("error in add_product_info - tell your admin")
-            return abort(404)
+            return render_template(
+                "distribution/add_product_info_button.hx.html",
+                product_id=product.id,
+                unit_id=unit.id,
+                product_info=info,
+            )
+
+        info = request.form.get("product-info")
+        shares.update(dict(information=info))
         db.session.commit()
 
         return render_template(
             "distribution/add_product_info_button.hx.html",
             product_id=product.id,
             unit_id=unit.id,
-            info=info,
+            product_info=info,
         )
 
     return render_template(
-        "distribution/add_product_info.hx.html", product=product, unit=unit, info=info
+        "distribution/add_product_info.hx.html",
+        product=product,
+        unit=unit,
+        product_info=info,
     )
 
 

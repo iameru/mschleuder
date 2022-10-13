@@ -1,0 +1,13 @@
+<div class="columns mt-2">
+  <div class="column is-9">
+      {{ dist_info }}
+    </div>
+  <div class="column is-3">
+<button class="button is-link is-light"
+        id="add-distribution-info-button"
+        hx-get="{{url_for("distribution.add_distribution_info")}}"
+        hx-target="#add-distribution-info"
+        hx-swap="innerHTML"
+        >Info hinzufügen</button>
+    </div>
+</div>
