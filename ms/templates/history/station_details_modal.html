@@ -40,9 +40,9 @@
         <td>{{ share.single_full }}</td>
         <td>{{ share.single_half }}</td>
       </tr>
-      {% if share.info %}
+      {% if share.information %}
       <tr>
-        <td colspan=4>{{ share.info }}</td>
+        <td colspan=4><p class="ml-5 is-italic">{{ share.information }}</p></td>
       </tr>
       {% endif %}
     {% endfor %}
@@ -51,10 +51,10 @@
 
   <hr>
 
-  {% if station.distribution.info %}
+  {% if station.distribution.information %}
   <div class="row">
     <p class="has-text-centered">Info</p>
-    <p class="is-size-5 has-text-centered is-italic">{{ station.distribution.info }}</p>
+    <p class="is-size-6 has-text-centered is-italic">{{ station.distribution.information }}</p>
   </div>
   {% endif %}
 

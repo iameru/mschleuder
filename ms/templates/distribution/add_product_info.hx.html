@@ -7,7 +7,8 @@
       <div class="control">
         <input  name="product-info"
                 type="text"
-                placeholder="info für diese verteilung"
+                size=55
+                placeholder="Info für {{ product.name }}"
                 class="input"
                 {%- if product_info -%}
                 value="{{product_info}}"

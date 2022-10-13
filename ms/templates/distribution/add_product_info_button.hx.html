@@ -16,7 +16,7 @@
 
 <div class="columns">
   <div class="column has-text-left is-italic">
-    {{ product_info }}
+    {% if product_info %}{{ product_info }}{% endif %}
   </div>
 
   <div class="column is-4 has-text-right">
