@@ -14,6 +14,7 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
 
     app.config.from_object(Config)
+    app.jinja_env.add_extension("jinja2.ext.loopcontrols")
 
     if test_config:
         app.config.from_mapping(test_config)

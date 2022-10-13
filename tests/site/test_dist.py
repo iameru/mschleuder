@@ -377,6 +377,7 @@ def test_expect_values_changed_after_finalisation(test_client):
         assert product.last_distribution == dist.updated
 
 
+@pytest.mark.skip
 def test_generation_of_station_pdfs(test_client):
 
     dist: Distribution = Distribution.current()

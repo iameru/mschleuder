@@ -1,45 +1,54 @@
-<div class="rows">
+{# for printing PDF #}
+<style>html{background-color:#FFFFFF}</style>
+
+<div class="rows has-text-black">
+  <div class="row has-text-weight-light">
+    {{ station.distribution.date_time }}
+  </div>
   <div class="row">
-    <div class="level">
-      <div class="level-left">
-        <div class="level-item">
-          <p class="title is-size-1">{{ station.name }}</p>
-        </div>
+    <div class="columns">
+      <div class="column is-3 is-pulled-left">
+        <p class="has-text-weight-semi-bold is-size-3">{{ station.name }}</p>
       </div>
-      <div class="level-right">
-        <div class="level-item">
-          <p class="is-size-1">LOGO</p>
-        </div>
+      <div class="column is-3 is-pulled-right">
+        <p class="is-size-4">LOGO</p>
       </div>
     </div>
   </div>
-  <div class="row">
-    <p class="subtitle">{{ station.distribution.date_time }}</p>
-  </div>
 
-  <hr>
 
-  <div class="row">
-    <table class="table is-fullwidth">
+  <div class="row has-background-white">
+    <table class="table is-fullwidth has-background-white">
       <thead>
         <td>Erzeugniss</td>
         <td>Einheit</td>
         <td>Ganzer Anteil</td>
         <td>Halber Anteil</td>
       </thead>
-    {% for share in shares %}
-      <tr>
-        <td>{{ share.product.name }}</td>
-        <td>{{ share.unit.shortname }}</td>
-        <td>{{ share.single_full }}</td>
-        <td>{{ share.single_half }}</td>
-      </tr>
-      {% if share.information %}
-      <tr>
-        <td colspan=4><p class="ml-5 is-italic">{{ share.information }}</p></td>
-      </tr>
-      {% endif %}
-    {% endfor %}
+      <tbody class="has-background-white">
+      {% for share in shares %}
+        {% if share.unit.by_piece %}
+          {% set full = share.single_full|int %}
+          {% set half = share.single_half|int %}
+        {% else %}
+          {% set full = share.single_full|round(precision=3, method='floor') %}
+          {% set half = share.single_half|round(precision=3, method='floor') %}
+        {% endif %}
+
+        {% if full == 0 and half == 0 %}{% continue %}{% endif %}
+        <tr>
+          <td>{{ share.product.name }}</td>
+          <td>{{ share.unit.longname }}</td>
+          <td>{% if full %}{{ full }}{% else %}/{% endif %}</td>
+          <td>{% if half %}{{ half }}{% else %}/{% endif %}</td>
+        </tr>
+        {% if share.information %}
+        <tr>
+          <td colspan=4><p class="ml-5 is-size-6 is-italic">↪ {{ share.information }}</p></td>
+        </tr>
+        {% endif %}
+      {% endfor %}
+      </tbody>
     </table>
   </div>
 
@@ -52,7 +61,7 @@
   </div>
   {% endif %}
 
-  <div class="row">
+  <div class="row mt-5">
     <p class="is-size-5">Mitglieder in dieser Station: <small>{{ station.members_total }}</small> ganze:   <small>{{ station.members_full }}</small> halbe:   <small>{{ station.members_half }}</small></p>
   </div>
 
