@@ -56,7 +56,7 @@
       <tr id="distribution-{{dist.id}}">
         {% set year = dist.date_time.strftime("%Y") -%}
         {% set date = dist.date_time.strftime("%d. %B") -%}
-        {% set time = dist.date_time.strftime("%-H:%M") -%}
+        {% set time = dist.date_time.strftime("%H:%M") -%}
         <td>{{ year }}</td>
         <td>{{ date }} <small>{{time}}</small></td>
         <td>
