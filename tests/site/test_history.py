@@ -56,7 +56,19 @@ def test_details_of_distribution_for_stations(test_client):
     )
     assert response.status_code == 200
 
-    txt = response.data.decode()
+    html = bs(response.data, "html.parser")
+
+    pdf_link = html.find("a", {"id": "pdf-link"})
+    assert pdf_link
+    assert pdf_link["href"] == url_for(
+        "history.station_distribution_details",
+        station_id=station.id,
+        pdf_station_name=station.name,
+    )
+    assert pdf_link["target"] == "blank"
+    assert pdf_link.text == "PDF"
+
+    txt = html.text
 
     # basic check for now
     for share in shares:

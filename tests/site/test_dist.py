@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 from random import choice, randint
 
 import pytest
@@ -412,6 +413,12 @@ def test_pdf_field_in_stationhistory_after_dist():
     for station in dist.stations:
 
         assert station.pdf
+
+        pdf = Path(station.pdf)
+        assert pdf.exists()
+
+        # teardown
+        pdf.unlink()
 
 
 @pytest.mark.skip

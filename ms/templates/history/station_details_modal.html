@@ -1,4 +1,11 @@
 {% extends 'modal.html' %}
 {% block modal_content %}
+<div class="has-text-centered">
+  <a  id="pdf-link"
+      class="button"
+      href="{{url_for('history.station_distribution_details', station_id=station.id, pdf_station_name=station.name) }}"
+      target="blank"
+      >PDF</a>
+</div>
 {% include 'history/station_details.pdf.html' %}
 {% endblock modal_content %}
