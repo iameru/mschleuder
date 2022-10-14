@@ -3,9 +3,6 @@ from ms.db.models import Organisation
 
 organisation = dict(
     name="CSA-Runkelrübe",
-    display_name="RuRü",
-    info="Some Information",
-    header="Here is your stuff for this week",
     footer="Feel free to participate: https://runkerlrüberli.de.vu.xyz.com.ru.de/members",
 )
 
@@ -18,9 +15,9 @@ def test_adding_organisation(test_app):
     assert Organisation.query.filter_by(**organisation).first()
 
     # add more does not add more..
-    organisation.copy().update(name="Runkelrüberli SoLaWi")
+    organisation.copy().update(name="Skyrrr")
     db_api.add(Organisation, organisation)
-    organisation.copy().update(info="Epic")
+    organisation.copy().update(name="Runkelrüberli SoLaWi")
     db_api.add(Organisation, organisation)
 
     assert len(Organisation.query.all()) == 1
@@ -40,7 +37,7 @@ def test_changing_organisation_changes_id_1(test_app):
     org = Organisation.query.filter_by(**organisation).first()
     assert org
 
-    updates = dict(name="RuRübe SoLaWi", info="More Infos soon")
+    updates = dict(name="RuRübe SoLaWi")
 
     query = dict(id=org.id)
     db_api.update(Organisation, query, updates)

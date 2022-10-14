@@ -51,9 +51,6 @@ def test_settings_on_page(test_client):
 
     assert body.find("div", {"id": "units-div"})
     assert body.find("input", {"id": "name"})
-    assert body.find("input", {"id": "display_name"})
-    assert body.find("input", {"id": "info"})
-    assert body.find("input", {"id": "header"})
     assert body.find("input", {"id": "footer"})
 
 
@@ -67,12 +64,6 @@ def test_settings_visible_in_form(test_client):
 
     name = body.find("input", {"id": "name"})
     assert organisation.name == name["value"]
-    display_name = body.find("input", {"id": "display_name"})
-    assert organisation.display_name == display_name["value"]
-    info = body.find("input", {"id": "info"})
-    assert organisation.info == info["value"]
-    header = body.find("input", {"id": "header"})
-    assert organisation.header == header["value"]
     footer = body.find("input", {"id": "footer"})
     assert organisation.footer == footer["value"]
 

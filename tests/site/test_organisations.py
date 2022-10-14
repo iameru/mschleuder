@@ -10,10 +10,6 @@ def test_settings_on_site(test_client):
 
     # find input fields
     name = body.find("input", {"id": "name"})
-    display_name = body.find("input", {"id": "display_name"})
-    header = body.find("input", {"id": "header"})
     footer = body.find("input", {"id": "footer"})
     assert name
-    assert display_name
-    assert header
     assert footer
