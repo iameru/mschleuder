@@ -2,22 +2,24 @@
 <style>html{background-color:#FFFFFF}</style>
 
 <div class="rows has-text-black">
-  <div class="row has-text-weight-light">
-    {{ station.distribution.date_time }}
-  </div>
   <div class="row">
     <div class="columns">
       <div class="column is-3 is-pulled-left">
-        <p class="has-text-weight-semi-bold is-size-3">{{ station.name }}</p>
+        <div class="has-text-weight-semi-bold is-size-3">{{ station.name }}</div>
+        <div class="row has-text-weight-light">
+          {{ station.distribution.date_time }}
+        </div>
       </div>
-      {% if pdf %}
       <div class="column is-3 is-pulled-right">
-        <p class="is-size-4">LOGO</p>
-      </div>
+      {% if pdf %}
+        <div class="is-size-4">
+         LOGO
+        </div>
+        <div>{{ csa.name }}</div>
       {% endif %}
+      </div>
     </div>
   </div>
-
 
   <div class="row has-background-white">
     <table class="table is-fullwidth has-background-white">
@@ -69,7 +71,7 @@
 
   {% if pdf %}
   <div class="row mt-5 has-text-right is-italic">
-    lasst euch das Gemüse schmecken - Die Ackerillas
+    {{ csa.footer }}
   </div>
   {% endif %}
 

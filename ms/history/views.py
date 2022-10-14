@@ -4,7 +4,7 @@ from flask import Blueprint, current_app, make_response, render_template, url_fo
 from flask_weasyprint import HTML, render_pdf
 
 from ms.db import query
-from ms.db.models import Distribution, Product, Share, StationHistory, db
+from ms.db.models import Distribution, Organisation, Product, Share, StationHistory, db
 
 history = Blueprint("history", __name__)
 
@@ -40,6 +40,7 @@ def station_distribution_details(station_id, pdf_station_name=None):
 
     station = StationHistory.query.get_or_404(station_id)
     shares = Share.query.filter(Share.stationhistory_id == station.id).all()
+    csa = Organisation.query.first()
 
     if pdf_station_name:
 
@@ -51,6 +52,7 @@ def station_distribution_details(station_id, pdf_station_name=None):
                 "history/station_details.pdf.html",
                 station=station,
                 shares=shares,
+                csa=csa,
                 pdf=True,
             )
             pdf = HTML(string=html)
@@ -76,5 +78,5 @@ def station_distribution_details(station_id, pdf_station_name=None):
         return pdf_response
 
     return render_template(
-        "history/station_details_modal.html", station=station, shares=shares
+        "history/station_details_modal.html", station=station, shares=shares, csa=csa
     )
