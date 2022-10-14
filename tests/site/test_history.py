@@ -61,7 +61,18 @@ def test_details_of_distribution_for_stations(test_client):
     # basic check for now
     for share in shares:
 
+        if share.unit.by_piece:
+            full = int(share.single_full)
+            half = int(share.single_half)
+        else:
+            full = round(share.single_full, 3)
+            half = round(share.single_half, 3)
+
         assert share.product.name in txt
-        assert share.unit.shortname in txt
-        assert str(share.single_full) in txt
-        assert str(share.single_half) in txt
+        assert share.unit.longname in txt
+
+        if not full and not half:
+            continue
+
+        assert str(full) in txt
+        assert str(half) in txt
