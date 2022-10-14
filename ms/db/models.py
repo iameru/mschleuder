@@ -95,6 +95,7 @@ class StationHistory(db.Model, ReprMixin):
     time_archived = db.Column(db.DateTime, default=datetime_now)
     created = db.Column(db.DateTime, nullable=False)
     updated = db.Column(db.DateTime, nullable=True)
+    pdf = db.Column(db.String)
     shares = db.relationship("Share", backref="stationhistory", lazy=True)
 
     distribution_id = db.Column(

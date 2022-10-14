@@ -310,6 +310,15 @@ def test_delete_a_distribution_from_overview(test_client):
     assert not all_shares_of_product
 
 
+def test_no_pdf_field_before_finalization():
+
+    dist: Distribution = Distribution.current()
+
+    for station in dist.stations:
+
+        assert not station.pdf
+
+
 def test_finalization_of_distribution_in_db_and_interface(test_client):
 
     dist: Distribution = Distribution.current()
@@ -377,7 +386,7 @@ def test_expect_values_changed_after_finalisation(test_client):
         assert product.last_distribution == dist.updated
 
 
-@pytest.mark.skip
+@pytest.mark.skip(reason="takes some time")
 def test_generation_of_station_pdfs(test_client):
 
     dist: Distribution = Distribution.current()
@@ -393,6 +402,16 @@ def test_generation_of_station_pdfs(test_client):
         )
         assert response.status_code == 200
         assert response.content_type == response.mimetype == "application/pdf"
+
+
+@pytest.mark.skip(reason="takes some time")
+def test_pdf_field_in_stationhistory_after_dist():
+
+    dist: Distribution = Distribution.current()
+
+    for station in dist.stations:
+
+        assert station.pdf
 
 
 @pytest.mark.skip

@@ -10,9 +10,11 @@
       <div class="column is-3 is-pulled-left">
         <p class="has-text-weight-semi-bold is-size-3">{{ station.name }}</p>
       </div>
+      {% if pdf %}
       <div class="column is-3 is-pulled-right">
         <p class="is-size-4">LOGO</p>
       </div>
+      {% endif %}
     </div>
   </div>
 
@@ -65,8 +67,10 @@
     <p class="is-size-5">Mitglieder in dieser Station: <small>{{ station.members_total }}</small> ganze:   <small>{{ station.members_full }}</small> halbe:   <small>{{ station.members_half }}</small></p>
   </div>
 
+  {% if pdf %}
   <div class="row mt-5 has-text-right is-italic">
     lasst euch das Gemüse schmecken - Die Ackerillas
   </div>
+  {% endif %}
 
 </div>
