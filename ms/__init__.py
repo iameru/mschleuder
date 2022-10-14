@@ -11,7 +11,10 @@ migrate = Migrate()
 
 def create_app(test_config=None):
 
-    app = Flask(__name__, instance_relative_config=True)
+    if test_config:
+        app = Flask(__name__, instance_path=test_config.get("INSTANCE_PATH"))
+    else:
+        app = Flask(__name__, instance_relative_config=True)
 
     app.config.from_object(Config)
     app.jinja_env.add_extension("jinja2.ext.loopcontrols")
@@ -52,9 +55,8 @@ def create_app(test_config=None):
 
     migrate.init_app(app, db, render_as_batch=True)
 
-    # if not test_config:
-    #     with app.app_context():
-    #         first_run()
+    with app.app_context():
+        first_run()
 
     app.context_processor(context_processor.inject)
 

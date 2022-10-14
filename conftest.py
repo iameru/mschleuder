@@ -6,13 +6,14 @@ from flask import url_for
 
 from ms import create_app
 from ms.db.models import Distribution, Product, Station, StationHistory, Unit, db
-from ms.first_run import first_run
+from ms.first_run import dev_run
 
 test_config = {
     "SECRET_KEY": "TEST_CONFIG",
     "TESTING": True,
     "SQLALCHEMY_DATABASE_URI": "sqlite:///:memory:",
     "CSRF_SECRET_KEY": "CSRF_TEST_KEY",
+    "INSTANCE_PATH": "/dev/shm/ms-testing",
 }
 
 
@@ -24,7 +25,7 @@ def test_app():
     with test_app.app_context():
 
         db.create_all()
-        first_run()
+        dev_run()
 
         yield test_app
         db.drop_all()
