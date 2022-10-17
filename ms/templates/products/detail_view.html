@@ -1,18 +1,17 @@
 {% extends 'modal.html' %}
+
 {% block modal_content %}
-<h3 class="title is-3">{{product.name}}</h3>
-<p class="subtitle">
-  {% if product.updated %}
-    <small><i>(last edit: {{product.updated}})</i></small>
-  {% endif %}
-  {% if product.created %}
-    <small><i>(created at: {{product.created}})</i></small>
-  {% endif %}
-<hr class="edit-hr">
-<form action="{{ url_for('products.edit_view', productid=product.id) }}"
-      method="post"
-      id="product-edit-form"
-      class="form">
+  <h3 class="title is-3">{{product.name}}</h3>
+  <p class="subtitle">
+    {% if product.updated %}
+      <div class="is-size-7 is-italic">zuletzt bearbeitet: {{product.updated}}</div>
+    {% endif %}
+    {% if product.last_distribution %}
+      <div class="is-size-7 is-italic">zuletzt verteilt: {{product.last_distribution}}</div>
+    {% endif %}
+  <hr class="edit-hr">
+  {% set form_action = url_for('products.edit_view', productid=product.id) %}
+  {% set form_params = 'id=product-edit-form' %}
+  {% set product_detail_view = True %}
   {% include 'products/form.html' %}
-</form>
-{% endblock %}
+{% endblock modal_content %}

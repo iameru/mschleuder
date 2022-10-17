@@ -2,8 +2,6 @@
 {% block modal_content %}
 <h4 class="title is-4">Neues Produkt anlegen</h4>
 
-  <form action="{{ url_for('products.new_product') }}" method="post" class="form">
-    {% include 'products/form.html' %}
-  </form>
-
+{% set form_action = url_for('products.new_product') %}
+{% include 'products/form.html' %}
 {% endblock %}

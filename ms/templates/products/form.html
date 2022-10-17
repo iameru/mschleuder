@@ -1,13 +1,32 @@
+<div class="columns mt-2 is-centered">
+<div class="column is-8 has-text-centered">
+  <form action="{{ form_action }}"
+        method="POST"
+        {{ form_params }}
+        class="form">
     {{ form.csrf_token }}
+    <div class="field">
+      {{ form.name.label("Name", class_="label") }}
+      {{ form.name(placeholder="Erzeugnissname", class_="input") }}
+    </div>
 
-    {{ form.name.label() }}
-    {{ form.name }}
+    <label for="units" class="label">In welchen Einheiten wird das Produkt verteilt? <p class="is-size-7 is-italic">gegebenenfalls runterscrollen bei mehr als 4 einheiten</p>
+      {%- if product_detail_view -%}
+        <p class="is-size-7 is-italic">Bitte beachten! Die Einheiten müssen beim Bearbeiten alle wieder ausgewählt werden!</p>
+      {%- endif -%}
+    </label>
+    <div class="field select is-multiple has-text-centered is-centered">
+      <select id="units" multiple name="units" size=4 class="select has-text-centered">
+        {% for subfield in form.units %}
+          {{ subfield }}
+        {% endfor %}
+      </select>
+    </div>
 
-    {{ form.units.label() }}
-    {{ form.units }}
-
-    {{ form.info.label() }}
-    {{ form.info }}
+    <div class="field">
+      {{ form.info.label("Infos für Benutzer:Innen", class_="label") }}
+      {{ form.info(placeholder="Nur für interne Nutzung gedacht", class_="input") }}
+    </div>
 
     <button class="button is-link" type="submit">Go!</button>
 
@@ -19,3 +38,7 @@
       return false;
       });
     </script>
+
+  </form>
+</div>
+</div>
