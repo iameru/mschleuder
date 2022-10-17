@@ -1,5 +1,6 @@
 from random import choice
 
+import pytest
 from bs4 import BeautifulSoup as bs
 from flask import url_for
 
@@ -79,6 +80,15 @@ def test_settings_being_applied_to_other_sites(test_client):
     html = bs(response.data, "html.parser")
     title = html.find("title")
     assert organisation.name in title.text
+
+
+@pytest.mark.skip
+def test_changing_settings(test_client):
+
+    response = test_client.get(url_for("settings.settings_view"))
+    form = bs(response.data, "html.parser").find("form", {"id": "settings-form"})
+    assert form
+    assert False
 
 
 def test_add_unit_modal(test_client, csrf):

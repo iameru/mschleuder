@@ -7,20 +7,30 @@
 {% block content %}
 <div class="columns is-multiline is-centered">
   <div class="column is-half">
-    <form action="{{ url_for('settings.settings_view') }}" method="post" class="form">
+    <div class="title">Einstellungen</div>
+    <form action="{{ url_for('settings.settings_view') }}"
+          method="POST"
+          class="form"
+          id="settings-form">
 
       {{ form.csrf_token }}
+    <div class="field">
+      {{ form.name.label("Betriebsname") }}
+      {{ form.name(placeholder="Erscheint auch auf Lieferschein", class_="input") }}
+    </div>
 
-      {{ form.name.label() }}
-      {{ form.name }}
-      {{ form.footer.label() }}
-      {{ form.footer }}
+    <div class="field">
+      {{ form.footer.label("Grußzeile auf Lieferschein") }}
+      {{ form.footer(placeholder="Wird unten auf den Lieferschein gedruckt", class_="input") }}
+    </div>
 
-      <button class="button is-link" type="submit">Go!</button>
+      <button class="button is-link" type="submit">Änderungen speichern</button>
     </form>
   </div>
+
   <div class="column is-half" id="units-div">
-    <button class="button is-link"
+    <div class="title">Einheiten</div>
+    <button class="button is-link is-pulled-right"
             hx-get="{{ url_for('settings.add_unit') }}"
             hx-target="body"
             hx-swap="beforeend"

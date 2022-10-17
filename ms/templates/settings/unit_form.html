@@ -1,5 +1,9 @@
-<div class="column is-8">
-  <form action="{{ url_for('settings.add_unit') }}" method="post" class="form">
+<div class="columns mt-2 is-centered">
+<div class="column is-8 has-text-centered">
+
+  <form action="{{ form_url }}"
+        method="POST"
+        class="form">
     {{ form.csrf_token }}
     <div class="field">
       {{ form.longname.label("Name der Einheit", class_="label") }}
@@ -17,6 +21,9 @@
         {{ subfield.label(class_="radio") }}
       {% endfor %}
     </div>
-    <button class="button is-link" type="submit">Go!</button>
+    <div class="has-text-centered">
+      <button class="button is-link" type="submit">Go!</button>
+    </div>
   </form>
+</div>
 </div>

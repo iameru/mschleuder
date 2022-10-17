@@ -4,5 +4,6 @@
 <h4 class="title is-4">Neue Einheit anlegen</h4>
   <div class="has-text-centered is-size-7 is-italic">Bitte beachte dass spätere Änderungen bei Einheiten viel durcheinander bringen werden. Mache deswegen bitte realistische Angaben die nicht mehr geändert werden müssen.
   </div>
+  {% set form_url = url_for('settings.add_unit') %}
   {% include 'settings/unit_form.html' %}
 {% endblock %}
