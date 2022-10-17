@@ -1,21 +1,9 @@
 {% extends 'modal.html' %}
 
 {% block modal_content %}
-
-<form action="{{ url_for('settings.edit_unit', unit_id=unit.id) }}"
-      method="POST">
-    {{ form.csrf_token }}
-
-    {{ form.longname.label() }}
-    {{ form.longname }}
-
-    {{ form.shortname.label() }}
-    {{ form.shortname }}
-
-    {{ form.by_piece.label() }}
-    {{ form.by_piece }}
-
-    <button class="button is-link" type="submit">Go!</button>
-</form>
-
+  <h4 class="title is-4">{{unit.longname}} bearbeiten</h4>
+  <div class="has-text-centered">Achtung!</div>
+  <div class="has-text-centered is-size-7 is-italic">Beachte bitte dass eine Änderung des Einheitentyps, also von <i>Gewicht</i> zu <i>Stück</i> oder umgekehrt weitreichende Folgen hat und jede Statistik fast unbrauchbar macht.
+  </div>
+  {% include 'settings/unit_form.html' %}
 {% endblock modal_content %}

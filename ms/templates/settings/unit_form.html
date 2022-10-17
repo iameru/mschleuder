@@ -1,0 +1,22 @@
+<div class="column is-8">
+  <form action="{{ url_for('settings.add_unit') }}" method="post" class="form">
+    {{ form.csrf_token }}
+    <div class="field">
+      {{ form.longname.label("Name der Einheit", class_="label") }}
+      {{ form.longname(placeholder="zbsp: Kilogramm / Kisten / Stück / Bund / Gramm", class_="input") }}
+    </div>
+
+    <div class="field">
+      {{ form.shortname.label("Kurzname der Einheit", class_="label") }}
+      {{ form.shortname(placeholder="zbsp: kg/ kst / st / bnd / g", class_="input") }}
+    </div>
+
+    <div class="field">
+      {% for subfield in form.by_piece %}
+        {{ subfield }}
+        {{ subfield.label(class_="radio") }}
+      {% endfor %}
+    </div>
+    <button class="button is-link" type="submit">Go!</button>
+  </form>
+</div>
