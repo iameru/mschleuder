@@ -30,27 +30,24 @@ def add_organisation():
     return redirect(url_for("settings.settings_view"), 302)
 
 
-@settings.route("/")
+@settings.route("/", methods=["POST", "GET"])
 def settings_view():
 
     organisation = Organisation.query.get(1)
+
     if not organisation:
-        # HERE!
+
         form = OrganisationForm()
         return render_template("settings/setup.html", form=form)
 
-    form = OrganisationForm(request.form, organisation)
+    form = OrganisationForm(request.form, obj=organisation)
 
-    # if request.method == "POST" and form.validate():
+    if request.method == "POST" and form.validate():
 
-    # Suggestion for now
-    # data = form.data
-    # del data["csrf_token"]
+        form.populate_obj(organisation)
+        db.session.commit()
 
-    # Organisation.query.get(1).update(data)
-    # db.session.commit()
-    #
-    # return redirect(url_for("settings.settings_view"), 302)
+        return redirect(url_for("settings.settings_view"), 302)
 
     units = Unit.query.all()
 
