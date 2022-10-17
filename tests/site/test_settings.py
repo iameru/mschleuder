@@ -1,4 +1,7 @@
+from random import choice
+
 from bs4 import BeautifulSoup as bs
+from flask import url_for
 
 from ms.db.models import Organisation, Unit, db
 from tests.db.models.test_organisation import organisation
@@ -78,13 +81,13 @@ def test_settings_being_applied_to_other_sites(test_client):
     assert organisation.name in title.text
 
 
-def test_add_product_modal(test_client, csrf):
+def test_add_unit_modal(test_client, csrf):
 
     response = test_client.get("/settings/units/new")
     doc = bs(response.data, "html.parser")
     assert doc.find("input", {"id": "longname"})
     assert doc.find("input", {"id": "shortname"})
-    assert doc.find("select", {"id": "by_piece"})
+    assert doc.find("input", {"type": "radio", "name": "by_piece"})
     assert csrf(response)
 
 
@@ -132,3 +135,58 @@ def test_add_unit(test_client, csrf):
     table = bs(response.data, "html.parser").find("table", {"id": "all-units-table"})
     row = table.find("tr", {"id": f"unit-{unit.id}"})
     assert item["longname"] in row.text  # by_piece=False
+
+
+def test_edit_unit(test_client, csrf):
+
+    unit = Unit.query.get(1)
+    # get a unit to test from table
+    response = test_client.get(url_for("settings.settings_view"))
+    table = bs(response.data, "html.parser").find("table", {"id": "all-units-table"})
+    unit_entry = table.find("tr", class_="unit-row")
+    assert unit_entry
+    edit = unit_entry.find("a", class_="edit-unit")
+    assert edit
+    assert edit["hx-get"] == url_for("settings.edit_unit", unit_id=unit.id)
+
+    # check the modal
+    response = test_client.get(edit["hx-get"])
+    assert response.status_code == 200
+    csrf_token = csrf(response)
+    assert csrf_token
+
+    # find a form with relevant fields prefilled in modal
+    form = bs(response.data, "html.parser").find("form")
+    assert form
+    url = form["action"]
+    assert url == url_for("settings.edit_unit", unit_id=unit.id)
+    assert form["method"] == "POST"
+
+    longname = form.find("input", {"id": "longname"})
+    assert longname
+    assert longname["value"] == unit.longname
+    shortname = form.find("input", {"id": "shortname"})
+    assert shortname
+    assert shortname["value"] == unit.shortname
+    # skip by_piece as its a big hustle to check
+
+    # change values
+    new_longname = unit.longname + "_new"
+    new_shortname = unit.shortname + "_new"
+    new_by_piece = not unit.by_piece
+
+    # send form
+    data = {
+        longname["name"]: new_longname,
+        shortname["name"]: new_shortname,
+        "by_piece": new_by_piece,
+        "csrf_token": csrf_token,
+    }
+    response = test_client.post(url, data=data, follow_redirects=True)
+    assert response.status_code == 200
+
+    # expect values to be changed
+    unit = Unit.query.get(1)
+    assert unit.longname == new_longname
+    assert unit.shortname == new_shortname
+    assert unit.by_piece == new_by_piece

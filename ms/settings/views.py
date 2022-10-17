@@ -2,7 +2,7 @@ from flask import Blueprint, abort, flash, redirect, render_template, request, u
 
 from ms.db import db_api
 from ms.db.forms import OrganisationForm, UnitForm
-from ms.db.models import Organisation, Unit
+from ms.db.models import Organisation, Unit, db
 
 settings = Blueprint("settings", __name__)
 
@@ -71,3 +71,20 @@ def add_unit():
         return redirect(url_for("settings.settings_view"), 302)
 
     return render_template("settings/add_unit.html", form=form)
+
+
+@settings.route("/unit/<int:unit_id>/edit", methods=["GET", "POST"])
+def edit_unit(unit_id):
+
+    unit = Unit.query.get_or_404(unit_id)
+    unit.by_piece = str(unit.by_piece)  # dirty workaround #12
+    form = UnitForm(request.form, obj=unit)
+    form.populate_obj(unit)
+
+    if request.method == "POST" and form.validate():
+
+        db.session.commit()
+
+        return redirect(url_for("settings.settings_view"), 302)
+
+    return render_template("settings/edit_unit.hx.html", unit=unit, form=form)

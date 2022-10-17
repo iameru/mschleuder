@@ -1,7 +1,10 @@
-{% extends 'base.html' %}
-{% set title = 'Einstellungen' %}
-{% block content %}
+{% from 'macros.html' import modal with context %}
 
+{% extends 'base.html' %}
+
+{% set title = 'Einstellungen' %}
+
+{% block content %}
 <div class="columns is-multiline is-centered">
   <div class="column is-half">
     <form action="{{ url_for('settings.settings_view') }}" method="post" class="form">
@@ -23,35 +26,48 @@
             hx-swap="beforeend"
             id="new-unit-button"
             >neue Einheit</button>
-    <table class="table is-hoverable is-fullwidth"
+    <table class="table is-fullwidth"
            id="all-units-table">
-      <col style="width:55%">
-      <col style="width:15%">
+      <col style="width:50%">
+      <col style="width:20%">
       <col style="width:15%">
       <col style="width:15%">
       <thead>
-        <th class="hover has-text-centered">Langname</th>
-        <th class="hover has-text-centered">Abkürzung</th>
-        <th class="hover has-text-centered">Stück/Gewicht</th>
+        <th class="has-text-left pl-5">Langname</th>
+        <th class="has-text-centered">Abkürzung</th>
+        <th class="has-text-centered">Stück/Gewicht</th>
       </thead>
       <tbody>
-        {% for unit in units %}
-        <tr id="unit-{{unit.id}}">
-         <td class="has-text-left pl-5">{{unit.longname}}</td>
-         <td class="has-text-centered">{{unit.shortname}}</td>
-         <td class="has-text-centered">
-           {%- if unit.by_piece -%}
-             <img src="{{url_for('static', filename='icons/per_piece.svg') }}"
-                  alt="per_piece"
-                  >
-           {%- else -%}
-             <img src="{{url_for('static', filename='icons/per_weight.svg') }}"
-                  alt="per_weight"
-                  >
-           {%- endif -%}
-         </td>
-        </tr>
-        {% endfor %}
+        {%- for unit in units -%}
+          <tr id="unit-{{unit.id}}"
+              class="unit-row">
+            <td class="has-text-left pl-5">{{unit.longname}}</td>
+            <td class="has-text-centered">{{unit.shortname}}</td>
+            <td class="has-text-centered">
+              {%- if unit.by_piece -%}
+                <img src="{{url_for('static', filename='icons/per_piece.svg') }}"
+                     alt="per_piece"
+                     width=20
+                      />
+              {%- else -%}
+                <img src="{{url_for('static', filename='icons/per_weight.svg') }}"
+                     alt="per_weight"
+                     width=20
+                      />
+              {%- endif -%}
+            </td>
+            <td class="hover has-text-centered">
+              <a class="edit-unit"
+                 {{ modal(url_for("settings.edit_unit", unit_id=unit.id)) }}
+                 >
+
+                <img src="{{url_for('static', filename='icons/edit.svg')}}"
+                   width=18
+                   alt="edit-icon" />
+              </a>
+            </td>
+          </tr>
+        {%- endfor -%}
       </tbody>
     </table>
   </div>

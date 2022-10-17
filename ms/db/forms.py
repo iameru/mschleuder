@@ -1,6 +1,6 @@
 from flask import session
 from wtforms.csrf.session import SessionCSRF
-from wtforms.fields import SelectField
+from wtforms.fields import RadioField
 from wtforms_alchemy import ModelForm
 from wtforms_alchemy.fields import QuerySelectMultipleField
 
@@ -23,9 +23,8 @@ class UnitForm(BaseForm):
     class Meta:
         model = Unit
 
-    # coerce by "True" as html doesnt return boolean
-    by_piece = SelectField(
-        "Einheit?",
+    by_piece = RadioField(
+        "Einheitstyp",
         choices=[("True", "In Stück"), ("False", "In Gewicht")],
         coerce=lambda x: x == "True",
     )

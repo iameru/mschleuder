@@ -1,0 +1,21 @@
+{% extends 'modal.html' %}
+
+{% block modal_content %}
+
+<form action="{{ url_for('settings.edit_unit', unit_id=unit.id) }}"
+      method="POST">
+    {{ form.csrf_token }}
+
+    {{ form.longname.label() }}
+    {{ form.longname }}
+
+    {{ form.shortname.label() }}
+    {{ form.shortname }}
+
+    {{ form.by_piece.label() }}
+    {{ form.by_piece }}
+
+    <button class="button is-link" type="submit">Go!</button>
+</form>
+
+{% endblock modal_content %}
