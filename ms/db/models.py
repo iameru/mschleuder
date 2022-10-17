@@ -39,7 +39,7 @@ class TimestampMixin(object):
     updated = db.Column(db.DateTime, nullable=True, onupdate=datetime_now)
 
 
-class Unit(db.Model, ReprMixin):
+class Unit(TimestampMixin, db.Model, ReprMixin):
 
     __tablename__ = "units"
 
