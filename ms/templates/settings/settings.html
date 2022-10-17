@@ -25,17 +25,31 @@
             >neue Einheit</button>
     <table class="table is-hoverable is-fullwidth"
            id="all-units-table">
+      <col style="width:55%">
+      <col style="width:15%">
+      <col style="width:15%">
+      <col style="width:15%">
       <thead>
         <th class="hover has-text-centered">Langname</th>
         <th class="hover has-text-centered">Abkürzung</th>
-        <th class="hover has-text-centered">In stück</th>
+        <th class="hover has-text-centered">Stück/Gewicht</th>
       </thead>
       <tbody>
         {% for unit in units %}
         <tr id="unit-{{unit.id}}">
-         <td>{{unit.longname}}</td>
-         <td>{{unit.shortname}}</td>
-         <td>{% if unit.by_piece %}PP{% else %}WGHT{% endif %}</td>
+         <td class="has-text-left pl-5">{{unit.longname}}</td>
+         <td class="has-text-centered">{{unit.shortname}}</td>
+         <td class="has-text-centered">
+           {%- if unit.by_piece -%}
+             <img src="{{url_for('static', filename='icons/per_piece.svg') }}"
+                  alt="per_piece"
+                  >
+           {%- else -%}
+             <img src="{{url_for('static', filename='icons/per_weight.svg') }}"
+                  alt="per_weight"
+                  >
+           {%- endif -%}
+         </td>
         </tr>
         {% endfor %}
       </tbody>
