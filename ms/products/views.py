@@ -23,7 +23,6 @@ def edit_view(productid):
 
     if request.method == "POST" and form.validate():
 
-        db.session.add(product)
         db.session.commit()
 
         return redirect(url_for("products.products_view"), 302)
