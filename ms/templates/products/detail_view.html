@@ -2,13 +2,12 @@
 
 {% block modal_content %}
   <h3 class="title is-3">{{product.name}}</h3>
-  <p class="subtitle">
-    {% if product.updated %}
-      <div class="is-size-7 is-italic">zuletzt bearbeitet: {{product.updated}}</div>
-    {% endif %}
-    {% if product.last_distribution %}
-      <div class="is-size-7 is-italic">zuletzt verteilt: {{product.last_distribution}}</div>
-    {% endif %}
+  {% if product.updated %}
+    <div class="is-size-7 is-italic">zuletzt bearbeitet: {{product.updated}}</div>
+  {% endif %}
+  {% if product.last_distribution %}
+    <div class="is-size-7 is-italic">zuletzt verteilt: {{product.last_distribution}}</div>
+  {% endif %}
   <hr class="edit-hr">
   {% set form_action = url_for('products.edit_view', productid=product.id) %}
   {% set form_params = 'id=product-edit-form' %}
