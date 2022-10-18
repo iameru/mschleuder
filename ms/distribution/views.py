@@ -49,7 +49,8 @@ def trigger():
             db.session.commit()
             Station.archive_all(dist.id)
 
-            return redirect(url_for("distribution.overview"), 302)
+            flash("Verteilung gestartet! Es kann losgehen!", category="primary")
+            return redirect(url_for("products.products_view"), 302)
 
         elif distribute == "stop" and dist.in_progress:
 

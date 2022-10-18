@@ -76,7 +76,7 @@ def test_starting_a_distribution(test_client):
     assert response.status_code == 200
     dist = Distribution.current()
     assert dist.in_progress is True
-    assert response.request.path == url_for("distribution.overview")
+    assert response.request.path == url_for("products.products_view")
 
     # find the stations archived
     stations = Station.query.all()
