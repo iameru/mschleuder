@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% set title = 'Organisationsdetails anlegen' %}
-{% block content %}
+{% block setup_content %}
 
 <div class="columns is-multiline is-centered">
   <div class="column is-half">
@@ -11,14 +11,19 @@
 
       {{ form.csrf_token }}
 
-      {{ form.name.label() }}
-      {{ form.name }}
-      {{ form.footer.label() }}
-      {{ form.footer }}
+    <div class="field">
+      {{ form.name.label("Betriebsname") }}
+      {{ form.name(placeholder="Erscheint auch auf Lieferschein", class_="input") }}
+    </div>
+
+    <div class="field">
+      {{ form.footer.label("Grußzeile auf Lieferschein") }}
+      {{ form.footer(placeholder="Wird unten auf den Lieferschein gedruckt", class_="input") }}
+    </div>
 
       <button class="button is-link" type="submit">Go!</button>
     </form>
   </div>
 </div>
 
-{% endblock content %}
+{% endblock setup_content %}

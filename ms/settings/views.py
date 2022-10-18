@@ -23,7 +23,7 @@ def add_organisation():
         del data["csrf_token"]
         db_api.add_org(data)
 
-        flash("done!", category="primary")
+        flash(f"Viel erfolg beim möhrenschleudern, {data['name']}!", category="primary")
         return redirect(url_for("settings.settings_view"), 302)
 
     flash("setup already made", category="warning")
