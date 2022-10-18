@@ -9,7 +9,7 @@ stations = Blueprint("stations", __name__)
 @stations.route("/")
 def stations_view():
 
-    stations = Station.query.all()
+    stations = Station.query.order_by(Station.delivery_order).all()
     return render_template("stations/stations.html", stations=stations)
 
 
