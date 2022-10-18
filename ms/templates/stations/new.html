@@ -2,8 +2,7 @@
 {% block modal_content %}
 <h4 class="title is-4">Neue Station anlegen</h4>
 
-  <form action="{{ url_for('stations.new_station') }}" method="post" class="form">
-    {% include 'stations/form.html' %}
-  </form>
+{% set form_action = url_for('stations.new_station') %}
+{% include 'stations/form.html' %}
 
 {% endblock %}

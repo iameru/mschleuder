@@ -1,18 +1,43 @@
-{{ form.csrf_token }}
+<div class="columns mt-2 is-centered">
+<div class="column is-8 has-text-centered">
 
-{{ form.name.label() }}
-{{ form.name }}
+  <form action={{form_action }}
+        method="post"
+        {{ form_params }}
+        class="form">
 
-{{ form.info.label() }}
-{{ form.info }}
+  {{ form.csrf_token }}
 
-{{ form.delivery_order.label() }}
-{{ form.delivery_order }}
+  <div class="field">
+    {{ form.name.label("Name der Station", class_="label") }}
+    {{ form.name(placeholder="Stationsname XYZ", class_="input") }}
+  </div>
+  <div class="field">
+      <label for="delivery_order">
+        <div class="label mb-0">Liefer- und Sortierreihenfolge</div>
+        <div class="is-size-7 is-italic mb-1">
+          Niedrigere Zahlen werden zuerst beliefert, wird auch so in den Übersichten sortiert
+        </div>
 
-{{ form.members_full.label() }}
-{{ form.members_full }}
+      </label>
+    {{ form.delivery_order(placeholder=0, class_="input") }}
+  </div>
+  <div class="field">
+    {{ form.info.label("Informationen zur Station", class_="label") }}
+    {{ form.info(placeholder="Anschrift, Kontaktmöglichkeiten, ...", class_="input") }}
+  </div>
+  <div class="field has-addons">
+    <div class="control">
+    {{ form.members_full.label("Ganze Anteile", class_="label") }}
+    {{ form.members_full(placeholder=0, class_="input is-medium") }}
+    </div>
+    <div class="control">
+    {{ form.members_half.label("Halbe Anteile", class_="label") }}
+    {{ form.members_half(placeholder=0, class_="input is-medium") }}
+    </div>
+  </div>
 
-{{ form.members_half.label() }}
-{{ form.members_half }}
-
-<button class="button is-link" type="submit">Go!</button>
+  <button class="button is-link" type="submit">Go!</button>
+  </form>
+</div>
+</div>

@@ -1,18 +1,11 @@
 {% extends 'modal.html' %}
 {% block modal_content %}
-<h3 class="title is-3">{{station.name}}</h3>
-<p class="subtitle">
+  <h3 class="title is-3">{{station.name}}</h3>
   {% if station.updated %}
-    <small><i>(last edit: {{station.updated}})</i></small>
+      <div class="is-size-7 is-italic">zuletzt bearbeitet: {{station.updated}}</div>
   {% endif %}
-  {% if station.created %}
-    <small><i>(created at: {{station.created}})</i></small>
-  {% endif %}
-<hr class="edit-hr">
-<form action="{{ url_for('stations.edit', stationid=station.id) }}"
-      method="post"
-      id="station-edit-form"
-      class="form">
-    {% include 'stations/form.html' %}
-  </form>
-{% endblock %}
+  <hr class="edit-hr">
+  {% set form_action = url_for('stations.edit', stationid=station.id) %}
+  {% set form_params = 'id=station-edit-form' %}
+  {% include 'stations/form.html' %}
+{% endblock modal_content %}
