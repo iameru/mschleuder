@@ -37,6 +37,15 @@
 {% endblock scripts %}
 
 {% block content %}
+  <div class="column is-10 is-centered has-text-centered">
+    <div class="level">
+      <div class="level-left">
+        <div class="level-item">
+          <a class="button is-link" href="{{url_for('history.station_chart')}}">Stationen Verlauf</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <table class="table is-hoverable is-fullwidth is-narrow"
            id="history-overview-table">

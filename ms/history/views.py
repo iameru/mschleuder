@@ -80,3 +80,24 @@ def station_distribution_details(station_id, pdf_station_name=None):
     return render_template(
         "history/station_details_modal.html", station=station, shares=shares, csa=csa
     )
+
+
+@history.route("/chart/stations")
+def station_chart():
+
+    stations = {}
+    for station_id in db.session.query(StationHistory.station_id).distinct().all():
+
+        result = (
+            db.session.query(
+                StationHistory.name,
+                StationHistory.time_archived,
+                StationHistory.members_total,
+            )
+            .filter(StationHistory.station_id == station_id[0])
+            .all()
+        )
+        name = result[-1][0]
+        stations[name] = result
+
+    return render_template("history/station_chart.html", stations=stations)
