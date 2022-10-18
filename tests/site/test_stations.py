@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup as bs
 from flask import url_for
+from sqlalchemy import func
 
 from ms.db.models import Distribution, Station, db
 
@@ -18,6 +19,33 @@ def test_all_stations_on_site(test_client):
 
     for station in Station.query.all():
         assert station.name in response.text
+
+
+def test_station_totals_on_site(test_client):
+
+    response = test_client.get(url_for("stations.stations_view"))
+    totals_field = bs(response.data, "html.parser").find("div", {"id": "totals"})
+    assert totals_field
+
+    full_field = totals_field.find("div", {"id": "totals-full"})
+    half_field = totals_field.find("div", {"id": "totals-half"})
+    sum_field = totals_field.find("div", {"id": "totals-sum"})
+    assert full_field
+    assert half_field
+    assert sum_field
+
+    # compare DB to frontend
+    station_totals = db.session.query(
+        func.sum(Station.members_full).label("total_full"),
+        func.sum(Station.members_half).label("total_half"),
+    ).one()
+
+    assert str(station_totals.total_full) in full_field.text
+    assert str(station_totals.total_half) in half_field.text
+    assert (
+        str(station_totals.total_full + (station_totals.total_half / 2))
+        in sum_field.text
+    )
 
 
 def test_htmx_edit_station(test_client):

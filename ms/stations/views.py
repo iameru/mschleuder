@@ -1,4 +1,5 @@
 from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
+from sqlalchemy import func
 
 from ms.db.forms import StationForm
 from ms.db.models import Distribution, Station, db
@@ -10,7 +11,19 @@ stations = Blueprint("stations", __name__)
 def stations_view():
 
     stations = Station.query.order_by(Station.delivery_order).all()
-    return render_template("stations/stations.html", stations=stations)
+
+    query = db.session.query(
+        func.sum(Station.members_full).label("full"),
+        func.sum(Station.members_half).label("half"),
+    ).one()
+    station_totals = {
+        "total_full": query.full if query.full else 0,
+        "total_half": query.half if query.half else 0,
+    }
+
+    return render_template(
+        "stations/stations.html", stations=stations, totals=station_totals
+    )
 
 
 @stations.route("/edit/<int:stationid>", methods=["POST"])

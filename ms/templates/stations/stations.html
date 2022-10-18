@@ -1,68 +1,78 @@
 {% extends 'base.html' %}
+
 {% set title = 'Stationen' %}
+
 {% block content %}
-
 <div class="rows">
-<div class="row">
+  <div class="row">
 
-<div class="level">
- <div class="level-left">
- <h3 class="title">Aktuell:</h3>
- </div>
- <div class="level-right">
-      {% if distribution_in_progress %}
-        <p class="p-3" id="text-station-in-distribution">Aktuell in Verteilung - Stationen <i>nicht</i> editierbar</p>
-      {% else %}
-         <button class="button is-link"
-                 hx-get="{{ url_for('stations.new_station') }}"
-                 hx-target="body"
-                 hx-swap="beforeend">neue station</button>
-      {% endif %}
-</div>
-</div>
-
-
-<div class="columns is-multiline">
-{% for station in stations %}
- <div class="column is-4" id="{{station.order}}">
-   <div class="box" id="box-station-{{station.id}}">
-    <div class="columns is-multiline">
-      <div class="column">
-        <h2 class="level-left is-size-2 has-text-weight-medium is-primary has-text-dark">
-           {{ station.name }}
-        </h2>
+    <div class="level">
+      <div class="level-left">
+        <div id="totals" class="level-item has-text-centered">
+          <div class="p-1" id="totals-full">
+            Ganze Anteile: {{ totals.total_full }}
+          </div>
+          <div class="p-1" id="totals-half">
+            Halbe Anteile: {{ totals.total_half }}
+          </div>
+          <div class="p-1" id="totals-sum">
+            Anteile: {{ totals.total_full + (totals.total_half/2) }}
+          </div>
+        </div>
       </div>
-      <div class="column is-2">
-      {% if distribution_in_progress %}
-      {% else %}
-        <a id="station-edit-view-{{station.id}}"
-           hx-get="{{ url_for('stations.detail_view', stationid=station.id) }}"
-           hx-target="body"
-           hx-swap="beforeend">
-          <img src="{{url_for('static', filename='icons/edit.svg')}}" width=24 />
-        </a>
-      {% endif %}
+
+      <div class="level-right">
+        <div class="level-item">
+          {% if distribution_in_progress %}
+            <p class="p-3 is-italic" id="text-station-in-distribution">Aktuell in Verteilung - Stationen nicht editierbar</p>
+          {% else %}
+             <button class="button is-link"
+                     hx-get="{{ url_for('stations.new_station') }}"
+                     hx-target="body"
+                     hx-swap="beforeend">neue station</button>
+          {% endif %}
+        </div>
       </div>
     </div>
-     <p>
-       👥{{ station.members_total }}
-       <small>
-       ● {{ station.members_full }}
-       ◑ {{station.members_half }}
-       </small>
-    </p>
-
-    <p>
-      <small>🛈 {{ station.info }} </small>
-    </p>
 
 
-   </div> {# end div box #}
+    <div class="columns is-multiline">
+    {% for station in stations %}
+      <div class="column is-4" id="{{station.order}}">
+        <div class="box" id="box-station-{{station.id}}">
+          <div class="columns is-multiline">
+            <div class="column">
+              <h2 class="level-left is-size-2 has-text-weight-medium is-primary has-text-dark">
+                {{ station.name }}
+              </h2>
+            </div>
+          <div class="column is-2">
+            {% if not distribution_in_progress %}
+              <a id="station-edit-view-{{station.id}}"
+                    hx-get="{{ url_for('stations.detail_view', stationid=station.id) }}"
+                    hx-target="body"
+                    hx-swap="beforeend">
+                <img src="{{url_for('static', filename='icons/edit.svg')}}" width=24 />
+              </a>
+            {% endif %}
+          </div>
+          </div>
+        <p>
+        👥{{ station.members_total }}
+        <small>
+        ● {{ station.members_full }}
+        ◑ {{station.members_half }}
+        </small>
+        </p>
+        <p>
+        <small>🛈 {{ station.info }} </small>
+        </p>
+        </div> {# end div box #}
+      </div>
+    {% endfor %}
+    </div>
+
   </div>
-  {% endfor %}
-</div>
-
-</div>
 
 </div>
 {% endblock %}
