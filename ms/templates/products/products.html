@@ -20,6 +20,12 @@
         paging: false,
         responsive: true,
         order: [[2, 'desc'], [0, 'asc']],
+        columnDefs: [
+          {
+            targets:2,
+            render: DataTable.render.datetime("LL", "de"),
+          },
+          ],
         columns: [
         null,
         null,

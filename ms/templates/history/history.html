@@ -20,6 +20,12 @@
         paging: false,
         responsive: true,
         order: [[0, 'desc'], [1, 'desc']],
+        columnDefs: [
+          {
+            targets:1,
+            render: DataTable.render.datetime("DD. MMMM HH:mm", "de"),
+          },
+          ],
         columns: [
         null,
         null,
@@ -34,8 +40,8 @@
 
   <table class="table is-hoverable is-fullwidth is-narrow"
            id="history-overview-table">
-    <col style="width:15%">
-    <col style="width:15%">
+    <col style="width:10%">
+    <col style="width:20%">
     <col style="width:70%">
     <thead>
       <tr>
@@ -55,10 +61,8 @@
     {% for dist in distributions %}
       <tr id="distribution-{{dist.id}}">
         {% set year = dist.date_time.strftime("%Y") -%}
-        {% set date = dist.date_time.strftime("%d. %B") -%}
-        {% set time = dist.date_time.strftime("%H:%M") -%}
         <td>{{ year }}</td>
-        <td>{{ date }} <small>{{time}}</small></td>
+        <td>{{dist.date_time}}</td>
         <td>
           <div class="is-capitalized">
         {% for station in dist.stations %}

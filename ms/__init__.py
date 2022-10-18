@@ -2,11 +2,13 @@ import os
 
 from flask import Flask
 from flask_migrate import Migrate
+from flask_moment import Moment
 
 from ms.config import Config
 from ms.db.models import db
 
 migrate = Migrate()
+moment = Moment()
 
 
 def create_app(test_config=None):
@@ -51,6 +53,7 @@ def create_app(test_config=None):
     app.register_blueprint(settings, url_prefix="/settings", options=_tmplt)
     app.register_blueprint(distribution, url_prefix="/distribute", options=_tmplt)
 
+    moment.init_app(app)
     db.init_app(app)
 
     migrate.init_app(app, db, render_as_batch=True)

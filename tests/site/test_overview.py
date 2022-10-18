@@ -68,7 +68,7 @@ def test_shares_in_overview(test_client, distribution):
 
     # We will find all the information about the distribution
     started = html.find("p", {"id": "info-dist-started"})
-    assert distribution.created == datetime.datetime.fromisoformat(started.text)
+    assert distribution.created.replace(microsecond=0).isoformat() == started.text[:-1]
 
     for product in products:
 

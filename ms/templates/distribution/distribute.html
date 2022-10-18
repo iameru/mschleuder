@@ -15,15 +15,14 @@
     <div class="level">
       {% if product.last_distribution %}
       <div class="level-left">
-        <div class="level-item">zuletzt</div>
-        <div class="level-item">📅: {{ product.last_distribution }}</div>
+        <div class="level-item has-text-weight-medium">Zuletzt:</div>
+        <div class="level-item">{{ moment(product.last_distribution).fromNow() }},</div>
+        <div class="level-item">{{ moment(product.last_distribution).format("LLL") }}</div>
       </div>
       {% endif %}
       {% if product.info %}
       <div class="level-right">
-
         <div class="level-item">🛈 {{ product.info }}</div>
-
       </div>
       {% endif %}
     </div>

@@ -2,10 +2,28 @@
 {% block modal_content %}
   <h3 class="title is-3">{{station.name}}</h3>
   {% if station.updated %}
-      <div class="is-size-7 is-italic">zuletzt bearbeitet: {{station.updated}}</div>
+    <div class="level">
+      <div class="level-left">
+        <div class="is-size-7 is-italic level-item">zuletzt bearbeitet:</div>
+        <div class="is-size-7 is-italic level-item date-time">{{station.updated}}</div>
+      </div>
+    </div>
   {% endif %}
   <hr class="edit-hr">
   {% set form_action = url_for('stations.edit', stationid=station.id) %}
   {% set form_params = 'id=station-edit-form' %}
   {% include 'stations/form.html' %}
+
+  <script>
+    moment.locale("de")
+
+    fields = document.getElementsByClassName("date-time")
+
+    for (let field of fields) {
+
+      value = field.textContent
+      value_new = moment(value).format("LLL")
+      field.textContent = value_new
+    }
+  </script>
 {% endblock modal_content %}

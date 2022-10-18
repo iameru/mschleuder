@@ -14,7 +14,8 @@
           type="text/css"
           href="{{ url_for('static', filename='customisation.css') }}"
           >
-
+    {{ moment.include_moment(local_js=url_for("static", filename="assets/moment-with-locales.min.js")) }}
+    {{ moment.locale("de") }}
     {% block styles %}{% endblock %}
 
     {% if csa.name %}<title>ms | {{ csa.name }}</title>{% else %}<title>möhrenschleuder</title>{% endif %}

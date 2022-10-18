@@ -7,7 +7,7 @@
 <div class="columns is-centered is-multiline">
 
   <div class="column is-full has-text-centered">
-    <p>gestartet:</p><p id="info-dist-started"><small>{{ dist.created }}</small></p>
+    <p>gestartet:</p><p id="info-dist-started"><small>{{ moment(dist.created).format("LLL") }}</small></p>
   </div>
 
   <div class="column is-11">
