@@ -384,7 +384,9 @@ def test_expect_values_changed_after_finalisation(test_client):
     products = [Product.query.get(_id) for _id in products_ids]
 
     for product in products:
-        assert product.last_distribution == dist.updated
+        assert product.last_distribution.replace(microsecond=0) == dist.updated.replace(
+            microsecond=0
+        )
 
 
 @pytest.mark.skip(reason="takes some time")

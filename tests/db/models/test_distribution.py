@@ -11,9 +11,8 @@ def test_entry_got_generated_via_test_setup(test_app):
     assert len(dist) == 1
     dist = dist[0]
     assert dist.in_progress is False
-    assert dist.date_time == datetime.utcnow().replace(microsecond=0, second=0)
 
-    # cleanup
+    # cleanup for next test
     db.session.delete(dist)
     db.session.commit()
 
