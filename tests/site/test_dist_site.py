@@ -313,10 +313,10 @@ def test_stations_can_be_opt_out_visually(test_client, product_distribution):
     station_boxes = html.find_all("div", class_="station-box")
     for box in station_boxes:
 
-        opt_out_button = box.find("button", class_="opt-out-of-distribution")
-        assert opt_out_button
-        assert opt_out_button["onclick"]
-        assert opt_out_button["onclick"] == "trigger_station_opt_out(this);"
+        opt_out_field = box.find("div", class_="station-box-opt-out")
+        assert opt_out_field
+        assert opt_out_field["onclick"]
+        assert opt_out_field["onclick"] == "trigger_station_opt_out(this);"
 
 
 def test_stop_distribution(test_client):
