@@ -42,7 +42,7 @@
 
 <div class="level ml-2 mr-2">
   <div class="level-left">
-    {% if dist.in_progress %}
+    {% if distribution_in_progress %}
       <div class="is-italic">
         In Verteilung. Klicke auf ein Erzeugniss um es zu verteilen.
       </div>
@@ -85,13 +85,20 @@
         <th class="has-text-centered"><img src="{{url_for('static', filename='icons/edit.svg')}}" width=18 /></th>
        </tr>
       </tfoot>
-
       <tbody id=item-table-body>
       {% for product in products %}
         <tr id="product-row-{{ product.id }}">
           <td class="clickable has-text-weight-medium pl-3"
               onclick="javascript:location.href='{{ url_for("distribution.product", p_id=product.id) }}'"
-              >{{ product.name }}</td>
+              >{{ product.name }}
+              {% if distribution_in_progress -%}
+                  {%- for dist_product in in_distribution -%}
+                    {%- if dist_product.name == product.name -%}
+                      <span class="tag is-info">verteilt</span>
+                    {%- endif -%}
+                  {%- endfor -%}
+              {%- endif -%}
+          </td>
           <td class="clickable has-text-centered"
               onclick="javascript:location.href='{{ url_for("distribution.product", p_id=product.id) }}'"
               >{% for unit in  product.units %}<div class="bordered-dash">{{ unit.shortname }}</div>{% endfor %}</td>

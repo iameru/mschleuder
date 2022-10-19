@@ -10,9 +10,8 @@ products = Blueprint("products", __name__)
 def products_view():
 
     products = Product.query.all()
-    dist = Distribution.current()
 
-    return render_template("products/products.html", products=products, dist=dist)
+    return render_template("products/products.html", products=products)
 
 
 @products.route("/productdetail/<int:productid>", methods=["POST", "GET"])
