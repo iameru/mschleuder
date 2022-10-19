@@ -32,12 +32,13 @@ const myChart = new Chart(ctx, {
             data: [{% for entry in data %}{x:'{{entry[1]}}', y:{{entry[2]}}},{% endfor %}],
             borderColor: color_palette.shift(),
             backgroundColor: "#ffffff",
+            tension: 0.2,
           },
       {% endfor %}
     ]
   },
     options: {
       responsive: true,
-      maintainAspectRatio: true
+      maintainAspectRatio: true,
   }
 });
