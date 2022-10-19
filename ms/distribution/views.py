@@ -118,10 +118,6 @@ def distribute(p_id: int, p_unit_shortname: str):
         .first()
     ):
         already_distributed = True
-        flash(
-            "Schon verteilt! Hier kannst du nun neu verteilen oder zusätzlich verteilen",
-            category="info",
-        )
 
     stations = (
         StationHistory.query.filter(StationHistory.distribution_id == dist.id)

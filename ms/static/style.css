@@ -67,6 +67,11 @@
 	display: inline;
 	text-decoration-line: underline;
 }
+.station-box-opt-out:hover {
+  background-color: #f0ebef;
+  border-radius: 7px;
+}
+
 /***** MODAL DIALOG ****/
 #modal {
 	/* Underlay covers entire screen. */

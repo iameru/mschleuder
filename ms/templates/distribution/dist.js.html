@@ -303,8 +303,10 @@ function build_save_data() {
 }
 
 function trigger_station_opt_out(elem) {
-  let box = elem.parentElement
+  let box = elem.parentElement.parentElement.parentElement
   box.classList.toggle("opt-out")
+  let checkbox = elem.getElementsByTagName("input")[0]
+  checkbox.checked = !checkbox.checked
   let buttons = box.querySelectorAll(".dist-control-button");
   buttons.forEach(button => {
     button.toggleAttribute("disabled");
