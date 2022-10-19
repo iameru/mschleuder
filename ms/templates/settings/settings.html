@@ -70,10 +70,11 @@
               <a class="edit-unit"
                  {{ modal(url_for("settings.edit_unit", unit_id=unit.id)) }}
                  >
-
-                <img src="{{url_for('static', filename='icons/edit.svg')}}"
-                   width=18
-                   alt="edit-icon" />
+               <div style="height:100%;width:100%">
+                  <img src="{{url_for('static', filename='icons/edit.svg')}}"
+                       width=18
+                       alt="edit-icon" />
+                 </div>
               </a>
             </td>
           </tr>
