@@ -40,8 +40,14 @@
 
 {% block content %}
 
-<div class="level">
-  <div class="level-left"></div>
+<div class="level ml-2 mr-2">
+  <div class="level-left">
+    {% if dist.in_progress %}
+      <div class="is-italic">
+        In Verteilung. Klicke auf ein Erzeugniss um es zu verteilen.
+      </div>
+    {% endif %}
+  </div>
   <div class="level-right">
     <button class="button is-link"
             hx-get="{{ url_for('products.new_product') }}"
@@ -53,9 +59,14 @@
 </div>
 {# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ALL PRODUCTS #}
 <div class="columns is-centered">
-  <div class="column is-10 mt-2">
+  <div class="column is-11 mt-2">
     <table class="table is-hoverable is-fullwidth"
            id="all-products-table">
+      <col style="width: 25%">
+      <col style="width: 10%">
+      <col style="width: 30%">
+      <col style="width: 30%">
+      <col style="width: 5%">
       <thead>
        <tr>
         <th class="hover has-text-centered">Name</th>
@@ -83,7 +94,7 @@
               >{{ product.name }}</td>
           <td class="clickable has-text-centered"
               onclick="javascript:location.href='{{ url_for("distribution.product", p_id=product.id) }}'"
-              >{% for unit in  product.units %}{{ unit.shortname }} {% endfor %}</td>
+              >{% for unit in  product.units %}<div class="bordered-dash">{{ unit.shortname }}</div>{% endfor %}</td>
           <td class="clickable has-text-centered"
               onclick="javascript:location.href='{{ url_for("distribution.product", p_id=product.id) }}'"
               >{{ product.last_distribution }}</td>

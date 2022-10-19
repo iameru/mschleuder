@@ -1,7 +1,7 @@
 from flask import Blueprint, redirect, render_template, request, url_for
 
 from ms.db.forms import ProductForm
-from ms.db.models import Product, db
+from ms.db.models import Distribution, Product, db
 
 products = Blueprint("products", __name__)
 
@@ -10,8 +10,9 @@ products = Blueprint("products", __name__)
 def products_view():
 
     products = Product.query.all()
+    dist = Distribution.current()
 
-    return render_template("products/products.html", products=products)
+    return render_template("products/products.html", products=products, dist=dist)
 
 
 @products.route("/productdetail/<int:productid>", methods=["POST", "GET"])

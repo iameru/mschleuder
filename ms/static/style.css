@@ -51,6 +51,10 @@
 .bordered-dash {
     border: 0.1em dashed #abaca9;
     border-radius: 6px;
+    display: inline;
+    padding: 0.4em;
+    background-color: #f0ebef;
+
     }
 .distribution-table {
     table-layout: fixed;
