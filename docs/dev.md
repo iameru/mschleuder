@@ -7,7 +7,7 @@ möhrenschleuder recommends `poetry` as a dependency manager.
 ms also has some `pre-commits` depending on poetry. they generate requirements.txt and requirements-dev.txt though.
 
 ```
-poetry update // install
+poetry update # install
 ```
 
 ms uses `invoke`. ` invoke --list` to check some tasks build in `tasks.py`.

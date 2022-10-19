@@ -30,7 +30,6 @@ def test_reset(c):
 def test(c):
     "Run the tests"
     run_with_passthrough(c, "pytest-watch -c", pty=True)
-    # run_with_passthrough(c, "pytest", pty=True)
 
 
 @task
@@ -62,6 +61,14 @@ def start(c):
 @task
 def staging(c):
     c.run("git checkout staging && git merge main && git push && git checkout main")
+
+
+@task
+def docs(c):
+    c.run("echo 'when happy do mkdocs build'")
+    c.run("mkdocs serve")
+    c.run("echo")
+    c.run("echo 'when happy do mkdocs build'")
 
 
 #####################################################################
