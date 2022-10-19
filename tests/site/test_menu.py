@@ -69,11 +69,11 @@ def test_distribution_overview_link(test_client):
 
     menu = bs(html.data, "html.parser").find("aside", {"class": "menu"})
 
-    link = menu.find("a", string="Aktuelle Verteilung")
+    link = menu.find("li", {"id": "distribution-overview-button"})
     assert link
-    assert "/distribute/overview" in link["href"]
+    assert "/distribute/overview" in link.parent["href"]
 
-    res = test_client.get(link["href"])
+    res = test_client.get(link.parent["href"])
     assert res.status_code == 200
 
     # cleanup

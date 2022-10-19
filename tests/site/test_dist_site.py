@@ -14,7 +14,7 @@ def test_invitation_to_start_distribution(test_client, product_distribution):
     assert Distribution.current().in_progress is False
     response = test_client.get("/")
     button = bs(response.data, "html.parser").find(
-        "button", {"id": "start-distribution-menu"}
+        "li", {"id": "distribution-overview-button"}
     )
     assert button
     assert button.text == "Verteilung starten"

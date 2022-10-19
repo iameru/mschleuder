@@ -63,7 +63,10 @@
 .distribution-table td {
     padding: 0.1em;
     }
-
+.menu-product-name {
+	display: inline;
+	text-decoration-line: underline;
+}
 /***** MODAL DIALOG ****/
 #modal {
 	/* Underlay covers entire screen. */

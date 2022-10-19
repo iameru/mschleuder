@@ -1,6 +1,6 @@
 {% from 'macros.html' import nav_link, modal with context %}
 
-  <aside class="menu mt-5">
+<aside class="menu mt-5">
     <p class="menu-label">Menu</p>
     <ul class="menu-list">
       {{ nav_link('stations.stations_view', 'Stationen') }}
@@ -8,28 +8,38 @@
       {{ nav_link('history.overview', 'History') }}
       {{ nav_link('settings.settings_view', 'Einstellungen') }}
     </ul>
-  {% if distribution_in_progress %}
-    <p class="menu-label">
-      <a href="{{ url_for('distribution.overview') }}">Aktuelle Verteilung</a>
-    </p>
-    <ul class="menu-list" id="products-in-distribution">
-    {% for product in in_distribution %}
-      <a {{ modal(url_for('history.product_detail_view',
-                  distribution_id=product.dist_id,
-                  product_id=product.product_id,
-                  unit_id=product.unit_id )) }}>
+    {% if distribution_in_progress %}
 
-        <li>{{ product.total_sum|round(2,"floor") }} <small>{{product.unit_shortname}}</small> {{product.name}}</li>
+      <p class="menu-label">
+        Aktuelle Verteilung
+      </p>
+      <ul class="menu-list" id="products-in-distribution">
+
+        {% for product in in_distribution %}
+          <a {{ modal(url_for('history.product_detail_view',
+                      distribution_id=product.dist_id,
+                      product_id=product.product_id,
+                      unit_id=product.unit_id )) }}>
+            <li class="ml-1">- {{ product.total_sum|round(2,"floor") }} <div class="bordered-dash" style="padding:0.2em;">{{product.unit_shortname}}</div> <div class="menu-product-name">{{product.name}}</div></li>
+          </a>
+        {% endfor %}
+
+        <a href="{{ url_for('distribution.overview') }}">
+          <li id="distribution-overview-button"
+              class="button is-pulled-right mt-5"
+                >Übersicht</li>
+        </a>
+
+      </ul>
+
+    {% else %}
+
+      <a href="{{ url_for('distribution.overview') }}">
+        <li id="distribution-overview-button"
+            class="button is-pulled-right mt-5"
+              >Verteilung starten</li>
       </a>
-    {% endfor %}
-  {% else %}
-    <p class="menu-label">
-      <a href="{{url_for('distribution.overview')}}">
-        <button class="button"
-                id="start-distribution-menu"
-                >Verteilung starten</button>
-      </a>
-    </p>
-  {% endif %}
-    </ul>
-  </aside>
+
+    {% endif %}
+
+</aside>
