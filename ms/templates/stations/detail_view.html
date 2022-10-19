@@ -13,17 +13,4 @@
   {% set form_action = url_for('stations.edit', stationid=station.id) %}
   {% set form_params = 'id=station-edit-form' %}
   {% include 'stations/form.html' %}
-
-  <script>
-    moment.locale("de")
-
-    fields = document.getElementsByClassName("date-time")
-
-    for (let field of fields) {
-
-      value = field.textContent
-      value_new = moment(value).format("LLL")
-      field.textContent = value_new
-    }
-  </script>
 {% endblock modal_content %}

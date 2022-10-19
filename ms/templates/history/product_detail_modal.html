@@ -1,21 +1,32 @@
 {% extends 'modal.html' %}
 {% block modal_content %}
   <div class="columns is-centered is-multiline">
-    <div class="column is-full has-text-centered">
-      <p class="is-size-3">{{ product.name }}</p>
+    <div class="is-size-3 column is-full has-text-centered">
+      {{ product.name }}
     </div>
     <div class="column is-full has-text-centered">
-      <p class="is-size-7">{{ distribution.date_time }} | in {{ data[0].unit_name }}</p>
+      <div class="date-time">{{ distribution.date_time }}</div>
+      in {{ data[0].unit_name }}
     </div>
 
     {% for detail in data %}
-      <div class="column is-half">
-      <p class="is-size-4">Station: {{ detail.Share.stationhistory.name }}</p>
-        <p>gesamt: {{ detail.Share.sum_total|round(2,"floor" )}}</p>
-        <p>ganze gesamt: {{ detail.Share.sum_full|round(2,"floor" ) }}</p>
-        <p>halbe gesamt: {{ detail.Share.sum_half|round(2,"floor" ) }}</p>
-        <p>ganze einzeln: {{ detail.Share.single_full|round(2,"floor" ) }}</p>
-        <p>halbe einzeln: {{ detail.Share.single_half|round(2,"floor" ) }}</p>
+      <div class="column is-one-third">
+        <div class="rows">
+          <div class="row">
+            <div class="is-size-4 has-text-weight-medium">
+              {{ detail.Share.stationhistory.name }}
+            </div>
+          </div>
+        </div>
+
+        <div class="columns is-multiline mt-2">
+          <div class="column p-1 is-6 has-text-weight-medium">Gesamt</div>
+          <div class="column p-1 is-5 has-text-weight-medium">{{ detail.Share.sum_total|round(2,"floor" )}}</div>
+          <div class="column p-1 is-6">Ganze</div>
+          <div class="column p-1 is-5">{{ detail.Share.single_full|round(2,"floor" ) }}</div>
+          <div class="column p-1 is-6">Halbe</div>
+          <div class="column p-1 is-5">{{ detail.Share.single_half|round(2,"floor" ) }}</div>
+        </div>
     </div>
     {% endfor %}
   </div>
