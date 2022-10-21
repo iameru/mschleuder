@@ -2,7 +2,17 @@
 name = "moehrenschleuder"
 version = "0.1"
 description = "a tool for CSA's to distribute and log their products"
-authors = ["v <post@i3o.eu>"]
+authors = ["eru <post@i3o.eu>"]
+maintainers = ["eru <post@i3o.eu>"]
+readme = "README.md"
+repository = "https://github.com/iameru/mschleuder"
+keywords = ["csa", "distribution", "harvest", "crop", "community", "agriculture"]
+license = ""
+documentation = ""
+homepage = ""
+
+[tool.poetry.urls]
+issues = "https://github.com/iameru/mschleuder/issues"
 
 [tool.poetry.dependencies]
 python = "^3.8"
