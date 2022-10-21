@@ -6,9 +6,11 @@
     <div class="columns">
       <div class="column is-3 is-pulled-left">
         <div class="has-text-weight-semi-bold is-size-3">{{ station.name }}</div>
-        <div class="row has-text-weight-light">
-          {{ station.distribution.date_time }}
-        </div>
+        {% if pdf %}
+          <div class="row has-text-weight-light">{{ station.distribution.date_time.strftime("%-d. %B %Y, %H:%M") }}</div>
+        {% else %}
+          <div class="row has-text-weight-light date-time">{{ station.distribution.date_time }}</div>
+        {% endif %}
       </div>
       <div class="column is-3 is-pulled-right">
       {% if pdf %}
