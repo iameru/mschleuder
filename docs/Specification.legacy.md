@@ -1,8 +1,6 @@
-# Spezifikation
-
-
+![:warning:](icons/warning.png)
+> Diese Spezifikation war grobes tool um die Software zu umreissen als es sie noch nicht gab. Wird bald entfernt, auf jeden fall __nicht aktualisiert__
 ## Das Tool
-
 Die **Möhrenschleuder** ist ein Werkzeug für Solidarische Landwirtschaften oder ähnlich organisierte Betriebe die ihre Produkte in Stück/Gewicht an eine oder mehrere Verteilstationen mit halben oder ganzen Anteilen der Mitglieder verteilen.
 
 Wichtigste Kernfunktion ist das Verteilen von Produkten.
@@ -13,22 +11,22 @@ Dann folgen in der Wichtigkeit, nicht unbedingt in der Reihenfolge:
  - Generierung von Lieferschienen für eine Verteilung
  - Erstellung von Statistik zur Erntemenge / Stationsverläufe / ...
 
-### / landingpage
+## / landingpage
 
 Auf der landingpage wird ein kurzüberblick für Nutzer:Innen über die letzte Verteilung geboten. In "zukunft" könnte dort auch ein überblick für alle Mitglieder entstehen, frei zugänglich.
 
-### /settings Einstellungen
+## /settings Einstellungen
 
 Hier können `logo`, `kopfzeile` und `fußzeile` für die Lieferscheine geändert werden sowie `Einheiten` angelegt, geändert und gelöscht werden. **Einheiten** sind notwendige bestandteile von *Produkten*. Einheiten kann es in stück (zbsp Bund, Stück, Kisten) oder in Gewicht (zbsp Gramm, Kilo, Pfund) geben.
 Einheitsänderungen werden für die Statistik archiviert.
 
-### /stations Stationen
+## /stations Stationen
 
 In der Stationsansicht können Stationen angelegt, geändert, gelöscht werden.
-Stationen haben dabei `halbe` und `ganze` Anteile, eine `info` für Adressen/Kontakte beim ausliefern und natürlich einen `namen`. Es gibt auch eine `ordnungsnummer` für stationen (siehe [/distribute Verteilen](#/distribute Verteilen) ).
+Stationen haben dabei `halbe` und `ganze` Anteile, eine `info` für Adressen/Kontakte beim ausliefern und natürlich einen `namen`. Es gibt auch eine `ordnungsnummer` für stationen (siehe [/distribute Verteilen](Benutzung.md).
 Bei jeder Änderung wird die Station, wie sie vorher war, für die Statistik archiviert.
 
-### /products Gemüse
+## /products Gemüse
 
 In der Produktübersicht können Produkte angelegt, geändert, gelöscht werden.
 Produkte haben dabei einen `Namen`, eine oder mehrere `Einheiten` in denen sie verteilt werden, eine `info` für kurze Informationen zum Produkt sowie ein `zuletzt verteilt` feld.
@@ -36,13 +34,13 @@ Produktänderungen werden *nicht* für die Statistik archiviert.
 
 Eine Verteilung eines produkts wird hier gestartet durch klick auf das Produkt gelangt man in die *Verteil Detail Seite* des Produkts.
 
-### /history History
+## /history History
 
 In der Historyübersicht gibt es eine Übersicht über vergangene Verteilungen und Lieferscheine.
 In zukunft: Es gibt hier auch **Statistiken** zu sehen über den Verlauf von produkten, zum beispiel der Ernte/Verteilmenge von Paprika von Jahr 2021 bis Jahr 2023 Kalenderwoche 13.
 Es wird in "zukunft" hier auch eine einfachere Möglichkeit eines kompletten Datenexportes geben.
 
-### /distribute Verteilen
+## /distribute Verteilen
 
 In der Verteilübersicht gibt es Infos zur aktuell gestarteten Verteilung, ähnlich einem Warenkorb beim onlineshopping.
 

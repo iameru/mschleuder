@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Specification.legacy - Möhrenschleuder</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Specification.legacy";
+        var mkdocs_page_input_path = "Specification.legacy.md";
+        var mkdocs_page_url = null;
+      </script>
+
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Möhrenschleuder
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Benutzung/">Benutzung</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Development/">Development</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Installation/">Installation</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../License/">License</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Specification.legacy</a>
+    <ul class="current">
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Zukunft/">Zukunft</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Möhrenschleuder</a>
+
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+      <li>Specification.legacy</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+
+                <p><img alt=":warning:" src="../icons/warning.png" /></p>
+<blockquote>
+<p>Diese Spezifikation war grobes tool um die Software zu umreissen als es sie noch nicht gab. Wird bald entfernt, auf jeden fall <strong>nicht aktualisiert</strong></p>
+</blockquote>
+<h2 id="das-tool">Das Tool</h2>
+<p>Die <strong>Möhrenschleuder</strong> ist ein Werkzeug für Solidarische Landwirtschaften oder ähnlich organisierte Betriebe die ihre Produkte in Stück/Gewicht an eine oder mehrere Verteilstationen mit halben oder ganzen Anteilen der Mitglieder verteilen.</p>
+<p>Wichtigste Kernfunktion ist das Verteilen von Produkten.</p>
+<p>Dann folgen in der Wichtigkeit, nicht unbedingt in der Reihenfolge:</p>
+<ul>
+<li>Speichern der Verteilung</li>
+<li>Generierung von Lieferschienen für eine Verteilung</li>
+<li>Erstellung von Statistik zur Erntemenge / Stationsverläufe / ...</li>
+</ul>
+<h2 id="landingpage">/ landingpage</h2>
+<p>Auf der landingpage wird ein kurzüberblick für Nutzer:Innen über die letzte Verteilung geboten. In "zukunft" könnte dort auch ein überblick für alle Mitglieder entstehen, frei zugänglich.</p>
+<h2 id="settings-einstellungen">/settings Einstellungen</h2>
+<p>Hier können <code>logo</code>, <code>kopfzeile</code> und <code>fußzeile</code> für die Lieferscheine geändert werden sowie <code>Einheiten</code> angelegt, geändert und gelöscht werden. <strong>Einheiten</strong> sind notwendige bestandteile von <em>Produkten</em>. Einheiten kann es in stück (zbsp Bund, Stück, Kisten) oder in Gewicht (zbsp Gramm, Kilo, Pfund) geben.
+Einheitsänderungen werden für die Statistik archiviert.</p>
+<h2 id="stations-stationen">/stations Stationen</h2>
+<p>In der Stationsansicht können Stationen angelegt, geändert, gelöscht werden.
+Stationen haben dabei <code>halbe</code> und <code>ganze</code> Anteile, eine <code>info</code> für Adressen/Kontakte beim ausliefern und natürlich einen <code>namen</code>. Es gibt auch eine <code>ordnungsnummer</code> für stationen (siehe <a href="../Benutzung/">/distribute Verteilen</a>.
+Bei jeder Änderung wird die Station, wie sie vorher war, für die Statistik archiviert.</p>
+<h2 id="products-gemuse">/products Gemüse</h2>
+<p>In der Produktübersicht können Produkte angelegt, geändert, gelöscht werden.
+Produkte haben dabei einen <code>Namen</code>, eine oder mehrere <code>Einheiten</code> in denen sie verteilt werden, eine <code>info</code> für kurze Informationen zum Produkt sowie ein <code>zuletzt verteilt</code> feld.
+Produktänderungen werden <em>nicht</em> für die Statistik archiviert.</p>
+<p>Eine Verteilung eines produkts wird hier gestartet durch klick auf das Produkt gelangt man in die <em>Verteil Detail Seite</em> des Produkts.</p>
+<h2 id="history-history">/history History</h2>
+<p>In der Historyübersicht gibt es eine Übersicht über vergangene Verteilungen und Lieferscheine.
+In zukunft: Es gibt hier auch <strong>Statistiken</strong> zu sehen über den Verlauf von produkten, zum beispiel der Ernte/Verteilmenge von Paprika von Jahr 2021 bis Jahr 2023 Kalenderwoche 13.
+Es wird in "zukunft" hier auch eine einfachere Möglichkeit eines kompletten Datenexportes geben.</p>
+<h2 id="distribute-verteilen">/distribute Verteilen</h2>
+<p>In der Verteilübersicht gibt es Infos zur aktuell gestarteten Verteilung, ähnlich einem Warenkorb beim onlineshopping.</p>
+<h3 id="distributeprodukt-verteil-detail-seite">/distribute/produkt Verteil Detail Seite</h3>
+<p>Die Detailseite ist die Seite auf der Produkte verteilt werden. Hier kann die Verteilung gestartet werden nachdem eine <em>Erntemenge</em> eingegeben wurde.
+Es gibt dazu Knöpfe, die die einzelnen Anteile für die halben anteile auf <em>gleich, halb oder nix</em> setzen.
+Wenn die Verteilung in <em>Stück</em> geschieht, kann der Rest verteilt werden. Geschieht die verteilung in <em>Gewicht</em> wird einfach geteilt.
+Auf der Seite sind die Stationen in ihrer <code>Ordnungsnummer</code> geordnet für ein einfacheres Verteilen im Lager.</p>
+<p>Es wird <strong>Spezialfälle</strong> geben die selten aber eben manchmal eintreten.
+ - es gibt die möglichkeit selber händisch zu verteilen (zbsp bei extrem geringen Produktmengen die nicht sinnvoll verteilbar sind sonst)
+ - es gibt die möglichkeit das gleiche Produkt für die selbe Verteilung nochmal zu verteilen, mit anderen Werten. Damit wird der Fall abgedeckt, dass plötzlich nochmal ein schon verteiltes produkt auftaucht.</p>
+<p>Die verteilung kann dann gespeichert werden und wird im <code>Lieferschein</code> sowie in der <code>Statistik</code> verwendet.</p>
+<h3 id="harvest-mengenrechner">/harvest Mengenrechner</h3>
+<p>Es soll einen Mengenrechner geben. Mit dem kann recht einfach die Menge des Produkts errechnet werden anhand eines Verteilwunsches. Die Seite ist eine umgekehrter Verteil Detail Seite die Anhand der Stationen und der gewünschten Verteilmenge, zbsp 4 Stück für die ganzen, 2 für die halben Anteile, die Gesamtmenge berechnet. Bei der tatsächlichen Verteilung und zur Berücksichtigung im <code>Lieferschein</code> und der <code>Statistik</code> <strong>muss</strong> dann dennoch die <em>Verteil Detail Seite</em> nochmal genutzt werden!</p>
+
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../License/" class="btn btn-neutral float-left" title="License"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../Zukunft/" class="btn btn-neutral float-right" title="Zukunft">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+
+
+      <span><a href="../License/" style="color: #fcfcfc">&laquo; Previous</a></span>
+
+
+      <span><a href="../Zukunft/" style="color: #fcfcfc">Next &raquo;</a></span>
+
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
