@@ -2,12 +2,23 @@
 
 ## Installation
 
-Es folgen weitere Angaben. Bei Interesse bitte bei mir melden.
+
+Zur Installation braucht es als mindestanforderungen ein aktuelles Linuxbetriebssystem, `python (ver 3.7+)`, `git` und `pip` sowie `python3-venv`.
+
+Use install script in `install.sh`
+
+start des tools danach
+
+```bash
+gunicorn -w 2 "ms:create_app()"
+```
+
+bessere installation und dokumentation folgt.
 
 
 ## Erste Einrichtung
 
-Nach dem Starten der Möhrenschleuder kann das Tool unter `localhost:5000` oder jedweder Domain die bei der Installation eingerichtet wurde aufgerufen werden.
+Nach dem Starten der Möhrenschleuder kann das Tool unter `localhost:8000` oder jedweder Domain die bei der Installation eingerichtet wurde aufgerufen werden.
 Es muss der `Name` des Betriebes eingegeben werden und es kann eine Fußzeile für die Lieferscheine angegeben werden.
 Diese Optionen sind danach änderbar.
 
