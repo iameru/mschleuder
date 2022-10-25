@@ -65,10 +65,11 @@ def staging(c):
 
 @task
 def docs(c):
-    c.run("echo 'when happy do mkdocs build'")
+    c.run(f"echo {20*'-'}")
+    c.run("echo 'when happy do mkdocs gh-deploy'")
     c.run("mkdocs serve")
-    c.run("echo")
-    c.run("echo 'when happy do mkdocs build'")
+    c.run(f"echo {20*'-'}")
+    c.run("echo 'when happy do mkdocs gh-deploy'")
 
 
 #####################################################################

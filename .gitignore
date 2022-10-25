@@ -17,4 +17,5 @@ dist/
 build/
 *.egg-info/
 geckodriver.log
+site/
 *.obsidian/
