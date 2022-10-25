@@ -5,7 +5,7 @@
 
 Zur Installation braucht es als mindestanforderungen ein aktuelles Linuxbetriebssystem, `python (ver 3.7+)`, `git` und `pip` sowie `python3-venv`.
 
-Use install script in `install.sh`
+Use install script in `install.sh`, see `README`
 
 start des tools danach
 
