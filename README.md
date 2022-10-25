@@ -2,6 +2,14 @@
 
 > :warning: currently under heavy development
 
+install
+```bash
+sudo apt install -y git python3 python3-venv python3-pip
+git clone https://github.com/iameru/mschleuder # download the tool
+cd mschleuder/ # navigate inside the downloaded
+./install.sh
+```
+
 > :fast_forward: I'm very open to your CSA/SoLaWi's needs of this product - feel free to contact me
 
 [EN]

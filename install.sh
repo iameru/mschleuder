@@ -2,12 +2,6 @@
 # DEBIAN or UBUNTU like system install script
 # Install requirements
 
-sudo apt install -y git python3 python3-venv python3-pip
-
-git clone https://github.com/iameru/mschleuder # download the tool
-
-cd mschleuder/ # navigate inside the downloaded
-
 python3 -m venv venv # create virtual environment
 source venv/bin/activate # activate virtual environment
 
