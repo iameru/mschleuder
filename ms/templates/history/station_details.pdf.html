@@ -7,7 +7,7 @@
       <div class="column is-3 is-pulled-left">
         <div class="has-text-weight-semi-bold is-size-3">{{ station.name }}</div>
         {% if pdf %}
-          <div class="row has-text-weight-light">{{ station.distribution.date_time.strftime("%-d. %B %Y, %H:%M") }}</div>
+          <div class="row has-text-weight-light">{{ station.distribution.date_time.strftime("%-d.%m.%Y, %H:%M") }}</div>
         {% else %}
           <div class="row has-text-weight-light date-time">{{ station.distribution.date_time }}</div>
         {% endif %}
@@ -68,7 +68,7 @@
   {% endif %}
 
   <div class="row mt-5">
-    <p class="is-size-5">Mitglieder in dieser Station: <small>{{ station.members_total }}</small> ganze:   <small>{{ station.members_full }}</small> halbe:   <small>{{ station.members_half }}</small></p>
+        {{ station.members_total }} Mitglieder in dieser Station, davon {{ station.members_full }} Ganze und {{ station.members_half }} Halbe.
   </div>
 
   {% if pdf %}
