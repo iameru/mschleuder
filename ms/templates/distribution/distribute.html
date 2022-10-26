@@ -121,15 +121,28 @@
 
       {# rest and extra buttons #}
       <div class="column is-one-third-desktop is-half-mobile">
-        <div class="columns is-centered">
-          <div class="column is-4 has-text-centered bordered">
-            {% if unit.by_piece %}
-            <div class="row is-size-4">Rest</div>
-            <div class="row"><p class="is-size-3" id="dist-rest-field">𐄂</p></div>
-            {% else %}
-            <div class="row is-size-4">Rest</div>
-            <div class="row"><p class="is-size-3" id="dist-accuracy-field">𐄂</p></div>
-            {% endif %}
+
+        <div class="row">
+          <div class="columns is-centered">
+            <div class="column is-4 has-text-centered bordered">
+              {% if unit.by_piece %}
+              <div class="row is-size-4">Rest</div>
+              <div class="row"><p class="is-size-3" id="dist-rest-field">𐄂</p></div>
+              {% else %}
+              <div class="row is-size-4">Rest</div>
+              <div class="row"><p class="is-size-3" id="dist-accuracy-field">𐄂</p></div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="row">
+            <div class="columns is-centered">
+              <div class="column is-full has-text-centered">
+                <button class="button is-large is-success"
+                        id="save-button"
+                        onclick="save_data()"
+                        disabled>Speichern</button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -138,16 +151,7 @@
 
     </div>
 
-    <div class="columns">
-      <div class="column">
-      <button class="button is-primary"
-              id="save-button"
-              onclick="save_data()"
-              disabled>Speichern</button>
-      </div>
-    </div>
-
-    </div>
+  </div>
 
   {# station boxes #}
   {% for station in stations %}
