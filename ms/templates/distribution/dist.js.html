@@ -114,10 +114,17 @@ function get_unchosen_stations() {
 }
 function set_station_to_zero(station) {
     save_button.disabled = true
-    station.total_field.textContent = "x"
-    station.single_full_field.textContent = "x"
-    station.single_half_field.textContent = "x"
+    station.total_field.textContent = "X"
+    station.single_full_field.textContent = "X"
+    station.single_half_field.textContent = "X"
 }
+function set_station_to_active(station){
+    save_button.disabled = true
+    station.total_field.textContent = "0"
+    station.single_full_field.textContent = "0"
+    station.single_half_field.textContent = "0"
+}
+
 function distribute (option) {
     input = parseFloat(input_field.value)
     if (!input) {
@@ -305,13 +312,25 @@ function build_save_data() {
 function trigger_station_opt_out(elem) {
   let box = elem.parentElement.parentElement.parentElement
   box.classList.toggle("opt-out")
-  let checkbox = elem.getElementsByTagName("input")[0]
+
+  <!-- hidden input to check the state -->
+  let checkbox = box.getElementsByClassName("station-is-opted-out-checkbox")[0]
   checkbox.checked = !checkbox.checked
+
+  <!-- disable buttons -->
   let buttons = box.querySelectorAll(".dist-control-button");
   buttons.forEach(button => {
     button.toggleAttribute("disabled");
   })
-  set_station_to_zero(stations[box.id])
+
+  <!-- switch icons -->
+  let icons = box.getElementsByClassName("opt-out-icon")
+  for (let icon of icons) {
+    icon.classList.toggle("expand")
+  }
+
+  if (checkbox.checked) { set_station_to_zero(stations[box.id]) }
+  else { set_station_to_active(stations[box.id]) }
 
 }
 </script>

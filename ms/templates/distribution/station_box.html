@@ -2,11 +2,16 @@
        id="dist-station-{{station.id}}">
   <div class="box" id="{{station.id}}">
 
+    <input type="checkbox" class="station-is-opted-out-checkbox" hidden />
+
     <div class="columns">
       <div class="column">
         <div class="is-size-4 is-pulled-right station-box-opt-out" onclick="trigger_station_opt_out(this);" >
-          <div style="display:inline;" >{{ station.name }}</div>
-          <input id="{{station.id}}-checkbox" type="checkbox" checked></input>
+          <div style="display:inline;"
+            >{{ station.name }}
+            <img class="opt-out-icon" width=20 src="{{url_for('static', filename='icons/check.svg')}}" />
+            <img class="opt-out-icon expand" width=20 src="{{url_for('static', filename='icons/uncheck.svg')}}" />
+          </div>
         </div>
       </div>
     </div>
