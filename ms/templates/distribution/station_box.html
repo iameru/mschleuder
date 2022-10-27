@@ -1,3 +1,5 @@
+{% from 'macros.html' import distribute_buttons with context %}
+
 <div class="column is-one-quarter station-box"
        id="dist-station-{{station.id}}">
   <div class="box" id="{{station.id}}">
@@ -36,55 +38,31 @@
 
     {# share of a single member #}
 
-    <div class="columns">
-      <!-- <td>●</td> -->
-      <div class="column">ganze</div>
-      <div class="column has-text-weight-medium is-size-5"
-           id="dist-station-single-full-{{station.id}}"
-           >0</div>
-      <!-- <td>◑</td> -->
-      <div class="column">halbe</div>
-      <div class="column has-text-weight-medium is-size-5"
-           id="dist-station-single-half-{{station.id}}"
-           >0</div>
+    <div class="columns is-multiline">
+      <div class="column is-half-desktop is-full-tablet"> {# FULL SHARES #}
+        <div class="columns is-multiline">
+          <div class="column is-half-desktop is-full-tablet has-text-weight-light">ganze</div>
+          <div class="column is-half has-text-weight-medium is-size-5"
+               id="dist-station-single-full-{{station.id}}"
+               >0</div>
+          {% if unit.by_piece %}
+            {{ distribute_buttons("full") }}
+            {% endif %}
+        </div>
+      </div>
+
+      <div class="column is-half-desktop is-full-tablet"> {# HALF SHARES #}
+        <div class="columns is-multiline">
+          <div class="column is-half-desktop is-full-tablet has-text-weight-light">halbe</div>
+          <div class="column is-half has-text-weight-medium is-size-5"
+               id="dist-station-single-half-{{station.id}}"
+               >0</div>
+        {% if unit.by_piece %}
+            {{ distribute_buttons("half") }}
+        {% endif %}
+        </div>
+      </div>
     </div>
-
-      {% if unit.by_piece %}
-      <tr>
-        <td colspan=4>
-          <div class="columns">
-
-            <div class="column is-3">
-             <button class="level-item button is-secondary dist-control-button"
-                     id="dist-button-full-add-{{station.id}}"
-                     onclick="change_station({{station.id}}, type='full', x='add')"
-                     >+</button>
-            </div>
-            <div class="column is-3">
-             <button class="level-item button is-secondary dist-control-button"
-                     id="dist-button-full-remove-{{station.id}}"
-                     onclick="change_station({{station.id}}, type='full', x='remove')"
-                     >-</button>
-            </div>
-
-            <div class="column is-3">
-             <button class="level-item button is-secondary dist-control-button"
-                     id="dist-button-half-add-{{station.id}}"
-                     onclick="change_station({{station.id}}, type='half', x='add')"
-                     >+</button>
-            </div>
-            <div class="column is-3">
-             <button class="level-item button is-secondary dist-control-button"
-                     id="dist-button-half-remove-{{station.id}}"
-                     onclick="change_station({{station.id}}, type='half', x='remove')"
-                     >-</button>
-            </div>
-
-          </div>
-        </td>
-      </tr>
-
-      {% endif %}
 
   </div>{# box #}
 </div>

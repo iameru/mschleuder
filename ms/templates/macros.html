@@ -36,3 +36,18 @@ hx-get="{{url}}"
 hx-target="body"
 hx-swap="beforeend"
 {% endmacro %}
+
+
+{% macro distribute_buttons(full_or_half) %}
+<div class="buttons has-addons">
+  <button class="button is-link is-light"
+         style="background-color: #d6e0cd;"
+         id="dist-button-{{full_or_half}}-add-{{station.id}}"
+         onclick="change_station({{station.id}}, type='{{full_or_half}}', x='add')"
+         >+</button>
+  <button class="button is-link is-light"
+         id="dist-button-{{full_or_half}}-remove-{{station.id}}"
+         onclick="change_station({{station.id}}, type='{{full_or_half}}', x='remove')"
+         >-</button>
+</div>
+{% endmacro %}

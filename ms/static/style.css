@@ -49,12 +49,11 @@
     border-radius: 6px;
     }
 .bordered-dash {
-    border: 0.1em dashed #abaca9;
-    border-radius: 6px;
+    border: 0.1em dashed #abaca9 !important;
+    border-radius: 6px !important;
     display: inline;
     padding: 0.4em;
     background-color: #f0ebef;
-
     }
 .distribution-table {
     table-layout: fixed;
