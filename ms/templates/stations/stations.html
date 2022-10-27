@@ -65,7 +65,7 @@
         </small>
         </p>
         <p>
-        <small>🛈 {{ station.info }} </small>
+        <small>{% if station.info %}🛈 {{ station.info }}{% endif %}</small>
         </p>
         </div> {# end div box #}
       </div>
