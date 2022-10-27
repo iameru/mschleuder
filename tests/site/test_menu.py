@@ -16,7 +16,7 @@ def parse_menu(test_client, url: str, link_name: str, recursive=True):
 
     menu_list = menu.find("ul", {"class": "menu-list"})
 
-    active_hint = menu_list.find_all("a", {"class": "is-active"})
+    active_hint = menu_list.find_all("a", {"class": "has-background-success-light"})
 
     assert 1 == len(active_hint)
 
@@ -69,7 +69,7 @@ def test_distribution_overview_link(test_client):
 
     menu = bs(html.data, "html.parser").find("aside", {"class": "menu"})
 
-    link = menu.find("li", {"id": "distribution-overview-button"})
+    link = menu.find("div", {"id": "distribution-overview-link"})
     assert link
     assert "/distribute/overview" in link.parent["href"]
 

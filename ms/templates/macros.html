@@ -8,7 +8,7 @@ hx-swap="beforeend"
 {% macro nav_link(endpoint, text) %}
 {% if request.endpoint %}
   {% if request.endpoint.endswith(endpoint) %}
-      <li><a class="is-active" href="{{ url_for(endpoint) }}">{{text}}</a></li>
+      <li><a class="has-background-success-light" href="{{ url_for(endpoint) }}">{{text}}</a></li>
   {% else %}
       <li><a href="{{ url_for(endpoint) }}">{{text}}</a></li>
   {% endif %}
