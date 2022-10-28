@@ -22,7 +22,10 @@
       {% endif %}
       {% if product.info %}
       <div class="level-right">
-        <div class="level-item">🛈 {{ product.info }}</div>
+        <div class="level-item">
+          <img class="mr-2" src="{{url_for('static', filename='icons/info.svg')}}" width=18 />
+          {{ product.info }}
+        </div>
       </div>
       {% endif %}
     </div>

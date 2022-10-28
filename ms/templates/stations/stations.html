@@ -58,15 +58,17 @@
           </div>
           </div>
         <p>
-        👥{{ station.members_total }}
-        <small>
+        <img class="" src="{{url_for('static', filename='icons/users.svg') }}" width=18 />
+        {{ station.members_total }}
         ● {{ station.members_full }}
         ◑ {{station.members_half }}
-        </small>
         </p>
-        <p>
-        <small>{% if station.info %}🛈 {{ station.info }}{% endif %}</small>
-        </p>
+        {% if station.info %}
+          <div class="has-text-weight-light mt-2">
+            <img src="{{url_for('static', filename='icons/info.svg') }}" width=18 />
+            {{ station.info }}
+          </div>
+        {% endif %}
         </div> {# end div box #}
       </div>
     {% endfor %}

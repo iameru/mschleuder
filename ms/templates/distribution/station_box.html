@@ -21,7 +21,10 @@
     {# information about station #}
     {% if unit.by_piece %}
       <div class="columns">
-        <div class="column">👥 {{ station.members_full + station.members_half }}</div>
+        <div class="column">
+          <img class="" src="{{url_for('static', filename='icons/users.svg') }}" width=18 />
+          {{ station.members_full + station.members_half }}
+        </div>
         <div class="column">● {{ station.members_full }}</div>
         <div class="column">◑ {{station.members_half }}</div>
       </div>
