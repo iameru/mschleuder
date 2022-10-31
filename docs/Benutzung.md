@@ -29,7 +29,8 @@ Name: "Stück", Kurzname: "St", Einheitentyp: Stück
 Du kannst alle notwendigen Einheiten jederzeit, auch später in laufender Verteilung, anlegen. Du solltest damit möglichst beginnen (ein Produkt ohne Einheiten anlegen macht nicht so viel Sinn).
  Einheiten können auch geändert werden, das kann allerdings die Statistiken gut zerschiessen.
 
-:warning:
+![:warning:](icons/warning.png)
+
 >  **Wichtig**: Beim Verteilen von Erzeugnissen die bei Abnehmer:Innen eher im Grammbereich ankommen sollte eine Einheit wie zbsp Gramm eingetragen werden und das Erzeugniss dann eher in `50000 g` als in `50kg` verteilt werden! Der grund dafür sind Rundungsfehler die sich bei einer Verteilung im tiefen Kommabereich sonst einstellen würden.
 
 
@@ -104,6 +105,16 @@ Wenn du zufrieden mit der Verteilung bist kannst du mit klick auf `Speichern` da
 
 :warning:
 > Die Verteilung funktioniert ist jedoch gerade der wackeligste Teil der Anwendung! Ich werde mir mühe geben nach anständigem Erlernen von Javascript und DOM-Beherrschung eine bessere Nutzererfahrung zu programmieren- das wird spätestens April 2023 der Fall sein.
+
+#### Fairness Anzeige
+
+Diese Anzeige zeigt einem die letzten __6__ verteilungen (in maximal den letzten __8__ wochen damit nur aktuelle verteilungen berücksichtigt werden) des Erzeugnisses an. Wenn dieses Erzeugniss weniger als 6 mal in den letzten 8 Wochen verteilt wurde erscheinen deswegen natürlich weniger einträge.
+
+Auf der Verteilseite gibt es einen Knopf zur Anzeige :
+![Letzte Wochen](images/button_recent_distributions.png)
+
+Beispielbild einer solchen Anzeige:
+![Beispielbild der letzten Verteilungen eines Erzeugnisses](images/recent_distributions_of_product.png)
 
 
 #### Starten
