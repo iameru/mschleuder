@@ -10,7 +10,6 @@ Was mir aber auch schon wertschätzend entgegengeht wären monatliche Trinkgeld�
 ### Features
 
  - __Ernterechner__ um die Menge, die für alle Mitglieder zu ernten ist, zu berechnen
- - __Fairnessanzeige__ um bei Erzeugnissen in der Verteilung anzuzeigen, wie oft sie zuletzt an welche Station gingen
  - __Weitere Statistiken__ zu Erzeugnissen, Erntemengen, Stationsmengen, Anteilsmengen, ...
  - __Jahresstatistiken__ um ganze Jahre für sich zu betrachten und Trends abzusehen
  - __Öffentlicher Statistik bereich__ um für Mitglieder stets transparent zu sein
