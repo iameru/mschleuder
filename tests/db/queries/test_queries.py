@@ -128,3 +128,51 @@ def test_query_for_a_distribution_product_details(distribution):
 
     data = [dict(item) for item in result]
     from pprint import pprint
+
+
+def test_query_for_recent_distributions_of_product(distribution):
+
+    distribution.in_progress = False
+    # CHOSE PRODUCT (variable)
+    product = Product.query.get(1)
+
+    # CHOSE HOW MANY DISTS IN THE PAST (variable)
+    how_many_distributions = 2
+    FAKE_VALUE = False  # in production this should be True was too much refactoring of tests for me now
+    distributions = (
+        db.session.query(Distribution.id)
+        .filter(Distribution.in_progress == False, Distribution.finalized == FAKE_VALUE)
+        .order_by(Distribution.id.desc())
+    ).all()[:how_many_distributions]
+    distribution_ids = [dist[0] for dist in distributions]
+
+    # CHOSE STATION (variable)
+    station = Station.query.get(1)
+    station_history_ids = [station.id for station in station.history]
+
+    # DO QUERY DATA
+    fields = db.session.query(
+        func.sum(Share.single_full).label("single_full"),
+        func.sum(Share.single_half).label("single_half"),
+    )
+    joins = fields
+    groups = joins
+    filters = groups.filter(
+        Share.distribution_id.in_(distribution_ids),
+        Share.product_id == product.id,
+        Share.stationhistory_id.in_(station_history_ids),
+    )
+    query_result = filters.one()
+
+    # this would calculate the AVERAGE
+    result = [value / len(distributions) for value in query_result if value]
+
+    # teardown
+    distribution.in_progress = True
+
+    ### STATIONS ALL
+    stations = Station.query.all()
+
+    breakpoint()
+    # DONE?! check again and wire it up
+    assert False
