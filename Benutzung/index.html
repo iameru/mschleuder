@@ -59,6 +59,8 @@
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#verteilung">Verteilung</a>
         <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#fairness-anzeige">Fairness Anzeige</a>
+    </li>
     <li class="toctree-l4"><a class="reference internal" href="#starten">Starten</a>
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#wahrend-der-verteilung">Während der Verteilung</a>
@@ -136,7 +138,7 @@ Name: &quot;Stück&quot;, Kurzname: &quot;St&quot;, Einheitentyp: Stück
 </code></pre>
 <p>Du kannst alle notwendigen Einheiten jederzeit, auch später in laufender Verteilung, anlegen. Du solltest damit möglichst beginnen (ein Produkt ohne Einheiten anlegen macht nicht so viel Sinn).
  Einheiten können auch geändert werden, das kann allerdings die Statistiken gut zerschiessen.</p>
-<p>:warning:</p>
+<p><img alt=":warning:" src="../icons/warning.png" /></p>
 <blockquote>
 <p><strong>Wichtig</strong>: Beim Verteilen von Erzeugnissen die bei Abnehmer:Innen eher im Grammbereich ankommen sollte eine Einheit wie zbsp Gramm eingetragen werden und das Erzeugniss dann eher in <code>50000 g</code> als in <code>50kg</code> verteilt werden! Der grund dafür sind Rundungsfehler die sich bei einer Verteilung im tiefen Kommabereich sonst einstellen würden.</p>
 </blockquote>
@@ -195,6 +197,12 @@ Wenn die Verteilung gestartet wurde (siehe unten) kann mit einem Klick auf ein E
 <blockquote>
 <p>Die Verteilung funktioniert ist jedoch gerade der wackeligste Teil der Anwendung! Ich werde mir mühe geben nach anständigem Erlernen von Javascript und DOM-Beherrschung eine bessere Nutzererfahrung zu programmieren- das wird spätestens April 2023 der Fall sein.</p>
 </blockquote>
+<h4 id="fairness-anzeige">Fairness Anzeige</h4>
+<p>Diese Anzeige zeigt einem die letzten <strong>6</strong> verteilungen (in maximal den letzten <strong>8</strong> wochen damit nur aktuelle verteilungen berücksichtigt werden) des Erzeugnisses an. Wenn dieses Erzeugniss weniger als 6 mal in den letzten 8 Wochen verteilt wurde erscheinen deswegen natürlich weniger einträge.</p>
+<p>Auf der Verteilseite gibt es einen Knopf zur Anzeige :
+<img alt="Letzte Wochen" src="../images/button_recent_distributions.png" /></p>
+<p>Beispielbild einer solchen Anzeige:
+<img alt="Beispielbild der letzten Verteilungen eines Erzeugnisses" src="../images/recent_distributions_of_product.png" /></p>
 <h4 id="starten">Starten</h4>
 <p>Mit klick auf <code>Verteilung starten</code> rechts im Menu kann man die Verteilung starten.
 <img alt="Verteilung starten" src="../images/start_distribution.png" /></p>
