@@ -55,12 +55,6 @@
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href="./">Installation</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#updates">Updates</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#brauchst-du-hilfe">Brauchst du Hilfe?</a>
-    </li>
-        </ul>
-    </li>
     </ul>
                 </li>
               </ul>
@@ -100,33 +94,36 @@
             <div class="section" itemprop="articleBody">
               
                 <p>Zur Installation braucht es als Mindestanforderungen ein <strong>aktuelles Linuxbetriebssystem</strong>, <code>python (ver 3.7+)</code>, <code>git</code> und <code>pip</code> sowie <code>python3-venv</code>.</p>
+<h2 id="installation">Installation</h2>
 <p>install:</p>
 <pre><code class="language-bash">sudo apt install -y git python3 python3-venv python3-pip
 git clone https://github.com/iameru/mschleuder # download the tool
-cd mschleuder/ # navigate inside the downloaded
+cd mschleuder # navigate inside the downloaded
 
 # When bash is available
 chmod +x ./install.sh
 ./install.sh
 </code></pre>
-<h2 id="weiterbetrieb-des-tools">Weiterbetrieb des Tools</h2>
-<p>start des tools danach aus dem Ordner</p>
+<h2 id="start">Start</h2>
+<h3 id="aus-dem-ordner">Aus dem Ordner</h3>
 <pre><code class="language-bash">source venv/bin/activate
 gunicorn -w 2 &quot;ms:create_app()&quot;
 </code></pre>
-<blockquote>
-<p>noch nicht dokumentiert:
-gunicorn kann auch per systemd gestartet werden was die bevorzugte variante wäre</p>
-</blockquote>
-<h3 id="updates">Updates</h3>
-<p>Die <code>möhrenschleuder</code> plant im "CI" verfahren konstant Updates erhalten zu können. Das heisst ihr könnt euch, solltet ihr euch selber um das Tool kümmern, einfach per <code>pull</code> von <code>main</code> das neueste verfügbare Update ziehen. Es ist wichtig dabei die Datenbank migrationen laufen zu lassen falls sich strukturell etwas am Code geändert hat!</p>
-<p>beispiel (ihr seid im Ordner, also <code>mschleuder</code> nach obiger Installation):</p>
-<pre><code class="language-bash"># gunicorn abbrechen ! (noch nicht dokumentiert)
-git pull
-flask db upgrade
-# gunicorn wieder starten !
+<h3 id="mit-systemd">Mit systemd</h3>
+<p>bearbeite die Datei <code>mschleuder.service</code> (gegebenenfalls frag um hilfe wenn du nicht weisst was du eintragen sollst)
+dann:</p>
+<pre><code class="language-bash">cp mschleuder.service /etc/systemd/system/mschleuder.service
 </code></pre>
-<h4 id="brauchst-du-hilfe">Brauchst du Hilfe?</h4>
+<h2 id="updates">Updates</h2>
+<p>Die <code>möhrenschleuder</code> plant im "CI" verfahren konstant Updates erhalten zu können. Das heisst ihr könnt euch, solltet ihr euch selber um das Tool kümmern, einfach per <code>pull</code> von <code>main</code> das neueste verfügbare Update ziehen. Es ist wichtig dabei die Datenbank migrationen laufen zu lassen falls sich strukturell etwas am Code geändert hat!</p>
+<p>beispiel bei systemd nutzung (ihr seid im Ordner, also <code>mschleuder</code> nach obiger Installation):</p>
+<pre><code class="language-bash">sudo systemctl stop mschleuder.service # möhrenschleuder anhalten
+git pull # die neue version ziehen
+source venv/bin/activate # in virtual environment gehen
+flask db upgrade # Eventuelle datenbankmigrationen starten
+sudo systemctl start mschleuder.service # möhrenschleuder wieder starten
+</code></pre>
+<h2 id="brauchst-du-hilfe">Brauchst du Hilfe?</h2>
 <p>Melde dich gerne bei mir falls Interesse besteht und wir können einen Termin machen bei dem ich dir dabei helfe das Tool zu <a href="../Zukunft/">installieren, zu nutzen oder ob es für dich taugt</a></p>
               
             </div>
