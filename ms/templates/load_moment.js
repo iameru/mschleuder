@@ -6,7 +6,12 @@
   for (let field of fields) {
 
     value = field.textContent
-    value_new = moment(value).format("LLL")
+
+    if (field.classList.contains("date-no-year")) {
+      value_new = moment(value).format("DD. MMM")
+    } else {
+      value_new = moment(value).format("LLL")
+    }
     field.textContent = value_new
   }
 </script>

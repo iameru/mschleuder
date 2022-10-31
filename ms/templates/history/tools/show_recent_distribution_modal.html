@@ -1,0 +1,46 @@
+{% extends 'modal.html' %}
+
+{% block modal_content %}
+<div class="has-text-centered">
+  <span class="is-size-4">
+    {{ product.name }}
+  </span>
+  <span class="has-text-weight-light is-size-6">
+    in {{ unit.longname }}
+  </span>
+</div>
+<div class="has-text-weight-light has-text-centered">
+  Die letzten {{ how_many_distributions }} Verteilungen in den letzten 8 Wochen
+</div>
+<hr>
+
+<div class="columns is-gapless is-multiline">
+{% for station, data_list in data.items() %}
+  <div class="column is-half">
+      <div class="recent-distribution-box">
+        <div class="columns is-gapless is-multiline m-0">
+          <div class="column is-one-third has-text-weight-medium">{{ station.name }}</div>
+          <div class="column is-one-third">Volle</div>
+          <div class="column is-one-third">Halbe</div>
+        </div>
+        <div class="columns is-gapless is-multiline">
+          {% for dist_share in data_list %}
+            {% if unit.by_piece %}
+              {% set full = dist_share.single_full|int %}
+              {% set half = dist_share.single_half|int %}
+            {% else %}
+              {% set full = dist_share.single_full|round(2,"floor") %}
+              {% set half = dist_share.single_half|round(2,"floor") %}
+            {% endif %}
+            {% if full == 0 %} {% set full = "" %} {% endif %}
+            {% if half == 0 %} {% set half = "" %} {% endif %}
+          <div class="column is-one-third date-time date-no-year">{{ dist_share.share_date }}</div>
+          <div class="column is-one-third">{{ full }}</div>
+          <div class="column is-one-third">{{ half }}</div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endfor %}
+</div>
+{% endblock %}

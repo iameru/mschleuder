@@ -4,7 +4,15 @@ from flask import Blueprint, current_app, make_response, render_template, url_fo
 from flask_weasyprint import HTML, render_pdf
 
 from ms.db import query
-from ms.db.models import Distribution, Organisation, Product, Share, StationHistory, db
+from ms.db.models import (
+    Distribution,
+    Organisation,
+    Product,
+    Share,
+    StationHistory,
+    Unit,
+    db,
+)
 
 history = Blueprint("history", __name__)
 
@@ -79,6 +87,26 @@ def station_distribution_details(station_id, pdf_station_name=None):
 
     return render_template(
         "history/station_details_modal.html", station=station, shares=shares, csa=csa
+    )
+
+
+@history.route("/tools/show-recent-distributions/<int:product_id>/<int:unit_id>")
+def show_recent_distribution(product_id, unit_id):
+
+    product = Product.query.get_or_404(product_id)
+    unit = Unit.query.get_or_404(unit_id)
+    how_many_distributions = 6
+
+    result = query.show_recent_distribution(
+        product, unit, how_many_distributions=how_many_distributions
+    )
+
+    return render_template(
+        "history/tools/show_recent_distribution_modal.html",
+        data=result,
+        product=product,
+        unit=unit,
+        how_many_distributions=how_many_distributions,
     )
 
 

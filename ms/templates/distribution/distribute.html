@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% from 'macros.html' import number_input %}
+{% from 'macros.html' import modal with context %}
 {% set title = product.name + ' verteilen' %}
 
 {% block scripts %}
@@ -48,7 +49,9 @@
 
     <div class="columns is-mobile is-centered is-multiline">
 
+      {# Input area #}
       <div class="column is-one-third-desktop is-full-mobile">
+
         <div class="columns is-mobile is-centered">
           <div class="column is-half is-half-mobile has-text-centered">
             <input type="number"
@@ -60,6 +63,18 @@
                   class="label">Ernte <small>( in {{ unit.longname }} )</small></label>
           </div>
         </div>
+
+        {# tools #}
+        <div class="column">
+          tools:
+          <div class="row">
+            <a class="button is-small is-light"
+               id="recent-distributions"
+               {{ modal(url_for("history.show_recent_distribution", product_id=product.id, unit_id=unit.id)) }}
+               >Letzte Wochen</a>
+          </div>
+        </div>
+
       </div>
 
       {# buttons #}

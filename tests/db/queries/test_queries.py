@@ -172,7 +172,3 @@ def test_query_for_recent_distributions_of_product(distribution):
 
     ### STATIONS ALL
     stations = Station.query.all()
-
-    breakpoint()
-    # DONE?! check again and wire it up
-    assert False

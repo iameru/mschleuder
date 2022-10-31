@@ -319,6 +319,40 @@ def test_stations_can_be_opt_out_visually(test_client, product_distribution):
         assert opt_out_field["onclick"] == "trigger_station_opt_out(this);"
 
 
+@mark.skip
+def test_recent_distributions_view_in_distribution(test_client, product):
+
+    # TEST NOT DONE but feature included..
+
+    # setup
+    # in a distribution view
+    unit = choice(product.units)
+    url = url_for(
+        "distribution.distribute",
+        p_unit_shortname=unit.shortname,
+        p_id=product.id,
+    )
+    response = test_client.get(url, follow_redirects=True)
+    html = bs(response.data, "html.parser")
+
+    # we will find a button inviting us for details on recent dists of this product
+    # this will be shown in a modal for now
+    recent_dist_button = html.find("a", {"id": "recent-distributions"})
+    assert recent_dist_button
+    url = recent_dist_button["hx-get"]
+    assert url
+    assert url == url_for(
+        "history.show_recent_distribution", product_id=product.id, unit_id=unit.id
+    )
+
+    # get the modal
+    response = test_client.get(url)
+    assert response.status_code == 200
+    modal = bs(response.data, "html.parser")
+
+    assert False
+
+
 def test_stop_distribution(test_client):
 
     # setup

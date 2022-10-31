@@ -4,6 +4,13 @@
 @media screen and (max-width: 500px) {
   #products-in-distribution > li { display: none; }
 }
+.recent-distribution-box {
+  background-color: #f5f7f2;
+  border: 1px solid grey;
+  margin: 0.25rem;
+  padding: 0.2rem;
+}
+
 .opt-out {
         background-color: rgba(0,0,0,0.1) !important;
         animation-name: fadeIn;
