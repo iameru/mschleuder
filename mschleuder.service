@@ -1,0 +1,17 @@
+[Unit]
+Description="Service to run Möhrenschleuder in the System"
+
+[Service]
+Type=notify
+User=$USER
+Group=$GROUP
+RuntimeDirectory=gunicorn
+WorkingDirectory=$WORKINGDIRECTORY
+ExecStart=$PATHTOGUNICORN -w 2 "ms:create_app()"
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=10
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
