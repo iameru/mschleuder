@@ -61,7 +61,7 @@ product_units = db.Table(
 )
 
 
-class Product(TimestampMixin, db.Model, ReprMixin, SoftDeleteMixin):
+class Product(TimestampMixin, db.Model, ReprMixin):
 
     __tablename__ = "products"
 
