@@ -152,7 +152,7 @@ def test_edit_station_members(test_client, csrf):
 
     response = test_client.get("/stations/stationsdetail/1")
 
-    form = bs(response.data, "html.parser").find("form")
+    form = bs(response.data, "html.parser").find("form", {"id": "station-edit-form"})
 
     name = form.find("input", {"id": "name"})
     info = form.find("input", {"id": "info"})
@@ -187,7 +187,7 @@ def test_values_in_edit_station(test_client, station):
         "a", {"id": f"station-edit-view-{station.id}"}
     )
     response = test_client.get(edit_box["hx-get"])
-    form = bs(response.data, "html.parser").find("form")
+    form = bs(response.data, "html.parser").find("form", {"id": "station-edit-form"})
 
     name = form.find("input", {"id": "name"})
     info = form.find("input", {"id": "info"})
