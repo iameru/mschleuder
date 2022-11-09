@@ -82,5 +82,12 @@ def new_station():
 @stations.route("/delete/<int:station_id>", methods=["POST"])
 def delete(station_id):
 
-    return ""
+    station = Station.query.get_or_404(station_id)
+
+    if station.deleted_at:
+        abort(404)
+
+    station.delete()
+    db.session.commit()
+
     return redirect(url_for("stations.stations_view"))

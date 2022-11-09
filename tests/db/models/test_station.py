@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from pytest import mark
 
 from ms.db import db_api
@@ -57,6 +59,27 @@ def test_station_has_total_member_sum(test_app):
         db.session.add(station)
         db.session.commit()
         assert total == station.members_total
+
+
+def test_stations_softdelete(test_app):
+
+    # we add a station and delete it
+    station = Station(
+        name="to be deleted", delivery_order=123, members_full=3, members_half=2
+    )
+    db.session.add(station)
+    db.session.commit()
+
+    assert station.deleted_at == None
+
+    station.delete()
+    db.session.commit()
+
+    # roughly deleted now timestamp
+    assert station.deleted_at
+    assert station.deleted_at.replace(microsecond=0) == datetime.now().replace(
+        microsecond=0
+    )
 
 
 def test_unique_station_names():

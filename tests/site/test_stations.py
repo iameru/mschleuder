@@ -247,3 +247,35 @@ def test_create_update_stations_not_possible_in_distribution(
     # no route to update -> no csrf -> no update
     response = test_client.get(url_for("stations.detail_view", stationid=1))
     assert response.status_code == 404
+
+
+def test_delete_stations(test_client, station):
+
+    response = test_client.get("/stations/")
+    edit_box = bs(response.data, "html.parser").find(
+        "a", {"id": f"station-edit-view-{station.id}"}
+    )
+    assert edit_box  # exists
+    response = test_client.get(edit_box["hx-get"])
+    form = bs(response.data, "html.parser").find("form", {"id": "delete-station"})
+    assert form
+    url = form["action"]
+    assert url == url_for("stations.delete", station_id=station.id)
+    assert form["method"] == "POST"
+
+    delete_button = form.find("button")
+    assert delete_button
+
+    # delete the item
+    test_client.post(url)
+
+    response = test_client.get("/stations/")
+    edit_box = bs(response.data, "html.parser").find(
+        "a", {"id": f"station-edit-view-{station.id}"}
+    )
+    # Item is not shown
+    assert not edit_box
+
+    # delete again shall throw 404
+    response = test_client.post(url)
+    assert response.status_code == 404

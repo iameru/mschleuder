@@ -3,6 +3,7 @@ from typing import Union
 
 from flask_sqlalchemy import SQLAlchemy
 from pydantic import BaseModel
+from sqla_softdelete import SoftDeleteMixin
 from sqlalchemy import Computed, MetaData, desc
 from sqlalchemy.orm.exc import DetachedInstanceError
 from sqlalchemy.types import Float
@@ -60,7 +61,7 @@ product_units = db.Table(
 )
 
 
-class Product(TimestampMixin, db.Model, ReprMixin):
+class Product(TimestampMixin, db.Model, ReprMixin, SoftDeleteMixin):
 
     __tablename__ = "products"
 
@@ -107,7 +108,7 @@ class StationHistory(db.Model, ReprMixin):
         return self._repr(id=self.id, name=self.name, members_total=self.members_total)
 
 
-class Station(TimestampMixin, db.Model, ReprMixin):
+class Station(TimestampMixin, db.Model, ReprMixin, SoftDeleteMixin):
 
     __tablename__ = "stations"
 
@@ -137,6 +138,9 @@ class Station(TimestampMixin, db.Model, ReprMixin):
         # add corresponding DIST ID
         data["distribution_id"] = dist_id
         data["station_id"] = self.id
+
+        # remove unwanted column entries
+        del data["deleted_at"]
 
         if archive_time:
             data["time_archived"] = archive_time

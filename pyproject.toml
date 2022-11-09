@@ -26,6 +26,7 @@ pydantic = "^1.10.2"
 Flask-Migrate = "^3.1.0"
 flask_weasyprint = "^1.0.0"
 Flask-Moment = "^1.0.5"
+sqla-softdelete = "^1.2"
 
 [tool.poetry.group.dev.dependencies]
 python-testmark = "^1.0"
