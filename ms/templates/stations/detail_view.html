@@ -9,6 +9,18 @@
       </div>
     </div>
   {% endif %}
+  <a href="#" id="delete-station-form-expand has-text-centered"
+              class="button is-small is-warning is-light"
+              onclick="document.querySelector('#delete-station').classList.toggle('expand')
+              ">station löschen</a>
+  {% set form_action = url_for('stations.delete', station_id=station.id) %}
+  <form id="delete-station"
+        class="row has-text-centered expand mt-2"
+        action = "{{ form_action }}"
+        method="POST"
+        >
+    <button class="button is-warning">station endgültig löschen</button>
+  </form>
   <hr class="edit-hr">
   {% set form_action = url_for('stations.edit', stationid=station.id) %}
   {% set form_params = 'id=station-edit-form' %}

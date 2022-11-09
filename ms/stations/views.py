@@ -77,3 +77,10 @@ def new_station():
         return redirect(url_for("stations.stations_view"), 302)
 
     return render_template("stations/new.html", form=form)
+
+
+@stations.route("/delete/<int:station_id>", methods=["POST"])
+def delete(station_id):
+
+    return ""
+    return redirect(url_for("stations.stations_view"))
