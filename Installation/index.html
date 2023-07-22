@@ -34,7 +34,7 @@
           <a href=".." class="icon icon-home"> Möhrenschleuder
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -59,7 +59,7 @@
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../License/">License</a>
+                <li class="toctree-l1"><a class="reference internal" href="../License/">GPLv3</a>
                 </li>
               </ul>
               <ul>
@@ -83,7 +83,7 @@
       <div class="wy-nav-content">
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a> &raquo;</li>
       <li>Installation</li>
     <li class="wy-breadcrumbs-aside">
     </li>
@@ -93,10 +93,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <p>Zur Installation braucht es als Mindestanforderungen ein <strong>aktuelles Linuxbetriebssystem</strong>, <code>python (ver 3.7+)</code>, <code>git</code> und <code>pip</code> sowie <code>python3-venv</code>.</p>
+                <p>Zur Installation braucht es als Mindestanforderungen ein <strong>aktuelles Linuxbetriebssystem</strong>, <code>python (ver 3.7+)</code>, <code>git</code> und <code>pip</code> sowie <code>python3-venv</code> sowie <code>pango</code> fürs pdf erstellen.</p>
 <h2 id="installation">Installation</h2>
-<p>install:</p>
-<pre><code class="language-bash">sudo apt install -y git python3 python3-venv python3-pip
+<p>install zbsp:</p>
+<pre><code class="language-bash">sudo apt install -y git python3 python3-venv python3-pip libpangocairo-1.0-0
 git clone https://github.com/iameru/mschleuder # download the tool
 cd mschleuder # navigate inside the downloaded
 
@@ -130,7 +130,7 @@ sudo systemctl start mschleuder.service # möhrenschleuder wieder starten
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
         <a href="../Development/" class="btn btn-neutral float-left" title="Development"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../License/" class="btn btn-neutral float-right" title="License">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../License/" class="btn btn-neutral float-right" title="GPLv3">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
