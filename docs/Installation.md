@@ -1,11 +1,13 @@
 
-Zur Installation braucht es als Mindestanforderungen ein __aktuelles Linuxbetriebssystem__, `python (ver 3.7+)`, `git` und `pip` sowie `python3-venv`.
+Zur Installation braucht es als Mindestanforderungen ein __aktuelles Linuxbetriebssystem__, `python (ver 3.7+)`, `git` und `pip` sowie `python3-venv` sowie `pango` fürs pdf erstellen.
 
 ## Installation
 
-install:
+
+install zbsp:
+
 ```bash
-sudo apt install -y git python3 python3-venv python3-pip
+sudo apt install -y git python3 python3-venv python3-pip libpangocairo-1.0-0
 git clone https://github.com/iameru/mschleuder # download the tool
 cd mschleuder # navigate inside the downloaded
 
