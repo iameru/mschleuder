@@ -1,5 +1,6 @@
 import json
 from random import choice
+from typing import NamedTuple
 
 import pytest
 from flask import url_for
@@ -78,6 +79,15 @@ def distribution(test_client):
 
 
 def test_query_current_distribution_sum_and_averages_for_products(distribution):
+    ## BROKEN HOTFIX
+    ## BROKEN HOTFIX
+    class QueryResult(NamedTuple):
+        product_name: str
+        product_id: int
+        total_sum: int
+        single_full_average: int
+        single_half_average: int
+        single_full: int
 
     # build a query by choosing the fields we want
     fields = db.session.query(
@@ -96,15 +106,26 @@ def test_query_current_distribution_sum_and_averages_for_products(distribution):
     filters = groups.filter(
         Share.distribution_id == distribution.id,
     )
-    data = [dict(item) for item in filters.all()]
+    result = filters.all()
+    data = []
+    for item in result:
+        data.append(QueryResult(product_name=item[0], product_id=item[1],
+                    total_sum=item[2], single_full_average=item[3],
+                    single_half_average=item[4], single_full=item[5]))
+    # data = [dict(item) for item in filters.all()]
 
     # assert some of the data from _save_product call above inside
     for idx, entry in enumerate(data):
-        assert entry.get("product_id") == idx + 1
-        assert entry.get("single_full") in [50, 44, 33]
+        assert entry.product_id == idx + 1
+        assert entry.single_full in [50, 44, 33]
 
 
 def test_query_for_a_distribution_product_details(distribution):
+    ## BROKEN HOTFIX
+    class QueryResult(NamedTuple):
+        product_name: str
+        total_sum: int
+        share: Share
 
     # variables
     product_id = 1
@@ -124,9 +145,11 @@ def test_query_for_a_distribution_product_details(distribution):
         Share.product_id == product_id,
     )
 
-    result = filters.all()
+    result = [QueryResult(product_name=item[0], total_sum=item[1], share=item[2])
+              for item
+              in filters.all()]
 
-    data = [dict(item) for item in result]
+    # data = [dict(item) for item in result]
     from pprint import pprint
 
 

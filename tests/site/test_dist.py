@@ -421,12 +421,3 @@ def test_pdf_field_in_stationhistory_after_dist():
 
         # teardown
         pdf.unlink()
-
-
-@pytest.mark.skip
-def test_generation_of_bulked_pdf(test_client):
-
-    dist: Distribution = Distribution.current()
-
-    response = test_client.get(url_for("history.bulk_pdf", distribution_id=dist.id))
-    assert response.status_code == 200
