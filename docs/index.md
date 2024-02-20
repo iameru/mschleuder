@@ -9,5 +9,6 @@ _Bilder sagen mehr als Tausend Worte:_
 ![Übersicht über vergangene Verteilungen](images/index_history.png)
 ![Übersicht über stationen](images/index_stations.png)
 ![Graphen und Statistiken Beispiel](images/plot_station_members.png)
+![Statistik Beispiel Produkte](images/product-statistics.gif)
 
 check out my [github](https://github.com/iameru)

@@ -1,6 +1,9 @@
+from typing import Dict, List
+from datetime import datetime
 from pathlib import Path
+from pydantic import BaseModel
 
-from flask import Blueprint, current_app, make_response, render_template, url_for
+from flask import Blueprint, current_app, make_response, render_template, url_for, request
 from flask_weasyprint import HTML, render_pdf
 
 from ms.db import query
@@ -129,3 +132,84 @@ def station_chart():
         stations[name] = result
 
     return render_template("history/station_chart.html", stations=stations)
+
+
+@history.route("/chart/products")
+def product_chart():
+    return render_template("history/product_chart.html")
+
+
+@history.route("/api/products")
+def api_products():
+    products = Product.query.all()
+    return [{"id": product.id, "name": product.name} for product in products]
+
+
+class ProductData(BaseModel):
+    distribution_date: str
+    value: float
+
+class UnitProductData(BaseModel):
+    total: float
+    unit_name: str
+    data: List[ProductData]
+
+class ProductResponse(BaseModel):
+    id: int
+    name: str
+    data: Dict[str, UnitProductData]
+
+@history.route("/api/product")
+def api_product() -> ProductResponse:
+
+    request_args = request.args
+    product_id = request_args.get("product_id")
+    product = Product.query.get_or_404(product_id)
+
+    start_time = datetime.strptime( request_args.get("start_date"), "%Y-%m-%d")
+    end_time = datetime.strptime( request_args.get("end_date"), "%Y-%m-%d")
+
+    def time_filter(share) -> bool:
+        if start_time <= share.dist.date_time and share.dist.date_time <= end_time:
+            return True
+        return False
+    filtered_data = [share for share in filter(time_filter, product.shares)]
+
+    # extremely inefficient as this would be lot faster in DB. will do it in
+    # python as the query rewrite is off the limits for now. fetch all dist ids
+    dist_ids = set([share.dist.id for share in filtered_data])
+
+    data = {}
+    for dist_id in dist_ids:
+        # fetch all shares for this distribution
+        shares = [share for share in filtered_data if share.dist.id == dist_id]
+
+        share_unit_name = shares[0].unit.longname
+
+        shares_total = sum([share.sum_total for share in shares])
+
+        if share_unit_name not in data.keys():
+            data[share_unit_name] = {
+                "total": shares_total,
+                "data": [
+                ProductData(
+                    distribution_date=shares[0].dist.date_time.strftime("%Y-%m-%d"),
+                    value=shares_total,
+                    )],
+                "unit_name": share_unit_name,
+            }
+        else:
+            data[share_unit_name]["total"] += shares_total
+            data[share_unit_name]["data"].append(
+                ProductData(
+                    distribution_date=shares[0].dist.date_time.strftime("%Y-%m-%d"),
+                    value=shares_total,
+                )
+            )
+
+    return ProductResponse(
+        id=product.id,
+        name=product.name,
+        data=data,
+    ).dict()
+
