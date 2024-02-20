@@ -1,5 +1,6 @@
 import datetime
-from typing_extensions import NamedTuple, List
+from typing_extensions import NamedTuple
+from typing import List
 
 from sqlalchemy import func
 
