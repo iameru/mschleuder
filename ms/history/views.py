@@ -177,7 +177,9 @@ def api_product() -> ProductResponse:
 
     # extremely inefficient as this would be lot faster in DB. will do it in
     # python as the query rewrite is off the limits for now. fetch all dist ids
-    dist_ids = set([share.dist.id for share in filtered_data])
+    dist_ids = list(set([share.dist.id for share in filtered_data]))
+    dist_ids.sort()
+
 
     data = {}
     for dist_id in dist_ids:
