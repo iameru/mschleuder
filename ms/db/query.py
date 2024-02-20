@@ -1,11 +1,25 @@
 import datetime
+from typing_extensions import NamedTuple
+from typing import List
 
 from sqlalchemy import func
 
 from ms.db.models import Distribution, Product, Share, Station, StationHistory, Unit, db
 
 
-def distribution_overview(distribution: Distribution):
+# hotfix rotten code
+class DistQueryResult(NamedTuple):
+    total_sum: int
+    name: str
+    product_id: int
+    dist_id: int
+    unit_name: str
+    unit_shortname: str
+    unit_id: int
+    info: str
+def distribution_overview(distribution: Distribution) -> List[DistQueryResult]:
+    ## hotfix
+
     fields = db.session.query(
         func.sum(Share.sum_total).label("total_sum"),
         Product.name,
@@ -22,10 +36,31 @@ def distribution_overview(distribution: Distribution):
         Share.distribution_id == distribution.id,
         Share.unit_id == Unit.id,
     )
-    return [dict(item) for item in filters.all()]
+    result = filters.all()
+    data = [
+        DistQueryResult(
+            total_sum=item[0],
+            name=item[1],
+            product_id=item[2],
+            dist_id=item[3],
+            unit_name=item[4],
+            unit_shortname=item[5],
+            unit_id=item[6],
+            info=item[7],
+        )
+        for item in result
+    ]
+    return data
+    # return [dict(item) for item in filters.all()]
 
 
-def product_details(distribution_id, product_id, unit_id):
+# hotfix rotten code
+class ProductDetailsQueryResult(NamedTuple):
+    name: str
+    total_sum: int
+    Share: Share
+    unit_name: str
+def product_details(distribution_id, product_id, unit_id) -> List[ProductDetailsQueryResult]:
 
     fields = db.session.query(
         Product.name.label("product_name"),
@@ -41,7 +76,18 @@ def product_details(distribution_id, product_id, unit_id):
         Share.unit_id == unit_id,
     )
 
-    return [dict(item) for item in filters.all()]
+    result = filters.all()
+    data = [
+        ProductDetailsQueryResult(
+            name=item[0],
+            total_sum=item[1],
+            Share=item[2],
+            unit_name=item[3],
+        )
+        for item in result
+    ]
+    return data
+    # return [dict(item) for item in filters.all()]
 
 
 def show_recent_distribution(product, unit, how_many_distributions=6):

@@ -82,15 +82,6 @@ def test_settings_being_applied_to_other_sites(test_client):
     assert organisation.name in title.text
 
 
-@pytest.mark.skip
-def test_changing_settings(test_client):
-
-    response = test_client.get(url_for("settings.settings_view"))
-    form = bs(response.data, "html.parser").find("form", {"id": "settings-form"})
-    assert form
-    assert False
-
-
 def test_add_unit_modal(test_client, csrf):
 
     response = test_client.get("/settings/units/new")

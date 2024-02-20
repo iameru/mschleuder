@@ -14,6 +14,7 @@ test_config = {
     "SQLALCHEMY_DATABASE_URI": "sqlite:///:memory:",
     "CSRF_SECRET_KEY": "CSRF_TEST_KEY",
     "INSTANCE_PATH": "/dev/shm/ms-testing",
+    "SERVER_NAME": "localhost",
 }
 
 
