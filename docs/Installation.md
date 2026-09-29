@@ -1,5 +1,5 @@
 
-Zur Installation braucht es als Mindestanforderungen ein __aktuelles Linuxbetriebssystem__, `python (ver 3.7+)`, `git` und `pip` sowie `python3-venv` sowie `pango` fürs pdf erstellen.
+Zur Installation braucht es als Mindestanforderungen ein __Linuxbetriebssystem__, `python (ver 3.7+)`, `git` und `pip` sowie `python3-venv` sowie `pango` fürs pdf erstellen.
 
 ## Installation
 

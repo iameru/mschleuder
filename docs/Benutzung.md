@@ -103,8 +103,6 @@ Verteilung wird berechnet mit Klick auf einen der Knöpfe:
 
 Wenn du zufrieden mit der Verteilung bist kannst du mit klick auf `Speichern` das ganze so wie du es siehst abspeichern. Die Seite bleibt so bis du wegklickst. Solltest du danach allerdings etwas ändern überschreibst du mit erneutem `Speichern` natürlich wieder das abgespeicherte.
 
-:warning:
-> Die Verteilung funktioniert ist jedoch gerade der wackeligste Teil der Anwendung! Ich werde mir mühe geben nach anständigem Erlernen von Javascript und DOM-Beherrschung eine bessere Nutzererfahrung zu programmieren- das wird spätestens April 2023 der Fall sein.
 
 #### Fairness Anzeige
 
