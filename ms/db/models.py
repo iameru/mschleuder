@@ -44,7 +44,7 @@ class Unit(TimestampMixin, db.Model, ReprMixin):
 
     __tablename__ = "units"
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True)
     by_piece = db.Column(db.Boolean, nullable=False)
     shortname = db.Column(db.String(128), unique=True, nullable=False)
     longname = db.Column(db.String(128), unique=True, nullable=False)
@@ -65,7 +65,7 @@ class Product(TimestampMixin, db.Model, ReprMixin):
 
     __tablename__ = "products"
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128), unique=True, nullable=False)
     info = db.Column(db.String(128))
     last_distribution = db.Column(db.DateTime)
@@ -85,7 +85,7 @@ class StationHistory(db.Model, ReprMixin):
 
     __tablename__ = "stationshistory"
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128), unique=False, nullable=False)
     info = db.Column(db.String(128), nullable=True)
     delivery_order = db.Column(db.Integer, nullable=False)
@@ -112,7 +112,7 @@ class Station(TimestampMixin, db.Model, ReprMixin, SoftDeleteMixin):
 
     __tablename__ = "stations"
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128), unique=True, nullable=False)
     info = db.Column(db.String(128), nullable=True)
     delivery_order = db.Column(db.Integer, nullable=False)
@@ -158,7 +158,7 @@ class Organisation(db.Model, ReprMixin):
 
     __tablename__ = "settings"
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128), unique=True, nullable=False)
     footer = db.Column(db.String(128), nullable=True)
 
@@ -168,7 +168,7 @@ class Organisation(db.Model, ReprMixin):
 
 class Distribution(TimestampMixin, db.Model, ReprMixin):
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True)
     in_progress = db.Column(db.Boolean, nullable=False)
     finalized = db.Column(db.Boolean, default=False)
     date_time = db.Column(db.DateTime, nullable=False, default=datetime_now)
@@ -186,7 +186,7 @@ class Distribution(TimestampMixin, db.Model, ReprMixin):
 
 class Share(TimestampMixin, db.Model, ReprMixin):
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True)
     product_id = db.Column(db.Integer, db.ForeignKey("products.id"), nullable=False)
     stationhistory_id = db.Column(
         db.Integer, db.ForeignKey("stationshistory.id"), nullable=False
@@ -195,16 +195,12 @@ class Share(TimestampMixin, db.Model, ReprMixin):
         db.Integer, db.ForeignKey("distribution.id"), nullable=False
     )
     unit_id = db.Column(db.Integer, db.ForeignKey("units.id"), nullable=False)
-    single_full = db.Column(
-        Float(asdecimal=True, precision=8, decimal_return_scale=None)
-    )
-    single_half = db.Column(
-        Float(asdecimal=True, precision=8, decimal_return_scale=None)
-    )
+    single_full = db.Column(db.Numeric(precision=8))
+    single_half = db.Column(db.Numeric(precision=8))
     single_total = db.Column(db.Float, Computed("single_full + single_half"))
     information = db.Column(db.String)
-    sum_full = db.Column(Float(asdecimal=True, precision=8, decimal_return_scale=None))
-    sum_half = db.Column(Float(asdecimal=True, precision=8, decimal_return_scale=None))
+    sum_full = db.Column(db.Numeric(precision=8))
+    sum_half = db.Column(db.Numeric(precision=8))
     sum_total = db.Column(db.Float, Computed("sum_full + sum_half"))
 
     def __repr__(self):

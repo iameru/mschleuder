@@ -213,5 +213,5 @@ def api_product() -> ProductResponse:
         id=product.id,
         name=product.name,
         data=data,
-    ).dict()
+    ).model_dump()
 

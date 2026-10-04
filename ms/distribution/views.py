@@ -249,7 +249,7 @@ def save():
 
                 else:
 
-                    result.update(update_data.dict())
+                    result.update(update_data.model_dump())
 
             else:
                 share = Share(**data)
