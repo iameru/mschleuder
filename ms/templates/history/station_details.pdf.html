@@ -14,9 +14,11 @@
       </div>
       <div class="column is-3 is-pulled-right">
       {% if pdf %}
+        {% if csa.logo %}
         <div class="is-size-4">
-         LOGO
+          <img src="{{ csa.logo }}" style="max-height: 100px; max-width: 400px;" alt="Logo">
         </div>
+        {% endif %}
         <div>{{ csa.name }}</div>
       {% endif %}
       </div>

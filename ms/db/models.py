@@ -161,6 +161,7 @@ class Organisation(db.Model, ReprMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128), unique=True, nullable=False)
     footer = db.Column(db.String(128), nullable=True)
+    logo = db.Column(db.Text, nullable=True)
 
     def __repr__(self):
         return self._repr(id=self.id, name=self.name)

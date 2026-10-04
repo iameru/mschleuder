@@ -11,7 +11,8 @@
     <form action="{{ url_for('settings.settings_view') }}"
           method="POST"
           class="form"
-          id="settings-form">
+          id="settings-form"
+          enctype="multipart/form-data">
 
       {{ form.csrf_token }}
     <div class="field">
@@ -22,6 +23,35 @@
     <div class="field">
       {{ form.footer.label("Grußzeile auf Lieferschein") }}
       {{ form.footer(placeholder="Wird unten auf den Lieferschein gedruckt", class_="input") }}
+    </div>
+
+
+    {% if form.logo.data %}
+    <div class="field">
+      <div class="image">
+        <img src="{{ form.logo.data }}" alt="Logo" style="width:auto; max-width: 100%; max-height: 100px;">
+      </div>
+    </div>
+    {% endif %}
+    <div class="field">
+      {{ form.logo.label("Logo hochladen") }}
+      <div class="file has-name is-fullwidth">
+        <label class="file-label">
+          {{ form.logo(class_="file-input", id="logo-upload") }}
+          <span class="file-cta">
+            <span class="file-icon">
+              <i class="fas fa-upload"></i>
+            </span>
+            <span class="file-label">
+              Datei auswählen...
+            </span>
+          </span>
+          <span class="file-name" id="logo-filename">
+            Keine Datei ausgewählt
+          </span>
+        </label>
+      </div>
+      <p class="help">Maximale Größe ungefähr: 8cm x 2cm (400x100 Pixel)</p>
     </div>
 
       <button class="button is-link" type="submit">Änderungen speichern</button>
@@ -84,5 +114,13 @@
   </div>
 
 </div>
+
+<script>
+  // Update filename display when file is selected
+  document.getElementById('logo-upload').addEventListener('change', function(e) {
+    const fileName = e.target.files[0] ? e.target.files[0].name : 'Keine Datei ausgewählt';
+    document.getElementById('logo-filename').textContent = fileName;
+  });
+</script>
 
 {% endblock content %}

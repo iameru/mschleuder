@@ -1,6 +1,6 @@
 from flask import session
 from wtforms.csrf.session import SessionCSRF
-from wtforms.fields import RadioField
+from wtforms.fields import RadioField, FileField
 from wtforms_alchemy import ModelForm
 from wtforms_alchemy.fields import QuerySelectMultipleField
 
@@ -52,3 +52,5 @@ class StationForm(BaseForm):
 class OrganisationForm(BaseForm):
     class Meta:
         model = Organisation
+
+    logo = FileField("Logo hochladen")
